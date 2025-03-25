@@ -5,7 +5,7 @@ const experiences = [
   {
     id: "alamy",
     title: "DevOps Engineer",
-    company: "Alamy Inc",
+    company: "Alamy",
     logo: "/alamy.png",
     period: "Nov 2023 - Present",
     location: "Trivandrum, India",
@@ -20,7 +20,7 @@ const experiences = [
   {
     id: "quantiphi",
     title: "Senior Platform Engineer",
-    company: "Quantiphi Inc",
+    company: "Quantiphi",
     logo: "https://images.seeklogo.com/logo-png/43/1/quantiphi-logo-png_seeklogo-434243.png",
     period: "Aug 2021 - Nov 2023",
     location: "Trivandrum, India",
@@ -47,7 +47,7 @@ const experiences = [
   {
     id: "activelobby",
     title: "System Engineer (TechOps)",
-    company: "Activelobby Information Systems",
+    company: "Activelobby",
     logo: "/al.png",
     period: "Oct 2018 - Mar 2020",
     location: "Ernakulam, India",
