@@ -16,36 +16,36 @@ const defaultCommands: Command[] = [
   {
     command: "cat /etc/profile",
     output: `# DevOps Engineer Profile
-export FULL_NAME="Yousaf K H"
-export ROLE="DevOps Engineer & DevSecOps Specialist"
-export LOCATION="India"
-export SKILLS=("AWS" "Terraform" "Kubernetes" "CI/CD" "Monitoring" "DevSecOps" "Automation")
-export CERTIFICATIONS=("AWS Solutions Architect Associate" "Certified Kubernetes Administrator" "Terraform Associate Certification")`,
+        export FULL_NAME="Yousaf K H"
+        export ROLE="DevOps Engineer & DevSecOps Specialist"
+        export LOCATION="India"
+        export SKILLS=("AWS" "Terraform" "Kubernetes" "CI/CD" "Monitoring" "DevSecOps" "Automation")
+        export CERTIFICATIONS=("AWS Solutions Architect Associate" "Certified Kubernetes Administrator" "Terraform Associate Certification")`,
     delay: 1500,
   },
   {
     command: "ls -la ~/projects/",
     output: `total 64
-drwxr-xr-x  11 yousaf staff   352 Jun 10 09:45 .
-drwxr-xr-x   5 yousaf staff   160 Jun 10 09:45 ..
-drwxr-xr-x  14 yousaf staff   448 Jun 10 09:45 observatory-cli
-drwxr-xr-x  12 yousaf staff   384 Jun 10 09:45 tofu-switch
-drwxr-xr-x  10 yousaf staff   320 Jun 10 09:45 domain-monitor
-drwxr-xr-x  13 yousaf staff   416 Jun 10 09:45 kube-score-enhancer`,
+        drwxr-xr-x  11 yousaf staff   352 Jun 10 09:45 .
+        drwxr-xr-x   5 yousaf staff   160 Jun 10 09:45 ..
+        drwxr-xr-x  14 yousaf staff   448 Jun 10 09:45 observatory-cli
+        drwxr-xr-x  12 yousaf staff   384 Jun 10 09:45 tofu-switch
+        drwxr-xr-x  10 yousaf staff   320 Jun 10 09:45 domain-monitor
+        drwxr-xr-x  13 yousaf staff   416 Jun 10 09:45 kube-score-enhancer`,
     delay: 1200,
   },
   {
     command: "echo 'Certificates:' && ls ~/certifications/",
     output: `AWS_Solutions_Architect_Associate.pdf
-Certified_Kubernetes_Administrator.pdf
-Terraform_Associate_Certification.pdf
-Fundamentals_of_Ethical_Hacking.pdf`,
+            Certified_Kubernetes_Administrator.pdf
+            Terraform_Associate_Certification.pdf
+            Fundamentals_of_Ethical_Hacking.pdf`,
     delay: 1000,
   },
   {
     command: "kubectl version --client",
     output: `Client Version: v1.28.4
-Kustomize Version: v5.0.4`,
+          Kustomize Version: v5.0.4`,
     delay: 1000,
   },
 ];

@@ -49,6 +49,33 @@ const certifications: Certification[] = [
     description:
       "Foundational knowledge of penetration testing, security vulnerabilities, and ethical hacking techniques.",
   },
+  {
+    id: "oracle-cloud",
+    title: "Oracle Cloud Infrastructure Foundations Certified Associate",
+    organization: "Oracle",
+    logo: "https://www.svgrepo.com/show/354152/oracle.svg",
+    date: "2022",
+    description:
+      "Comprehensive understanding of cloud computing fundamentals, service offerings, and core infrastructure components within Oracle Cloud.",
+  },
+  {
+    id: "wes",
+    title: "Verified International Academic Qualifications",
+    organization: "World Education Services",
+    logo: "/wes.png",
+    date: "2022",
+    description:
+      "Certification and validation of academic credentials from recognized international educational institutions and accreditation bodies.",
+  },
+  {
+    id: "python-hackerrank",
+    title: "Basic Python Skills Certification",
+    organization: "HackerRank",
+    logo: "https://www.svgrepo.com/show/330599/hackerrank.svg",
+    date: "2021",
+    description:
+      "Certification and validation of academic credentials from recognized international educational institutions and accreditation bodies.",
+  },
 ];
 
 const Certifications = () => {

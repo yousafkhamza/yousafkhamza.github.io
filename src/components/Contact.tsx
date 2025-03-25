@@ -21,29 +21,7 @@ const Contact = () => {
           <div className="space-y-8 order-1 lg:order-2">
             <AnimatedCard className="glass-card rounded-2xl p-8">
               <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-              <p className="text-foreground/70 mb-4">
-                Feel free to reach out to me via email or phone.
-              </p>
-              <ul className="text-foreground/80 space-y-2">
-                <li>
-                  <strong>Email:</strong>{" "}
-                  <a
-                    href="mailto:yousaf.k.hamza@gmail.com"
-                    className="text-primary"
-                  >
-                    yousaf.k.hamza@gmail.com
-                  </a>
-                </li>
-                <li>
-                  <strong>Phone:</strong>{" "}
-                  <a href="tel:+917736720639" className="text-primary">
-                    +91 7736720639
-                  </a>
-                </li>
-                <li>
-                  <strong>Location:</strong> Thrissur, Kerala, India
-                </li>
-              </ul>
+              <ContactInfo />
             </AnimatedCard>
 
             <AnimatedCard className="glass-card rounded-2xl p-8">
@@ -51,35 +29,7 @@ const Contact = () => {
               <p className="text-foreground/70 mb-6">
                 Find me on professional networks and platforms.
               </p>
-              <ul className="text-foreground/80 space-y-2">
-                <li>
-                  <a
-                    href="https://www.linkedin.com/in/yousafkhamza"
-                    target="_blank"
-                    className="text-primary"
-                  >
-                    LinkedIn
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/yousafkhamza"
-                    target="_blank"
-                    className="text-primary"
-                  >
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://medium.com/@yousaf.k.hamza"
-                    target="_blank"
-                    className="text-primary"
-                  >
-                    Medium
-                  </a>
-                </li>
-              </ul>
+              <SocialLinks />
             </AnimatedCard>
           </div>
         </div>

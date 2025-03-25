@@ -18,13 +18,13 @@ const skills: Skill[] = [
   {
     name: "Azure",
     icon: "https://www.svgrepo.com/show/452062/microsoft.svg",
-    proficiency: 75,
+    proficiency: 60,
     category: "Cloud",
   },
   {
     name: "GCP",
     icon: "https://www.svgrepo.com/show/448223/gcp.svg",
-    proficiency: 75,
+    proficiency: 60,
     category: "Cloud",
   },
   {
@@ -36,7 +36,7 @@ const skills: Skill[] = [
   {
     name: "Kubernetes",
     icon: "https://www.svgrepo.com/show/448233/kubernetes.svg",
-    proficiency: 85,
+    proficiency: 80,
     category: "Container Orchestration",
   },
   {
@@ -66,13 +66,13 @@ const skills: Skill[] = [
   {
     name: "GitLab CI/CD",
     icon: "https://www.svgrepo.com/show/353785/gitlab.svg",
-    proficiency: 80,
+    proficiency: 60,
     category: "CI/CD",
   },
   {
     name: "Ansible",
     icon: "https://www.svgrepo.com/show/373429/ansible.svg",
-    proficiency: 75,
+    proficiency: 70,
     category: "Configuration Management",
   },
   {
@@ -94,6 +94,12 @@ const skills: Skill[] = [
     category: "Programming",
   },
   {
+    name: "GoLang",
+    icon: "https://www.svgrepo.com/show/355038/golang.svg",
+    proficiency: 70,
+    category: "Programming",
+  },
+  {
     name: "Bash",
     icon: "https://www.svgrepo.com/show/353478/bash-icon.svg",
     proficiency: 90,
@@ -102,38 +108,74 @@ const skills: Skill[] = [
   {
     name: "AWS CloudFormation",
     icon: "https://images.seeklogo.com/logo-png/43/2/aws-cloudformation-logo-png_seeklogo-430935.png",
-    proficiency: 85,
+    proficiency: 90,
     category: "IaC",
   },
   {
-    name: "Azure DevOps",
-    icon: "https://www.svgrepo.com/show/448271/azure-devops.svg",
-    proficiency: 85,
+    name: "Concourse CI",
+    icon: "https://www.svgrepo.com/show/353595/concourse.svg",
+    proficiency: 80,
     category: "CI/CD",
   },
   {
     name: "Prometheus",
     icon: "https://www.svgrepo.com/show/354219/prometheus.svg",
-    proficiency: 80,
+    proficiency: 90,
     category: "Monitoring",
   },
   {
     name: "Grafana",
     icon: "https://www.svgrepo.com/show/448228/grafana.svg",
-    proficiency: 80,
+    proficiency: 90,
     category: "Monitoring",
   },
   {
     name: "Datadog",
     icon: "https://www.svgrepo.com/show/448219/datadog.svg",
-    proficiency: 75,
+    proficiency: 60,
     category: "Monitoring",
   },
   {
     name: "ELK Stack",
     icon: "https://www.svgrepo.com/show/373575/elastic.svg",
-    proficiency: 75,
+    proficiency: 70,
     category: "Monitoring",
+  },
+  {
+    name: "SonarQube",
+    icon: "https://www.svgrepo.com/show/354365/sonarqube.svg",
+    proficiency: 80,
+    category: "Security",
+  },
+  {
+    name: "Snyk",
+    icon: "https://www.svgrepo.com/show/448249/snyk.svg",
+    proficiency: 90,
+    category: "Security",
+  },
+  {
+    name: "Trivy",
+    icon: "/trivy.png",
+    proficiency: 90,
+    category: "Security",
+  },
+  {
+    name: "Grype",
+    icon: "/grype.png",
+    proficiency: 90,
+    category: "Security",
+  },
+  {
+    name: "Nginx",
+    icon: "https://www.svgrepo.com/show/373924/nginx.svg",
+    proficiency: 90,
+    category: "Gateway",
+  },
+  {
+    name: "AWS API Gateway",
+    icon: "https://www.svgrepo.com/show/353444/aws-api-gateway.svg",
+    proficiency: 60,
+    category: "Gateway",
   },
 ];
 

@@ -3,7 +3,7 @@ import Terminal from "@/components/ui/Terminal";
 import { Cloud, Server, Award } from "lucide-react";
 
 const About = () => {
-  const terminalContent = `# Yousaf K H
+  const terminalContent = `# Yousaf K Hamza
   
 > DevOps Engineer with 6+ years of expertise
 > Based in Thrissur, Kerala, India 🇮🇳
@@ -20,6 +20,7 @@ Educational Background:
 # Core Competencies
 - Cloud Infrastructure
 - DevOps Automation
+- Build Infrastructure as Code
 - Kubernetes & Containerization
 - Security Implementation
 - Cost Optimization Strategies`;

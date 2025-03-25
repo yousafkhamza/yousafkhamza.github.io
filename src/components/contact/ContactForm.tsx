@@ -85,7 +85,7 @@ const ContactForm = () => {
               value={formState.email}
               onChange={handleChange}
               className="w-full px-4 py-3 rounded-lg border border-border bg-white/50 dark:bg-white/5 focus:outline-none focus:ring-2 focus:ring-primary/50"
-              placeholder="yousaf.k.hamza@gmail.com"
+              placeholder="jhon@example.com"
               required
             />
           </div>
