@@ -10,49 +10,75 @@ type Command = {
 const defaultCommands: Command[] = [
   {
     command: "whoami",
-    output: "yousafkhamza",
+    output: "yousaf_k_hamza",
     delay: 800,
   },
   {
-    command: "cat /etc/profile",
-    output: `# DevOps Engineer Profile
-        export FULL_NAME="Yousaf K H"
-        export ROLE="DevOps Engineer & DevSecOps Specialist"
-        export LOCATION="India"
-        export SKILLS=("AWS" "Terraform" "Kubernetes" "CI/CD" "Monitoring" "DevSecOps" "Automation")
-        export CERTIFICATIONS=("AWS Solutions Architect Associate" "Certified Kubernetes Administrator" "Terraform Associate Certification")`,
+    command: "cat ~/devops-profile",
+    output: `📋 DevOps Engineer Profile
+----------------------------
+🚀 Name: Yousaf K Hamza
+🌐 Specialization: Cloud-Native DevSecOps
+🏆 Mission: Transforming Infrastructure as Code
+
+💡 Core Expertise:
+  - Cloud Architecture & Optimization
+  - Kubernetes & Container Orchestration
+  - CI/CD Pipeline Engineering
+  - Infrastructure as Code (IaC)
+  - Security & Compliance Automation`,
     delay: 1500,
   },
   {
-    command: "ls -la ~/projects/",
-    output: `total 64
-        drwxr-xr-x  11 yousaf staff   352 Jun 10 09:45 .
-        drwxr-xr-x   5 yousaf staff   160 Jun 10 09:45 ..
-        drwxr-xr-x  14 yousaf staff   448 Jun 10 09:45 observatory-cli
-        drwxr-xr-x  12 yousaf staff   384 Jun 10 09:45 tofu-switch
-        drwxr-xr-x  10 yousaf staff   320 Jun 10 09:45 domain-monitor
-        drwxr-xr-x  13 yousaf staff   416 Jun 10 09:45 kube-score-enhancer`,
+    command: "showcase-skills",
+    output: `🔧 Technical Arsenal:
+  [Cloud Platforms]
+  ◉ AWS     ◉ Azure    ◉ GCP
+  
+  [DevOps Tools]
+  ◉ Terraform   ◉ Kubernetes    ◉ Docker
+  ◉ Jenkins     ◉ GitLab CI     ◉ GitHub Actions
+  
+  [Monitoring & Observability]
+  ◉ Prometheus  ◉ Grafana       ◉ ELK Stack
+  
+  [Security Tools]
+  ◉ Snyk              ◉ Trivy
+  ◉ SonarQube         ◉ OWASP Tools`,
     delay: 1200,
   },
   {
-    command: "echo 'Certificates:' && ls ~/certifications/",
-    output: `AWS_Solutions_Architect_Associate.pdf
-            Certified_Kubernetes_Administrator.pdf
-            Terraform_Associate_Certification.pdf
-            Fundamentals_of_Ethical_Hacking.pdf`,
+    command: "recent-projects",
+    output: `🚧 Recent Projects:
+1. 🌐 NGINX Gateway for EKS & Hybrid Traffic Routing
+    • Implemented NGINX gateway in EKS to route traffic between on-prem, AWS, and Kubernetes resources
+    • Enabled monitoring with Prometheus and Grafana for visibility and performance insights
+    • Optimized traffic flow for seamless hybrid cloud integration
+
+2. 🔒 DevSecOps CI/CD Pipeline
+   • Created end-to-end automated security scanning
+   • Integrated vulnerability assessment
+   • Achieved 99.9% compliance automation
+
+3. 🤖 Infrastructure Automation Toolkit
+   • Developed reusable Terraform modules
+   • Created cross-cloud deployment strategies
+   • Standardized infrastructure provisioning`,
     delay: 1000,
   },
   {
-    command: "kubectl version --client",
-    output: `Client Version: v1.28.4
-          Kustomize Version: v5.0.4`,
+    command: "certifications",
+    output: `🏅 Professional Certifications:
+  ◉ AWS Solutions Architect - Associate
+  ◉ Certified Kubernetes Administrator (CKA)
+  ◉ HashiCorp Terraform Associate`,
     delay: 1000,
   },
 ];
 
 const Terminal = ({
   children,
-  title = "yousaf@devops:~$",
+  title = "devops@yousaf:~$",
   commands = defaultCommands,
 }: {
   children?: React.ReactNode;
@@ -62,9 +88,10 @@ const Terminal = ({
   const { theme } = useTheme();
   const [displayedContent, setDisplayedContent] = useState("");
   const [currentCommandIndex, setCurrentCommandIndex] = useState(0);
-  const [isTypingCommand, setIsTypingCommand] = useState(true);
+  const [isTyping, setIsTyping] = useState(true);
   const [cursorVisible, setCursorVisible] = useState(true);
 
+  // Cursor blinking effect
   useEffect(() => {
     const cursorInterval = setInterval(() => {
       setCursorVisible((prev) => !prev);
@@ -72,13 +99,17 @@ const Terminal = ({
     return () => clearInterval(cursorInterval);
   }, []);
 
-  const typeCommand = useCallback(() => {
+  // Command typing and output display logic
+  const typeCommandAndOutput = useCallback(() => {
     if (currentCommandIndex >= commands.length) return;
+
     const currentCommand = commands[currentCommandIndex];
     let commandPosition = 0;
-    setIsTypingCommand(true);
+    let isCommandTyped = false;
+
     const typingInterval = setInterval(() => {
-      if (commandPosition < currentCommand.command.length) {
+      // Typing command
+      if (!isCommandTyped && commandPosition < currentCommand.command.length) {
         setDisplayedContent(
           (prev) =>
             prev +
@@ -86,27 +117,44 @@ const Terminal = ({
             currentCommand.command.charAt(commandPosition)
         );
         commandPosition++;
-      } else {
-        clearInterval(typingInterval);
+      }
+      // Pause briefly after typing command
+      else if (!isCommandTyped) {
+        isCommandTyped = true;
+        commandPosition = 0;
+
+        // Brief pause, then display output
         setTimeout(() => {
           setDisplayedContent((prev) => prev + "\n" + currentCommand.output);
+
+          // Move to next command after delay
           setTimeout(() => {
             setCurrentCommandIndex((prev) => prev + 1);
-            setIsTypingCommand(true);
+            setIsTyping(true);
+            clearInterval(typingInterval);
           }, currentCommand.delay || 1000);
         }, 500);
       }
-    }, 80);
+    }, 50);
+
     return () => clearInterval(typingInterval);
   }, [currentCommandIndex, commands, title]);
 
+  // Trigger typing for each command
   useEffect(() => {
-    if (!isTypingCommand || currentCommandIndex >= commands.length) return;
+    if (!isTyping || currentCommandIndex >= commands.length) return;
+
     const typingTimeout = setTimeout(() => {
-      typeCommand();
+      typeCommandAndOutput();
+      setIsTyping(false);
     }, 500);
+
     return () => clearTimeout(typingTimeout);
-  }, [currentCommandIndex, isTypingCommand, typeCommand]);
+  }, [currentCommandIndex, isTyping, typeCommandAndOutput]);
+
+  // Determine background and text color based on theme
+  const bgColor = theme === "dark" ? "bg-black" : "bg-gray-900";
+  const textColor = "text-green-400";
 
   return (
     <div className="terminal-container rounded-lg overflow-hidden border border-foreground/10 shadow-lg">
@@ -119,11 +167,7 @@ const Terminal = ({
         <div className="terminal-title text-sm font-mono">{title}</div>
       </div>
       <div
-        className={`terminal-content p-4 font-mono text-sm overflow-auto ${
-          theme === "dark"
-            ? "bg-black text-green-400"
-            : "bg-gray-900 text-green-400"
-        }`}
+        className={`terminal-content p-4 font-mono text-sm overflow-auto ${bgColor} ${textColor}`}
       >
         <div className="whitespace-pre-line">
           {displayedContent}
@@ -148,6 +192,13 @@ const Terminal = ({
           .terminal-content {
             min-height: 200px;
           }
+        }
+        .cursor {
+          animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
         }
         `}
       </style>
