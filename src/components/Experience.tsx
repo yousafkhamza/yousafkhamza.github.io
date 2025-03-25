@@ -6,7 +6,7 @@ const experiences = [
     id: "alamy",
     title: "DevOps Engineer",
     company: "Alamy Inc",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/4/47/Alamy_logo.svg",
+    logo: "/alamy.png",
     period: "Nov 2023 - Present",
     location: "Trivandrum, India",
     description: [
@@ -21,7 +21,7 @@ const experiences = [
     id: "quantiphi",
     title: "Senior Platform Engineer",
     company: "Quantiphi Inc",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Quantiphi_logo.svg/512px-Quantiphi_logo.svg.png",
+    logo: "https://images.seeklogo.com/logo-png/43/1/quantiphi-logo-png_seeklogo-434243.png",
     period: "Aug 2021 - Nov 2023",
     location: "Trivandrum, India",
     description: [
@@ -35,7 +35,7 @@ const experiences = [
     id: "armia",
     title: "System Engineer (Cloud Support)",
     company: "Armia Systems",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/8/84/Armia_Systems_Logo.png",
+    logo: "/armia.png",
     period: "May 2020 - Aug 2021",
     location: "Ernakulam, India",
     description: [
@@ -48,7 +48,7 @@ const experiences = [
     id: "activelobby",
     title: "System Engineer (TechOps)",
     company: "Activelobby Information Systems",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/e/e3/Activelobby_logo.png",
+    logo: "/al.png",
     period: "Oct 2018 - Mar 2020",
     location: "Ernakulam, India",
     description: [

@@ -16,7 +16,7 @@ const Education = () => {
               <div className="flex-shrink-0 flex items-center justify-center">
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl overflow-hidden bg-accent flex items-center justify-center">
                   <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Bharathiar_University_Logo.png"
+                    src="/bu.png"
                     alt="Bharathiar University"
                     className="w-20 h-20 md:w-28 md:h-28 object-contain"
                   />
@@ -53,7 +53,7 @@ const Education = () => {
               <div className="flex-shrink-0 flex items-center justify-center">
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl overflow-hidden bg-accent flex items-center justify-center">
                   <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/4/44/North_East_Frontier_Technical_University_logo.png"
+                    src="/neftu.png"
                     alt="North East Frontier Technical University"
                     className="w-20 h-20 md:w-28 md:h-28 object-contain"
                   />

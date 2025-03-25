@@ -57,7 +57,7 @@ const Hero = () => {
           <div className="stagger-item stagger-delay-1 mb-6 relative inline-block">
             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white/30 shadow-lg mx-auto">
               <img
-                src="https://avatars.githubusercontent.com/u/47160283?v=4"
+                src="https://avatars.githubusercontent.com/yousafkhamza"
                 alt="Yousaf K H"
                 className="w-full h-full object-cover"
               />

@@ -17,7 +17,7 @@ const certifications: Certification[] = [
     id: "aws-saa",
     title: "AWS Certified Solutions Architect Associate",
     organization: "Amazon Web Services",
-    logo: "https://media.licdn.com/dms/image/D4E0BAQE0fp2sCqnVLg/company-logo_200_200/0/1738855736997?e=1747872000&v=beta&t=OBB7c4L63DkTcjCBbZ_dHE4TjY7XEHFebPTveb2aGqQ",
+    logo: "/aws.png",
     date: "2023",
     description:
       "In-depth knowledge of AWS architectural best practices, cloud security, and cost optimization.",
@@ -26,7 +26,7 @@ const certifications: Certification[] = [
     id: "cka",
     title: "Certified Kubernetes Administrator",
     organization: "The Linux Foundation",
-    logo: "https://media.licdn.com/dms/image/C560BAQE1qXwD_HFDLA/company-logo_400_400/0/1630652622688?e=1747872000&v=beta&t=ha3UxF4odT1qORIUw3dJQnwtivbJzsUzweaRuY2gLiA",
+    logo: "/cka.png",
     date: "2023",
     description:
       "Expertise in managing and securing Kubernetes clusters in production environments.",
@@ -35,7 +35,7 @@ const certifications: Certification[] = [
     id: "terraform-associate",
     title: "Terraform Associate Certification",
     organization: "KodeKloud",
-    logo: "https://media.licdn.com/dms/image/C4D0BAQFchI_Xw-FFhQ/company-logo_400_400/0/1630476267944?e=1747872000&v=beta&t=CQx1oqeaazLs7hk4XK-cZJM3SYvZSbUoSIM9RYjp87Y",
+    logo: "/kk.png",
     date: "2023",
     description:
       "Proficiency in Infrastructure as Code using Terraform for cloud automation.",
@@ -44,7 +44,7 @@ const certifications: Certification[] = [
     id: "ethical-hacking",
     title: "Fundamentals of Ethical Hacking",
     organization: "Offense Hackers Academy",
-    logo: "https://media.licdn.com/dms/image/C560BAQFZg72Sfni4SA/company-logo_400_400/0/1657225156841?e=1747872000&v=beta&t=99DiAMEAtx7YYyt1OTnMRBieDDUFaa0Ov4Qb0UB0zl8",
+    logo: "/oa.png",
     date: "2023",
     description:
       "Foundational knowledge of penetration testing, security vulnerabilities, and ethical hacking techniques.",

@@ -79,15 +79,6 @@ const Contact = () => {
                     Medium
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="https://yousafkhamza.github.io/official-website/"
-                    target="_blank"
-                    className="text-primary"
-                  >
-                    Portfolio
-                  </a>
-                </li>
               </ul>
             </AnimatedCard>
           </div>
