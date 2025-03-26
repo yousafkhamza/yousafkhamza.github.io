@@ -109,7 +109,7 @@ const AnimatedYKHLogo = ({ size = 40 }: { size?: number }) => {
       />
 
       {/* Decorative circle */}
-      <circle
+      {/* <circle
         cx="50"
         cy="50"
         r="40"
@@ -118,7 +118,7 @@ const AnimatedYKHLogo = ({ size = 40 }: { size?: number }) => {
         strokeLinecap="round"
         strokeDasharray="6 4"
         className="text-foreground/30"
-      />
+      /> */}
     </svg>
   );
 };
