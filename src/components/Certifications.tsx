@@ -27,7 +27,16 @@ const certifications: Certification[] = [
     title: "Certified Kubernetes Administrator",
     organization: "The Linux Foundation",
     logo: "/cka.png",
-    date: "2023",
+    date: "2024",
+    description:
+      "Expertise in managing and securing Kubernetes clusters in production environments.",
+  },
+  {
+    id: "gitops",
+    title: "LFS169: GitOps",
+    organization: "The Linux Foundation",
+    logo: "https://www.svgrepo.com/show/341998/linux-foundation.svg",
+    date: "2024",
     description:
       "Expertise in managing and securing Kubernetes clusters in production environments.",
   },
@@ -36,7 +45,7 @@ const certifications: Certification[] = [
     title: "Terraform Associate Certification",
     organization: "KodeKloud",
     logo: "/kk.png",
-    date: "2023",
+    date: "2022",
     description:
       "Proficiency in Infrastructure as Code using Terraform for cloud automation.",
   },
