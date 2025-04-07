@@ -61,8 +61,8 @@ const defaultCommands: Command[] = [
   ◉ CloudFormation
 
   [Security Tools]
-  ◉ Snyk         ◉ Trivy              ◉ Checkov
-  ◉ Checkmarx    ◉ SonarQube          ◉ OWASP Tools`,
+  ◉ Snyk        ◉ Trivy         ◉ Checkov
+  ◉ Checkmarx   ◉ SonarQube     ◉ OWASP Tools`,
     delay: 1200,
   },
   {
