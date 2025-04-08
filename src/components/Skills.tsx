@@ -64,6 +64,12 @@ const skills: Skill[] = [
     category: "CI/CD",
   },
   {
+    name: "Argo CD",
+    icon: "./argo.png",
+    proficiency: 70,
+    category: "CI/CD",
+  },
+  {
     name: "GitLab CI/CD",
     icon: "https://www.svgrepo.com/show/353785/gitlab.svg",
     proficiency: 60,
@@ -154,6 +160,12 @@ const skills: Skill[] = [
     category: "Security",
   },
   {
+    name: "Checkmarx",
+    icon: "./checkmarx.png",
+    proficiency: 70,
+    category: "Security",
+  },
+  {
     name: "Trivy",
     icon: "/trivy.png",
     proficiency: 90,
@@ -163,6 +175,18 @@ const skills: Skill[] = [
     name: "Grype",
     icon: "/grype.png",
     proficiency: 90,
+    category: "Security",
+  },
+  {
+    name: "OWASP ZAP",
+    icon: "./owasp.png",
+    proficiency: 70,
+    category: "Security",
+  },
+  {
+    name: "Burp Suite",
+    icon: "./burp.png",
+    proficiency: 70,
     category: "Security",
   },
   {
