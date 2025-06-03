@@ -1,7 +1,49 @@
+import { useState, useEffect } from "react";
 import AnimatedCard from "@/components/ui/AnimatedCard";
 import { CalendarClock, Globe, Users } from "lucide-react";
 
 const Volunteering = () => {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        // Using rss2json API to convert Medium RSS feed to JSON (avoids CORS issues)
+        const mediumRssUrl = "https://medium.com/feed/@yousaf.k.hamza";
+        const rss2jsonApiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(mediumRssUrl)}`;
+        
+        const response = await fetch(rss2jsonApiUrl);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch articles');
+        }
+
+        const data = await response.json();
+        
+        if (data.status !== 'ok') {
+          throw new Error(data.message || 'Failed to parse feed');
+        }
+        
+        // Get recent articles (limit to 4-5)
+        const fetchedArticles = data.items.slice(0, 5).map(item => ({
+          title: item.title,
+          link: item.link,
+        }));
+        
+        setArticles(fetchedArticles);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching articles:', err);
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchArticles();
+  }, []);
+
   return (
     <section id="volunteering" className="py-20 md:py-28 relative">
       <div className="container mx-auto px-4">
@@ -51,48 +93,68 @@ const Volunteering = () => {
                   <h4 className="text-lg font-semibold mb-2">
                     Recent Articles
                   </h4>
-                  <ul className="space-y-2 list-disc list-inside">
-                    <li>
-                      <a
-                        href="https://medium.com/@yousaf.k.hamza/tofuswitch-simplify-opentofu-version-management-7055f7f696c0"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-yousaf transition-colors"
-                      >
-                        TofuSwitch: Simplify OpenTofu Version Management
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://medium.com/@yousaf.k.hamza/domain-monitor-effortlessly-track-your-websites-uptime-348f3ab85844"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-yousaf transition-colors"
-                      >
-                        Domain Monitor: Effortlessly Track Your Website’s Uptime
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://medium.com/@yousaf.k.hamza/enhancing-security-with-observatory-cli-why-site-score-checks-matter-for-internal-domains-997d57b2c4fc"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-yousaf transition-colors"
-                      >
-                        Enhancing Security with Observatory CLI
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://medium.com/@yousaf.k.hamza/enhancing-kubernetes-deployment-quality-with-kube-score-b21eb8e85fe9"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-yousaf transition-colors"
-                      >
-                        Enhancing Kubernetes Deployment Quality with Kube-Score
-                      </a>
-                    </li>
-                  </ul>
+                  {loading ? (
+                    <p className="text-foreground/70">Loading articles...</p>
+                  ) : error ? (
+                    <ul className="space-y-2 list-disc list-inside">
+                      {/* Fallback to hardcoded articles if API fails */}
+                      <li>
+                        <a
+                          href="https://medium.com/@yousaf.k.hamza/tofuswitch-simplify-opentofu-version-management-7055f7f696c0"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-yousaf transition-colors"
+                        >
+                          TofuSwitch: Simplify OpenTofu Version Management
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://medium.com/@yousaf.k.hamza/domain-monitor-effortlessly-track-your-websites-uptime-348f3ab85844"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-yousaf transition-colors"
+                        >
+                          Domain Monitor: Effortlessly Track Your Website's Uptime
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://medium.com/@yousaf.k.hamza/enhancing-security-with-observatory-cli-why-site-score-checks-matter-for-internal-domains-997d57b2c4fc"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-yousaf transition-colors"
+                        >
+                          Enhancing Security with Observatory CLI
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://medium.com/@yousaf.k.hamza/enhancing-kubernetes-deployment-quality-with-kube-score-b21eb8e85fe9"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-yousaf transition-colors"
+                        >
+                          Enhancing Kubernetes Deployment Quality with Kube-Score
+                        </a>
+                      </li>
+                    </ul>
+                  ) : (
+                    <ul className="space-y-2 list-disc list-inside">
+                      {articles.map((article, index) => (
+                        <li key={index}>
+                          <a
+                            href={article.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-yousaf transition-colors"
+                          >
+                            {article.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             </div>
