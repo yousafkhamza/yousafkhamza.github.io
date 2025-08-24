@@ -119,14 +119,14 @@ const defaultCommands: Command[] = [
   {
     command: "$ ls -la",
     output: `total 24
-drwxr-xr-x 3 ykh ykh 4096 Aug 24 10:30 .
-drwxr-xr-x 3 ykh ykh 4096 Aug 24 10:30 ..
--rw-r--r-- 1 ykh ykh  512 Aug 24 10:30 profile
--rw-r--r-- 1 ykh ykh  1024 Aug 24 10:30 skills
--rw-r--r-- 1 ykh ykh  2048 Aug 24 10:30 projects
--rw-r--r-- 1 ykh ykh  256 Aug 24 10:30 certs
--rw-r--r-- 1 ykh ykh  128 Aug 24 10:30 contact
-drwxr-xr-x 2 ykh ykh 4096 Aug 24 10:30 devops
+drwxr-xr-x 3 yousaf yousaf 4096 Aug 24 10:30 .
+drwxr-xr-x 3 yousaf yousaf 4096 Aug 24 10:30 ..
+-rw-r--r-- 1 yousaf yousaf  512 Aug 24 10:30 profile
+-rw-r--r-- 1 yousaf yousaf  1024 Aug 24 10:30 skills
+-rw-r--r-- 1 yousaf yousaf  2048 Aug 24 10:30 projects
+-rw-r--r-- 1 yousaf yousaf  256 Aug 24 10:30 certs
+-rw-r--r-- 1 yousaf yousaf  128 Aug 24 10:30 contact
+drwxr-xr-x 2 yousaf yousaf 4096 Aug 24 10:30 devops
 
 Type 'help' for available commands.`,
     delay: 1000,
@@ -220,7 +220,7 @@ const Terminal = ({
           const permissions = isDir ? "drwxr-xr-x" : "-rw-r--r--";
           const size = isDir ? "4096" : Math.floor(Math.random() * 2048 + 512);
           const date = "Aug 24 10:30";
-          return `${permissions} 1 ykh ykh ${size
+          return `${permissions} 1 yousaf yousaf ${size
             .toString()
             .padStart(4)} ${date} ${item}`;
         });

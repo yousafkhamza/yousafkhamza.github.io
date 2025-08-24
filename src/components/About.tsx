@@ -22,13 +22,13 @@ const About = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto items-stretch">
-          <AnimatedCard className="glass-card rounded-2xl p-6 lg:p-8 order-2 lg:order-1 flex flex-col">
+          <div className="glass-card rounded-2xl p-6 lg:p-8 order-2 lg:order-1 flex flex-col">
             <Terminal
               interactive={true}
               height="480px"
               title="Interactive Terminal - Try typing 'help'"
             />
-          </AnimatedCard>
+          </div>
 
           <div
             className="flex flex-col gap-6 order-1 lg:order-2"
