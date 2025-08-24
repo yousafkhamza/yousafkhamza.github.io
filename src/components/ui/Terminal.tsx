@@ -81,6 +81,25 @@ GitHub: /yousafkhamza
 Phone: +91 77366720639
 Portfolio: yousafkhamza.github.io`,
 
+  ".secret": `🎉 Congratulations! You found the hidden file! 🎉
+
+🕵️ You're clearly someone who knows their way around a terminal!
+
+🌟 Easter Egg Message:
+"The best way to find out if you can trust somebody 
+is to trust them." - Ernest Hemingway
+
+💡 Fun DevOps Fact:
+Did you know? The term "DevOps" was coined in 2009, 
+but the practices have been around much longer!
+
+🚀 Keep exploring, keep learning, and remember:
+"There are only 10 types of people in the world:
+those who understand binary and those who don't!" 😄
+
+Thanks for being curious! 
+- Yousaf K Hamza`,
+
   devops: {
     kubernetes: `⚡ Kubernetes Expertise:
 - Cluster management and optimization
@@ -102,6 +121,25 @@ Portfolio: yousafkhamza.github.io`,
 - APM with New Relic
 - Custom metrics and alerting
 - SRE best practices implementation`,
+
+    ".devops": `🔒 Hidden DevOps Secrets 🔒
+
+🎯 Advanced DevOps Tips:
+1. Always use Infrastructure as Code
+2. Monitor everything, alert on what matters
+3. Automate the boring stuff
+4. Fail fast, learn faster
+5. Security is everyone's responsibility
+
+🧠 Pro Tips:
+• Use GitOps for deployment strategies
+• Implement proper observability (logs, metrics, traces)
+• Practice chaos engineering
+• Document your runbooks
+• Never deploy on Fridays! 😅
+
+🏆 DevOps Zen:
+"You build it, you run it, you own it!"`,
   },
 };
 
@@ -206,30 +244,42 @@ const Terminal = ({
     }
 
     if (typeof current === "object") {
-      const items = Object.keys(current).map((key) => {
+      let items = Object.keys(current).map((key) => {
         const item = current[key];
-        return typeof item === "object" ? `${key}/` : key;
+        return typeof item === "object" ? `${key}` : key;
       });
+
+      // Show hidden files only with -a flag
+      const showHidden = flags.includes("a");
+      if (!showHidden) {
+        items = items.filter((item) => !item.startsWith("."));
+      }
 
       // Handle different ls flags
       if (flags.includes("l") || flags.includes("la")) {
         // Long format listing
         const longFormat = items.map((item) => {
-          const isDir = item.endsWith("/");
-          const name = isDir ? item.slice(0, -1) : item;
+          const isDir = typeof current[item] === "object";
           const permissions = isDir ? "drwxr-xr-x" : "-rw-r--r--";
           const size = isDir ? "4096" : Math.floor(Math.random() * 2048 + 512);
           const date = "Aug 24 10:30";
+          const displayName = isDir ? `${item}/` : item;
           return `${permissions} 1 yousaf yousaf ${size
             .toString()
-            .padStart(4)} ${date} ${item}`;
+            .padStart(4)} ${date} ${displayName}`;
         });
 
         const total = `total ${items.length * 4}`;
         return [total, ...longFormat].join("\n");
       }
 
-      return items.join("  ");
+      // Regular ls - add / to directories for better visual distinction
+      const displayItems = items.map((item) => {
+        const isDir = typeof current[item] === "object";
+        return isDir ? `${item}/` : item;
+      });
+
+      return displayItems.join("  ");
     }
 
     return `ls: ${path}: Not a directory`;
@@ -238,7 +288,7 @@ const Terminal = ({
   const changeDirectory = (path: string): string => {
     if (path === ".." || path === "../") {
       const pathParts = currentPath.split("/").filter((p) => p);
-      if (pathParts.length > 3) {
+      if (pathParts.length > 2) {
         // Don't go above /home/yousaf
         pathParts.pop();
         const newPath = "/" + pathParts.join("/");
@@ -282,17 +332,25 @@ const Terminal = ({
     -a          - Show all files (including hidden)
     -la         - Long format with all files
   cat <file>    - Display file contents
-  cd <dir>      - Change directory
+  cd <dir>      - Change directory (.., ~, devops)
   clear         - Clear terminal
   help          - Show this help message
 
 Files available: profile, skills, projects, certs, contact
 Directory: devops/ (contains kubernetes, terraform, monitoring)
+Hidden files: .secret (use ls -a to see hidden files)
 
 Examples:
-  cat profile
-  ls -la
-  cd devops && ls -l`;
+  cat profile     - View profile information
+  ls -la          - List all files with details
+  cd devops       - Enter devops directory
+  cd ..           - Go back to parent directory
+  cat .secret     - View hidden easter egg
+
+Tips:
+  • Use Tab for auto-completion
+  • Use ↑/↓ arrow keys for command history
+  • Try 'ls -a' in devops folder for hidden files!`;
 
       case "whoami":
         return "yousaf";
@@ -344,8 +402,22 @@ Examples:
       case "":
         return "";
 
+      case "exit":
+      case "logout":
+        return "Use Ctrl+C to exit or just close the tab! 😄";
+
+      case "date":
+        return new Date().toLocaleString();
+
+      case "echo":
+        return args.join(" ");
+
       default:
-        return `Command '${command}' not found. Type 'help' for available commands.`;
+        return `bash: ${command}: command not found
+Did you mean one of these?
+  help - Show available commands
+  ls   - List files
+  pwd  - Show current directory`;
     }
   };
 
@@ -405,7 +477,7 @@ Examples:
             (item) => typeof (fileSystem.devops as any)[item] === "object"
           );
         } else {
-          // In root directory
+          // In root directory (/home/yousaf)
           const rootItems = Object.keys(fileSystem);
           files = rootItems.filter(
             (item) => typeof fileSystem[item] === "string"
@@ -428,7 +500,7 @@ Examples:
         // Completing command
         const matches = commands.filter((cmd) => cmd.startsWith(currentWord));
         if (matches.length === 1) {
-          setUserInput(matches[0]);
+          setUserInput(matches[0] + " ");
         } else if (matches.length > 1) {
           // Show available options in output
           const newOutput = `${interactiveOutput}${getPrompt()} ${userInput}\n${matches.join(
@@ -436,16 +508,27 @@ Examples:
           )}\n`;
           setInteractiveOutput(newOutput);
         }
-      } else if (words[0] === "cat" || words[0] === "cd") {
-        // Completing file/folder names
-        let allItems = [...files];
-        if (words[0] === "cd") {
-          allItems = [...folders];
-          if (currentPath !== "/home/yousaf") {
-            allItems.push(".."); // Add parent directory option
-          }
-          allItems.push("~"); // Add home directory option
+      } else if (words[0] === "cat") {
+        // Completing file names for cat command
+        const allItems = [...files];
+        const matches = allItems.filter((item) => item.startsWith(currentWord));
+        if (matches.length === 1) {
+          words[words.length - 1] = matches[0];
+          setUserInput(words.join(" "));
+        } else if (matches.length > 1) {
+          // Show available options
+          const newOutput = `${interactiveOutput}${getPrompt()} ${userInput}\n${matches.join(
+            "  "
+          )}\n`;
+          setInteractiveOutput(newOutput);
         }
+      } else if (words[0] === "cd") {
+        // Completing folder names for cd command
+        let allItems = [...folders];
+        if (currentPath !== "/home/yousaf") {
+          allItems.push(".."); // Add parent directory option
+        }
+        allItems.push("~"); // Add home directory option
 
         const matches = allItems.filter((item) => item.startsWith(currentWord));
         if (matches.length === 1) {
