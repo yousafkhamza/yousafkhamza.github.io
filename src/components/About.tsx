@@ -1,8 +1,11 @@
+import { useState } from "react";
 import AnimatedCard from "@/components/ui/AnimatedCard";
 import Terminal from "@/components/ui/Terminal";
-import { Cloud, Server, Award } from "lucide-react";
+import { Cloud, Server, Award, Terminal as TerminalIcon } from "lucide-react";
 
 const About = () => {
+  const [showTerminal, setShowTerminal] = useState(false);
+
   return (
     <section id="about" className="py-20 md:py-28 relative">
       <div className="container mx-auto px-4">
@@ -10,24 +13,101 @@ const About = () => {
           <span className="chip mb-4">About Me</span>
           <h2 className="section-title">DevOps Engineer Profile</h2>
           <p className="text-foreground/70 mt-4 max-w-2xl mx-auto">
-            Try the interactive terminal below! Use commands like{" "}
-            <code className="bg-foreground/10 px-2 py-1 rounded">
-              cat profile
-            </code>
-            ,<code className="bg-foreground/10 px-2 py-1 rounded mx-1">ls</code>
-            , or{" "}
-            <code className="bg-foreground/10 px-2 py-1 rounded">help</code> to
-            explore.
+            {showTerminal ? (
+              <>
+                Interactive terminal mode! Use commands like{" "}
+                <code className="bg-foreground/10 px-2 py-1 rounded">
+                  cat profile
+                </code>
+                ,
+                <code className="bg-foreground/10 px-2 py-1 rounded mx-1">
+                  ls
+                </code>
+                , or{" "}
+                <code className="bg-foreground/10 px-2 py-1 rounded">help</code>{" "}
+                to explore.
+              </>
+            ) : (
+              <>
+                Learn about my expertise and experience in DevOps and Cloud
+                engineering.{" "}
+                <button
+                  onClick={() => setShowTerminal(true)}
+                  className="text-yousaf hover:underline font-medium"
+                >
+                  Try interactive terminal →
+                </button>
+              </>
+            )}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto items-stretch">
           <div className="glass-card rounded-2xl p-6 lg:p-8 order-2 lg:order-1 flex flex-col">
-            <Terminal
-              interactive={true}
-              height="480px"
-              title="Interactive Terminal - Try typing 'help'"
-            />
+            {showTerminal ? (
+              <div className="flex flex-col h-full">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold flex items-center gap-2">
+                    <TerminalIcon className="w-5 h-5" />
+                    Interactive Terminal
+                  </h3>
+                  <button
+                    onClick={() => setShowTerminal(false)}
+                    className="text-sm text-foreground/60 hover:text-foreground"
+                  >
+                    Show Profile ←
+                  </button>
+                </div>
+                <Terminal
+                  interactive={true}
+                  height="440px"
+                  title="Try typing 'help'"
+                />
+              </div>
+            ) : (
+              <div className="flex flex-col h-full">
+                <h3 className="text-2xl font-bold mb-6">About Yousaf K H</h3>
+                <div className="space-y-4 flex-1">
+                  <p className="text-foreground/80 leading-relaxed">
+                    I'm a passionate DevOps Engineer with expertise in cloud
+                    platforms, container orchestration, and infrastructure
+                    automation. My mission is to bridge the gap between
+                    development and operations through innovative solutions and
+                    best practices.
+                  </p>
+                  <div className="space-y-3">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-yousaf rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-foreground/70">
+                        <strong>Cloud Expertise:</strong> AWS, Azure, GCP with
+                        focus on scalable architecture and cost optimization
+                      </p>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-yousaf rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-foreground/70">
+                        <strong>DevOps Tools:</strong> Kubernetes, Docker,
+                        Terraform, Jenkins, GitLab CI/CD, ArgoCD
+                      </p>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-yousaf rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-foreground/70">
+                        <strong>Security Focus:</strong> DevSecOps practices
+                        with tools like Snyk, Trivy, and OWASP integration
+                      </p>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-yousaf rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-foreground/70">
+                        <strong>Monitoring:</strong> Prometheus, Grafana, ELK
+                        Stack for comprehensive observability
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           <div

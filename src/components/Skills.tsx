@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AnimatedCard from "@/components/ui/AnimatedCard";
+import SkillCard from "@/components/ui/SkillCard";
 
 interface Skill {
   name: string;
@@ -249,36 +250,8 @@ const Skills = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {filteredSkills.map((skill) => (
-            <AnimatedCard
-              key={skill.name}
-              className="glass-card rounded-xl p-6 hover:shadow-lg transition-all"
-            >
-              <div className="flex items-center space-x-4 mb-4">
-                <div className="w-12 h-12 flex items-center justify-center bg-white rounded-lg shadow-sm">
-                  <img
-                    src={skill.icon}
-                    alt={skill.name}
-                    className="w-8 h-8 object-contain"
-                    loading="lazy"
-                  />
-                </div>
-                <div>
-                  <h3 className="font-bold text-foreground">{skill.name}</h3>
-                  <p className="text-xs text-foreground/60">{skill.category}</p>
-                </div>
-              </div>
-
-              <div className="w-full bg-muted rounded-full h-2">
-                <div
-                  className="bg-yousaf h-2 rounded-full"
-                  style={{ width: `${skill.proficiency}%` }}
-                ></div>
-              </div>
-              <p className="text-right text-sm text-foreground/70 mt-1">
-                {skill.proficiency}%
-              </p>
-            </AnimatedCard>
+          {filteredSkills.map((skill, index) => (
+            <SkillCard key={skill.name} skill={skill} index={index} />
           ))}
         </div>
       </div>

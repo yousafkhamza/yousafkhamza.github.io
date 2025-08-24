@@ -81,6 +81,90 @@ GitHub: /yousafkhamza
 Phone: +91 77366720639
 Portfolio: yousafkhamza.github.io`,
 
+  status: `🚀 System Status Dashboard
+╔═══════════════════════════════════════════════════╗
+║            DevOps Infrastructure Monitor          ║
+╠═══════════════════════════════════════════════════╣
+║                                                   ║
+║ ☁️  Cloud Services:                               ║
+║ • AWS Services          [████████████] ✅ HEALTHY ║
+║ • Azure Resources       [████████████] ✅ HEALTHY ║
+║ • GCP Projects          [████████████] ✅ HEALTHY ║
+║                                                   ║
+║ 🔧 DevOps Tools:                                  ║
+║ • Kubernetes Cluster    [████████████] ✅ RUNNING ║
+║ • CI/CD Pipeline        [████████████] ✅ ACTIVE  ║
+║ • ArgoCD                [████████████] ✅ SYNCED  ║
+║ • Terraform State       [████████████] ✅ SYNCED  ║
+║                                                   ║
+║ 📊 Monitoring & Security:                         ║
+║ • Prometheus/Grafana    [████████████] ✅ ONLINE  ║
+║ • ELK Stack             [████████████] ✅ ONLINE  ║
+║ • Security Scans        [████████████] ✅ PASSED  ║
+║ • Vulnerability Checks  [████████████] ✅ CLEAR   ║
+║                                                   ║
+║ 📈 Performance Metrics:                           ║
+║ • System Uptime: 99.98%                          ║
+║ • Active Pods: 47/50                             ║
+║ • CPU Usage: 65%                                 ║
+║ • Memory Usage: 70%                              ║
+║ • Last Deployment: 2 hours ago                   ║
+║                                                   ║
+╚═══════════════════════════════════════════════════╝`,
+
+  resume: `📄 Resume Download
+╔═══════════════════════════════════════════════════╗
+║                  RESUME ACCESS                    ║
+╠═══════════════════════════════════════════════════╣
+║                                                   ║
+║ 🔗 Direct Download:                              ║
+║ → https://yousafkhamza.github.io/resume.pdf      ║
+║                                                   ║
+║ 📱 QR Code for Mobile:                           ║
+║                                                   ║
+║   ████████████████████████████████████████        ║
+║   ██                                    ██        ║
+║   ██  ██████  ████  ██████████  ██████  ██        ║
+║   ██  ██  ██    ██  ██      ██  ██  ██  ██        ║
+║   ██  ██████  ██████████████████████████  ██        ║
+║   ██  ██████  ██████████████████████████  ██        ║
+║   ██  ██  ██  ██  ████    ████  ██  ██  ██        ║
+║   ██  ██████  ████  ██████████  ██████  ██        ║
+║   ██                                    ██        ║
+║   ████████████████████████████████████████        ║
+║                                                   ║
+║ � Scan with phone camera or use direct link     ║
+║ 📧 Contact: yousaf.k.hamza@gmail.com             ║
+║                                                   ║
+╚═══════════════════════════════════════════════════╝`,
+
+  github: `🐙 GitHub Statistics
+╔═══════════════════════════════════════════════════╗
+║              @yousafkhamza Profile                ║
+╠═══════════════════════════════════════════════════╣
+║                                                   ║
+║ 📊 Repository Stats:                             ║
+║ • Public Repositories: 50+                       ║
+║ • Total Stars Earned: 200+                       ║
+║ • Followers: 150+    • Following: 100+           ║
+║                                                   ║
+║ 💻 Language Distribution:                        ║
+║                                                   ║
+║ Python     ████████████████████████░░░░░░  80%   ║
+║ Shell      ██████████████░░░░░░░░░░░░░░░░░░  35%   ║
+║ YAML       ████████░░░░░░░░░░░░░░░░░░░░░░░░  25%   ║
+║ Dockerfile ████░░░░░░░░░░░░░░░░░░░░░░░░░░░░  15%   ║
+║ JavaScript ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  10%   ║
+║                                                   ║
+║ 🚀 Notable Projects:                             ║
+║ • Kubernetes deployment automation                ║
+║ • CI/CD pipeline templates                       ║
+║ • Infrastructure monitoring tools                ║
+║                                                   ║
+║ 🔗 Visit: https://github.com/yousafkhamza        ║
+║                                                   ║
+╚═══════════════════════════════════════════════════╝`,
+
   ".secret": `🎉 Congratulations! You found the hidden file! 🎉
 
 🕵️ You're clearly someone who knows their way around a terminal!
@@ -195,6 +279,7 @@ const Terminal = ({
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [interactiveOutput, setInteractiveOutput] = useState("");
+  const [sessionStart] = useState(Date.now());
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
 
@@ -335,6 +420,14 @@ const Terminal = ({
   cd <dir>      - Change directory (.., ~, devops)
   clear         - Clear terminal
   help          - Show this help message
+  status        - Show system status dashboard
+  github        - Show GitHub statistics
+  resume        - Download resume with QR code
+  uptime        - Show system uptime
+  ps            - Show running processes
+  top           - Show process monitor
+  echo <text>   - Display text
+  date          - Show current date and time
 
 Files available: profile, skills, projects, certs, contact
 Directory: devops/ (contains kubernetes, terraform, monitoring)
@@ -346,6 +439,9 @@ Examples:
   cd devops       - Enter devops directory
   cd ..           - Go back to parent directory
   cat .secret     - View hidden easter egg
+  status          - System monitoring dashboard
+  github          - GitHub contribution stats
+  resume          - Download resume with QR code
 
 Tips:
   • Use Tab for auto-completion
@@ -412,12 +508,51 @@ Tips:
       case "echo":
         return args.join(" ");
 
+      case "status":
+        return getFileContent("status");
+
+      case "github":
+        return getFileContent("github");
+
+      case "resume":
+        return getFileContent("resume");
+
+      case "uptime":
+        const uptime = Date.now() - sessionStart;
+        const seconds = Math.floor(uptime / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        return `System uptime: ${hours}h ${minutes % 60}m ${seconds % 60}s
+Load average: 0.15, 0.10, 0.05
+Users: 1 (yousaf)
+Last login: ${new Date().toLocaleDateString()}`;
+
+      case "ps":
+        return `  PID TTY          TIME CMD
+    1 pts/0    00:00:01 portfolio
+  234 pts/0    00:00:00 react-app
+  456 pts/0    00:00:00 vite-dev
+  789 pts/0    00:00:00 bash`;
+
+      case "top":
+        return `Tasks:   4 total,   1 running,   3 sleeping
+%Cpu(s):  5.2 us,  2.1 sy,  0.0 ni, 92.7 id
+Memory: 8192MB total, 2048MB used, 6144MB free
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+
+    1 yousaf    20   0  856432  89532  45128 S   3.2  1.1   0:05.23 portfolio
+  234 yousaf    20   0  1245632 156284  89412 S   1.8  1.9   0:02.15 react-app
+  456 yousaf    20   0  2156824 234156 145728 S   0.5  2.9   0:01.45 vite-dev`;
+
       default:
         return `bash: ${command}: command not found
 Did you mean one of these?
-  help - Show available commands
-  ls   - List files
-  pwd  - Show current directory`;
+  help   - Show available commands
+  ls     - List files
+  pwd    - Show current directory
+  status - System status dashboard
+  github - GitHub statistics
+  resume - Download resume with QR code`;
     }
   };
 

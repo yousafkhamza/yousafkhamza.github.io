@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import AnimatedCard from "@/components/ui/AnimatedCard";
+import AnimatedStats from "@/components/ui/AnimatedStats";
 
 const typewriterTexts = [
   "DevOps Engineer",
@@ -94,9 +95,21 @@ const Hero = () => {
             >
               Get in Touch
             </a>
+            <a
+              href="/resume.pdf"
+              download="Yousaf_K_Hamza_Resume.pdf"
+              className="px-6 py-3 bg-gradient-to-r from-yousaf to-yousaf-dark text-white rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+            >
+              📄 Resume
+            </a>
           </div>
 
-          <div className="stagger-item stagger-delay-6 flex items-center justify-center space-x-6">
+          {/* Animated Stats */}
+          <div className="stagger-item stagger-delay-6 mb-8">
+            <AnimatedStats />
+          </div>
+
+          <div className="stagger-item stagger-delay-7 flex items-center justify-center space-x-6">
             <a
               href="https://github.com/yousafkhamza"
               target="_blank"
