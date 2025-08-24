@@ -118,7 +118,7 @@ ${formState.message}
           <Check className="w-5 h-5" />
           <span>
             Thank you! Your message has been sent successfully to
-            yousafkhamza@gmail.com
+            yousaf.k.hamza@gmail.com
           </span>
         </div>
       ) : (
