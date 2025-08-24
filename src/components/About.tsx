@@ -89,14 +89,16 @@ const About = () => {
                       <div className="w-2 h-2 bg-yousaf rounded-full mt-2 flex-shrink-0"></div>
                       <p className="text-xs sm:text-sm text-foreground/70 leading-relaxed">
                         <strong>DevOps Tools:</strong> Kubernetes, Docker,
-                        Terraform, Jenkins, GitLab CI/CD, ArgoCD
+                        Terraform, Jenkins, GitHub, CI/CD, Linux, Bash/Python
+                        Scripting
                       </p>
                     </div>
                     <div className="flex items-start space-x-3">
                       <div className="w-2 h-2 bg-yousaf rounded-full mt-2 flex-shrink-0"></div>
                       <p className="text-xs sm:text-sm text-foreground/70 leading-relaxed">
                         <strong>Security Focus:</strong> DevSecOps practices
-                        with tools like Snyk, Trivy, and OWASP integration
+                        with tools like Snyk, Grype, Trivy, and OWASP
+                        integration
                       </p>
                     </div>
                     <div className="flex items-start space-x-3">
