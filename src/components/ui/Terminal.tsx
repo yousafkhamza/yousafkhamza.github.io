@@ -12,7 +12,7 @@ type FileSystem = {
 };
 
 const fileSystem: FileSystem = {
-  profile: `📋 DevOps Engineer Profile
+  "profile.txt": `📋 DevOps Engineer Profile
 ----------------------------
 🚀 Name: Yousaf K Hamza
 🌐 Specialization: Cloud with DevSecOps
@@ -25,7 +25,7 @@ const fileSystem: FileSystem = {
   - Infrastructure as Code (IaC)
   - Security & Compliance Automation`,
 
-  skills: `🔧 Technical Arsenal:
+  "skills.md": `🔧 Technical Arsenal:
   [Cloud Platforms]
   ◉ AWS     ◉ Azure    ◉ GCP
   
@@ -49,7 +49,7 @@ const fileSystem: FileSystem = {
   ◉ Snyk        ◉ Trivy         ◉ Checkov
   ◉ Checkmarx   ◉ SonarQube     ◉ OWASP Tools`,
 
-  projects: `🚧 Recent Projects:
+  "projects.json": `🚧 Recent Projects:
 1. 🌐 NGINX Gateway for EKS & Hybrid Traffic Routing
     • Implemented NGINX gateway in EKS to route traffic between on-prem, AWS, and Kubernetes resources
     • Enabled monitoring with Prometheus and Grafana for visibility and performance insights
@@ -65,7 +65,7 @@ const fileSystem: FileSystem = {
    • Created cross-cloud deployment strategies
    • Standardized infrastructure provisioning`,
 
-  certs: `🏅 Professional Certifications:
+  "certs.yml": `🏅 Professional Certifications:
   ◉ AWS Solutions Architect - Associate
   ◉ Certified Kubernetes Administrator (CKA)
   ◉ HashiCorp Terraform Associate
@@ -73,7 +73,7 @@ const fileSystem: FileSystem = {
   ◉ Oracle Cloud Infrastructure Foundations Certified Associate
   ◉ LFS169: GitOps`,
 
-  contact: `📧 Contact Information:
+  "contact.info": `📧 Contact Information:
 Email: yousafkhamza@gmail.com
 Location: Thrissur, Kerala, India 🇮🇳
 LinkedIn: /in/yousafkhamza
@@ -81,91 +81,69 @@ GitHub: /yousafkhamza
 Phone: +91 77366720639
 Portfolio: yousafkhamza.github.io`,
 
-  status: `🚀 System Status Dashboard
-╔═══════════════════════════════════════════════════╗
-║            DevOps Infrastructure Monitor          ║
-╠═══════════════════════════════════════════════════╣
-║                                                   ║
-║ ☁️  Cloud Services:                               ║
-║ • AWS Services          [████████████] ✅ HEALTHY ║
-║ • Azure Resources       [████████████] ✅ HEALTHY ║
-║ • GCP Projects          [████████████] ✅ HEALTHY ║
-║                                                   ║
-║ 🔧 DevOps Tools:                                  ║
-║ • Kubernetes Cluster    [████████████] ✅ RUNNING ║
-║ • CI/CD Pipeline        [████████████] ✅ ACTIVE  ║
-║ • ArgoCD                [████████████] ✅ SYNCED  ║
-║ • Terraform State       [████████████] ✅ SYNCED  ║
-║                                                   ║
-║ 📊 Monitoring & Security:                         ║
-║ • Prometheus/Grafana    [████████████] ✅ ONLINE  ║
-║ • ELK Stack             [████████████] ✅ ONLINE  ║
-║ • Security Scans        [████████████] ✅ PASSED  ║
-║ • Vulnerability Checks  [████████████] ✅ CLEAR   ║
-║                                                   ║
-║ 📈 Performance Metrics:                           ║
-║ • System Uptime: 99.98%                          ║
-║ • Active Pods: 47/50                             ║
-║ • CPU Usage: 65%                                 ║
-║ • Memory Usage: 70%                              ║
-║ • Last Deployment: 2 hours ago                   ║
-║                                                   ║
-╚═══════════════════════════════════════════════════╝`,
+  "status.log": `🚀 System Status Dashboard
 
-  resume: `📄 Resume Download
-╔═══════════════════════════════════════════════════╗
-║                  RESUME ACCESS                    ║
-╠═══════════════════════════════════════════════════╣
-║                                                   ║
-║ 🔗 Direct Download:                              ║
-║ → https://yousafkhamza.github.io/resume.pdf      ║
-║                                                   ║
-║ 📱 QR Code for Mobile:                           ║
-║                                                   ║
-║   ████████████████████████████████████████        ║
-║   ██                                    ██        ║
-║   ██  ██████  ████  ██████████  ██████  ██        ║
-║   ██  ██  ██    ██  ██      ██  ██  ██  ██        ║
-║   ██  ██████  ██████████████████████████  ██        ║
-║   ██  ██████  ██████████████████████████  ██        ║
-║   ██  ██  ██  ██  ████    ████  ██  ██  ██        ║
-║   ██  ██████  ████  ██████████  ██████  ██        ║
-║   ██                                    ██        ║
-║   ████████████████████████████████████████        ║
-║                                                   ║
-║ � Scan with phone camera or use direct link     ║
-║ 📧 Contact: yousaf.k.hamza@gmail.com             ║
-║                                                   ║
-╚═══════════════════════════════════════════════════╝`,
+DevOps Infrastructure Monitor
+══════════════════════════════
 
-  github: `🐙 GitHub Statistics
-╔═══════════════════════════════════════════════════╗
-║              @yousafkhamza Profile                ║
-╠═══════════════════════════════════════════════════╣
-║                                                   ║
-║ 📊 Repository Stats:                             ║
-║ • Public Repositories: 50+                       ║
-║ • Total Stars Earned: 200+                       ║
-║ • Followers: 150+    • Following: 100+           ║
-║                                                   ║
-║ 💻 Language Distribution:                        ║
-║                                                   ║
-║ Python     ████████████████████████░░░░░░  80%   ║
-║ Shell      ██████████████░░░░░░░░░░░░░░░░░░  35%   ║
-║ YAML       ████████░░░░░░░░░░░░░░░░░░░░░░░░  25%   ║
-║ Dockerfile ████░░░░░░░░░░░░░░░░░░░░░░░░░░░░  15%   ║
-║ JavaScript ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  10%   ║
-║                                                   ║
-║ 🚀 Notable Projects:                             ║
-║ • Kubernetes deployment automation                ║
-║ • CI/CD pipeline templates                       ║
-║ • Infrastructure monitoring tools                ║
-║                                                   ║
-║ 🔗 Visit: https://github.com/yousafkhamza        ║
-║                                                   ║
-╚═══════════════════════════════════════════════════╝`,
+☁️  Cloud Services:
+• AWS Services          [████████████] ✅ HEALTHY
+• Azure Resources       [████████████] ✅ HEALTHY
+• GCP Projects          [████████████] ✅ HEALTHY
 
-  ".secret": `🎉 Congratulations! You found the hidden file! 🎉
+🔧 DevOps Tools:
+• Kubernetes Cluster    [████████████] ✅ RUNNING
+• CI/CD Pipeline        [████████████] ✅ ACTIVE
+• ArgoCD                [████████████] ✅ SYNCED
+• Terraform State       [████████████] ✅ SYNCED
+
+📊 Monitoring & Security:
+• Prometheus/Grafana    [████████████] ✅ ONLINE
+• ELK Stack             [████████████] ✅ ONLINE
+• Security Scans        [████████████] ✅ PASSED
+• Vulnerability Checks  [████████████] ✅ CLEAR
+
+📈 Performance Metrics:
+• System Uptime: 99.98%
+• Active Pods: 47/50
+• CPU Usage: 65%
+• Memory Usage: 70%
+• Last Deployment: 2 hours ago`,
+
+  "resume.pdf": `📄 Resume Download
+
+🔗 Direct Download:
+→ https://yousafkhamza.github.io/resume.pdf
+
+📱 QR Code for Mobile Access:
+[Generating QR Code...]`,
+
+  "github.stats": `🐙 GitHub Statistics
+
+@yousafkhamza Profile
+═══════════════════
+
+📊 Repository Stats:
+• Public Repositories: 50+
+• Total Stars Earned: 200+
+• Followers: 150+    • Following: 100+
+
+💻 Language Distribution:
+
+Python     ████████████████████████░░░░░░  80%
+Shell      ██████████████░░░░░░░░░░░░░░░░░░  35%
+YAML       ████████░░░░░░░░░░░░░░░░░░░░░░░░  25%
+Dockerfile ████░░░░░░░░░░░░░░░░░░░░░░░░░░░░  15%
+JavaScript ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  10%
+
+🚀 Notable Projects:
+• Kubernetes deployment automation
+• CI/CD pipeline templates
+• Infrastructure monitoring tools
+
+🔗 Visit: https://github.com/yousafkhamza`,
+
+  ".secret.txt": `🎉 Congratulations! You found the hidden file! 🎉
 
 🕵️ You're clearly someone who knows their way around a terminal!
 
@@ -184,29 +162,31 @@ those who understand binary and those who don't!" 😄
 Thanks for being curious! 
 - Yousaf K Hamza`,
 
-  devops: {
-    kubernetes: `⚡ Kubernetes Expertise:
+  "devops/": {
+    // Alias for kubernetes.yaml
+    "k8s.yaml": `⚡ Kubernetes Expertise:
 - Cluster management and optimization
 - Pod autoscaling and resource management
 - Service mesh implementation (Istio)
 - Helm chart development
 - Multi-cluster deployments`,
 
-    terraform: `🏗️ Infrastructure as Code:
+    "terraform.tf": `🏗️ Infrastructure as Code:
 - Multi-cloud resource provisioning
 - State management and remote backends
 - Module development and reusability
 - Workspace management
 - Policy as code implementation`,
 
-    monitoring: `📊 Monitoring Stack:
+    // Alias for monitoring.conf
+    "watch.conf": `📊 Monitoring Stack:
 - Prometheus & Grafana dashboards
 - ELK stack for log aggregation
 - APM with New Relic
 - Custom metrics and alerting
 - SRE best practices implementation`,
 
-    ".devops": `🔒 Hidden DevOps Secrets 🔒
+    ".devops.env": `🔒 Hidden DevOps Secrets 🔒
 
 🎯 Advanced DevOps Tips:
 1. Always use Infrastructure as Code
@@ -243,11 +223,13 @@ const defaultCommands: Command[] = [
     output: `total 24
 drwxr-xr-x 3 yousaf yousaf 4096 Aug 24 10:30 .
 drwxr-xr-x 3 yousaf yousaf 4096 Aug 24 10:30 ..
--rw-r--r-- 1 yousaf yousaf  512 Aug 24 10:30 profile
--rw-r--r-- 1 yousaf yousaf  1024 Aug 24 10:30 skills
--rw-r--r-- 1 yousaf yousaf  2048 Aug 24 10:30 projects
--rw-r--r-- 1 yousaf yousaf  256 Aug 24 10:30 certs
--rw-r--r-- 1 yousaf yousaf  128 Aug 24 10:30 contact
+-rw-r--r-- 1 yousaf yousaf  512 Aug 24 10:30 profile.txt
+-rw-r--r-- 1 yousaf yousaf  1024 Aug 24 10:30 skills.md
+-rw-r--r-- 1 yousaf yousaf  2048 Aug 24 10:30 projects.json
+-rw-r--r-- 1 yousaf yousaf  256 Aug 24 10:30 certs.yml
+-rw-r--r-- 1 yousaf yousaf  128 Aug 24 10:30 contact.info
+-rw-r--r-- 1 yousaf yousaf  350 Aug 24 10:30 resume.pdf
+-rw-r--r-- 1 yousaf yousaf  400 Aug 24 10:30 github.stats
 drwxr-xr-x 2 yousaf yousaf 4096 Aug 24 10:30 devops
 
 Type 'help' for available commands.`,
@@ -283,6 +265,38 @@ const Terminal = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
 
+  // Generate QR code in terminal format - integrated from QRTerminal.tsx
+  const generateQRCode = (text: string): string => {
+    const qrMatrix = [
+      "█████████████████████████████████████",
+      "█████████████████████████████████████",
+      "████ ▄▄▄▄▄ █ ▄▄ █▄ █▀█▄█▀█ ▄▄▄▄▄ ████",
+      "████ █   █ ██▄█▀▀ █ █ ▀███ █   █ ████",
+      "████ █▄▄▄█ █ ▀▀▄ ▀ █▀▄▀███ █▄▄▄█ ████",
+      "████▄▄▄▄▄▄▄█ ▀▄█▄█▄█ █▄▀ █▄▄▄▄▄▄▄████",
+      "████ ▄ ▀█ ▄▀▄▄█▄ █▀ ▀▀█▀▄▄  ▄██  ████",
+      "████▀██▀▀█▄█ ▄ ▀ ▄▄ █▄▄▄█ ▄██ ▄█▄████",
+      "█████ █▀█▄▄▄ ▄ ████ ▀█▀  █ ▀███▀ ████",
+      "████▀ ▀█▀▀▄ █▀▀▄█▄█▄▀▄▀ ▄█ ▀▄███▄████",
+      "████▄█▀▀▄█▄▄  ▀▄ ██  ██▀▀█ ▀██▀▀ ████",
+      "████▄▄█ ██▄▀▄▄▀▀ ██ ▄█▄▄▀ ▀▀▀▄██▄████",
+      "████▄▄██▄▄▄▄  ███ ▄ ▀▀▄█ ▄▄▄  ▀▄▀████",
+      "████ ▄▄▄▄▄ █▀▄ ▄█▀█ ▀██▀ █▄█ ██▀▄████",
+      "████ █   █ ███▀▄ ▄█▀▄▀█ ▄ ▄▄  ▀▄▀████",
+      "████ █▄▄▄█ █ ▄▄▀ ▄  ▀▄ ▄ ▄▀▀▄▀█▄▄████",
+      "████▄▄▄▄▄▄▄█▄▄▄██▄▄█▄███▄▄▄▄████▄████",
+      "█████████████████████████████████████",
+      "█████████████████████████████████████",
+      "",
+      "📱 QR Code for: " + text,
+      "",
+      "⚡ Scan with mobile device",
+      "📎 Or use direct link above",
+    ];
+
+    return qrMatrix.join("\n");
+  };
+
   // Auto-scroll to bottom when new output is added
   useEffect(() => {
     if (terminalRef.current && interactive) {
@@ -303,9 +317,28 @@ const Terminal = ({
       }
     }
 
-    return typeof current === "string"
-      ? current
-      : `cat: ${path}: Is a directory`;
+    if (typeof current === "string") {
+      // Special handling for resume.pdf to generate QR code dynamically
+      if (path === "resume.pdf") {
+        const url = "https://yousafkhamza.github.io/resume.pdf";
+        const qrCode = generateQRCode(url);
+        return `📄 Resume Download
+
+🔗 Direct Download:
+→ ${url}
+
+📱 QR Code for Mobile Access:
+
+${qrCode}
+
+💡 Scan with phone camera or use direct link above
+📧 Contact: yousaf.k.hamza@gmail.com
+📄 File Size: ~250KB PDF`;
+      }
+      return current;
+    }
+
+    return `cat: ${path}: Is a directory`;
   };
 
   const listDirectory = (path: string = "", flags: string[] = []): string => {
@@ -324,7 +357,7 @@ const Terminal = ({
     } else {
       // Use current directory context
       if (currentPath === "/home/yousaf/devops") {
-        current = fileSystem.devops;
+        current = fileSystem["devops/"];
       }
     }
 
@@ -348,7 +381,11 @@ const Terminal = ({
           const permissions = isDir ? "drwxr-xr-x" : "-rw-r--r--";
           const size = isDir ? "4096" : Math.floor(Math.random() * 2048 + 512);
           const date = "Aug 24 10:30";
-          const displayName = isDir ? `${item}/` : item;
+          // Avoid adding extra slash if item already ends with one
+          let displayName = item;
+          if (isDir && !item.endsWith("/")) {
+            displayName = `${item}/`;
+          }
           return `${permissions} 1 yousaf yousaf ${size
             .toString()
             .padStart(4)} ${date} ${displayName}`;
@@ -361,7 +398,11 @@ const Terminal = ({
       // Regular ls - add / to directories for better visual distinction
       const displayItems = items.map((item) => {
         const isDir = typeof current[item] === "object";
-        return isDir ? `${item}/` : item;
+        // Avoid adding extra slash if item already ends with one
+        if (isDir && !item.endsWith("/")) {
+          return `${item}/`;
+        }
+        return item;
       });
 
       return displayItems.join("  ");
@@ -394,7 +435,7 @@ const Terminal = ({
     }
 
     // Check if directory exists in file system
-    if (fileSystem[path] && typeof fileSystem[path] === "object") {
+    if (fileSystem[path + "/"] && typeof fileSystem[path + "/"] === "object") {
       setCurrentPath(`/home/yousaf/${path}`);
       return "";
     }
@@ -429,24 +470,25 @@ const Terminal = ({
   echo <text>   - Display text
   date          - Show current date and time
 
-Files available: profile, skills, projects, certs, contact
-Directory: devops/ (contains kubernetes, terraform, monitoring)
-Hidden files: .secret (use ls -a to see hidden files)
+Files available: profile.txt, skills.md, projects.json, certs.yml, contact.info, resume.pdf, github.stats
+Directory: devops/ (contains k8s.yaml, terraform.tf, watch.conf)
+Hidden files: .secret.txt (use ls -a to see hidden files)
 
 Examples:
-  cat profile     - View profile information
+  cat profile.txt - View profile information
+  cat resume.pdf  - Download resume with QR code
+  cat github.stats- GitHub contribution stats
   ls -la          - List all files with details
   cd devops       - Enter devops directory
   cd ..           - Go back to parent directory
-  cat .secret     - View hidden easter egg
+  cat .secret.txt - View hidden easter egg
   status          - System monitoring dashboard
-  github          - GitHub contribution stats
-  resume          - Download resume with QR code
 
 Tips:
   • Use Tab for auto-completion
   • Use ↑/↓ arrow keys for command history
-  • Try 'ls -a' in devops folder for hidden files!`;
+  • Try 'ls -a' in devops folder for hidden files!
+  • File extensions show content type: .txt .md .json .yml .info .pdf .stats .yaml .tf .conf .env`;
 
       case "whoami":
         return "yousaf";
@@ -477,7 +519,20 @@ Tips:
       case "cat":
         if (!args[0]) return "cat: missing file operand";
         if (currentPath === "/home/yousaf/devops") {
-          return getFileContent(`devops/${args[0]}`);
+          // When in devops directory, look for files directly in devops/ object
+          const devopsFiles = fileSystem["devops/"] as FileSystem;
+          if (
+            devopsFiles &&
+            typeof devopsFiles === "object" &&
+            args[0] in devopsFiles
+          ) {
+            const content = devopsFiles[args[0]];
+            if (typeof content === "string") {
+              return content;
+            }
+            return `cat: ${args[0]}: Is a directory`;
+          }
+          return `cat: ${args[0]}: No such file or directory`;
         }
         return getFileContent(args[0]);
 
@@ -509,13 +564,13 @@ Tips:
         return args.join(" ");
 
       case "status":
-        return getFileContent("status");
+        return getFileContent("status.log");
 
       case "github":
-        return getFileContent("github");
+        return getFileContent("github.stats");
 
       case "resume":
-        return getFileContent("resume");
+        return getFileContent("resume.pdf");
 
       case "uptime":
         const uptime = Date.now() - sessionStart;
@@ -604,12 +659,12 @@ Did you mean one of these?
 
         if (currentPath === "/home/yousaf/devops") {
           // In devops directory
-          const devopsItems = Object.keys(fileSystem.devops as FileSystem);
+          const devopsItems = Object.keys(fileSystem["devops/"] as FileSystem);
           files = devopsItems.filter(
-            (item) => typeof (fileSystem.devops as any)[item] === "string"
+            (item) => typeof (fileSystem["devops/"] as any)[item] === "string"
           );
           folders = devopsItems.filter(
-            (item) => typeof (fileSystem.devops as any)[item] === "object"
+            (item) => typeof (fileSystem["devops/"] as any)[item] === "object"
           );
         } else {
           // In root directory (/home/yousaf)
