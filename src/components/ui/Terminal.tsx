@@ -108,12 +108,12 @@ Portfolio: yousafkhamza.github.io`,
 const defaultCommands: Command[] = [
   {
     command: "$ whoami",
-    output: "yousaf_k_hamza",
+    output: "yousaf",
     delay: 800,
   },
   {
     command: "$ pwd",
-    output: "/home/yousaf_k_hamza",
+    output: "/home/yousaf",
     delay: 500,
   },
   {
@@ -152,7 +152,7 @@ const Terminal = ({
   const [isTyping, setIsTyping] = useState(true);
   const [cursorVisible, setCursorVisible] = useState(true);
   const [isProcessingCommand, setIsProcessingCommand] = useState(false);
-  const [currentPath, setCurrentPath] = useState("/home/yousaf_k_hamza");
+  const [currentPath, setCurrentPath] = useState("/home/yousaf");
   const [userInput, setUserInput] = useState("");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
@@ -200,7 +200,7 @@ const Terminal = ({
       }
     } else {
       // Use current directory context
-      if (currentPath === "/home/yousaf_k_hamza/devops") {
+      if (currentPath === "/home/yousaf/devops") {
         current = fileSystem.devops;
       }
     }
@@ -239,7 +239,7 @@ const Terminal = ({
     if (path === ".." || path === "../") {
       const pathParts = currentPath.split("/").filter((p) => p);
       if (pathParts.length > 3) {
-        // Don't go above /home/yousaf_k_hamza
+        // Don't go above /home/yousaf
         pathParts.pop();
         const newPath = "/" + pathParts.join("/");
         setCurrentPath(newPath);
@@ -249,18 +249,18 @@ const Terminal = ({
     }
 
     if (path === "devops" || path === "devops/") {
-      setCurrentPath("/home/yousaf_k_hamza/devops");
+      setCurrentPath("/home/yousaf/devops");
       return "";
     }
 
-    if (path === "~" || path === "" || path === "/home/yousaf_k_hamza") {
-      setCurrentPath("/home/yousaf_k_hamza");
+    if (path === "~" || path === "" || path === "/home/yousaf") {
+      setCurrentPath("/home/yousaf");
       return "";
     }
 
     // Check if directory exists in file system
     if (fileSystem[path] && typeof fileSystem[path] === "object") {
-      setCurrentPath(`/home/yousaf_k_hamza/${path}`);
+      setCurrentPath(`/home/yousaf/${path}`);
       return "";
     }
 
@@ -295,7 +295,7 @@ Examples:
   cd devops && ls -l`;
 
       case "whoami":
-        return "yousaf_k_hamza";
+        return "yousaf";
 
       case "pwd":
         return currentPath;
@@ -315,14 +315,14 @@ Examples:
           }
         });
 
-        if (currentPath === "/home/yousaf_k_hamza/devops") {
+        if (currentPath === "/home/yousaf/devops") {
           return listDirectory("", flags);
         }
         return listDirectory(pathArgs[0], flags);
 
       case "cat":
         if (!args[0]) return "cat: missing file operand";
-        if (currentPath === "/home/yousaf_k_hamza/devops") {
+        if (currentPath === "/home/yousaf/devops") {
           return getFileContent(`devops/${args[0]}`);
         }
         return getFileContent(args[0]);
@@ -332,6 +332,13 @@ Examples:
 
       case "clear":
         setInteractiveOutput("");
+        setUserInput("");
+        // Force scroll to top after clearing
+        setTimeout(() => {
+          if (terminalRef.current) {
+            terminalRef.current.scrollTop = 0;
+          }
+        }, 10);
         return "";
 
       case "":
@@ -344,12 +351,24 @@ Examples:
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      const output = executeCommand(userInput);
+      const command = userInput.trim();
       const prompt =
-        currentPath === "/home/yousaf_k_hamza/devops"
+        currentPath === "/home/yousaf/devops"
           ? "devops@yousaf:~/devops$"
           : "devops@yousaf:~$";
 
+      // Special handling for clear command
+      if (command === "clear") {
+        setInteractiveOutput("");
+        setUserInput("");
+        if (userInput.trim()) {
+          setCommandHistory((prev) => [...prev, userInput]);
+          setHistoryIndex(-1);
+        }
+        return;
+      }
+
+      const output = executeCommand(userInput);
       const newOutput = `${interactiveOutput}${prompt} ${userInput}\n${
         output ? output + "\n" : ""
       }`;
@@ -376,7 +395,7 @@ Examples:
         let files: string[] = [];
         let folders: string[] = [];
 
-        if (currentPath === "/home/yousaf_k_hamza/devops") {
+        if (currentPath === "/home/yousaf/devops") {
           // In devops directory
           const devopsItems = Object.keys(fileSystem.devops as FileSystem);
           files = devopsItems.filter(
@@ -422,7 +441,7 @@ Examples:
         let allItems = [...files];
         if (words[0] === "cd") {
           allItems = [...folders];
-          if (currentPath !== "/home/yousaf_k_hamza") {
+          if (currentPath !== "/home/yousaf") {
             allItems.push(".."); // Add parent directory option
           }
           allItems.push("~"); // Add home directory option
@@ -564,7 +583,7 @@ Examples:
 
   const getPrompt = () => {
     if (!interactive) return title;
-    return currentPath === "/home/yousaf_k_hamza/devops"
+    return currentPath === "/home/yousaf/devops"
       ? "devops@yousaf:~/devops$"
       : "devops@yousaf:~$";
   };
