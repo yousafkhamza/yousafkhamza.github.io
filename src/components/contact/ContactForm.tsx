@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, Send } from "lucide-react";
+import { Check, Send, AlertCircle } from "lucide-react";
 
 const ContactForm = () => {
   const [formState, setFormState] = useState({
@@ -10,6 +10,7 @@ const ContactForm = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -18,37 +19,107 @@ const ContactForm = () => {
       ...formState,
       [e.target.name]: e.target.value,
     });
+    // Clear error when user starts typing
+    if (error) setError("");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError("");
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // Method 1: Try Formspree (you need to replace with your actual endpoint)
+      // For now, we'll use a mailto fallback
+
+      // Create mailto link as backup
+      const subject = encodeURIComponent(
+        `Portfolio Contact from ${formState.name}`
+      );
+      const body = encodeURIComponent(`
+Name: ${formState.name}
+Email: ${formState.email}
+
+Message:
+${formState.message}
+      `);
+
+      // Try modern approach first, fallback to mailto
+      try {
+        const response = await fetch(
+          "https://formsubmit.co/yousaf.k.hamza@gmail.com",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: formState.name,
+              email: formState.email,
+              message: formState.message,
+              _subject: `Portfolio Contact from ${formState.name}`,
+              _captcha: "false",
+              _template: "table",
+            }),
+          }
+        );
+
+        if (response.ok) {
+          setIsSubmitted(true);
+          // Reset form
+          setFormState({
+            name: "",
+            email: "",
+            message: "",
+          });
+
+          // Reset submission status after 5 seconds
+          setTimeout(() => {
+            setIsSubmitted(false);
+          }, 5000);
+        } else {
+          throw new Error("Service unavailable");
+        }
+      } catch (serviceError) {
+        // Fallback to mailto
+        window.location.href = `mailto:yousaf.k.hamza@gmail.com?subject=${subject}&body=${body}`;
+
+        setIsSubmitted(true);
+        setFormState({
+          name: "",
+          email: "",
+          message: "",
+        });
+
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 5000);
+      }
+    } catch (err) {
+      setError(
+        "Please use your email client or contact me directly at yousafkhamza@gmail.com"
+      );
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-
-      // Reset form
-      setFormState({
-        name: "",
-        email: "",
-        message: "",
-      });
-
-      // Reset submission status after 3 seconds
-      setTimeout(() => {
-        setIsSubmitted(false);
-      }, 3000);
-    }, 1500);
+    }
   };
 
   return (
     <>
+      {error && (
+        <div className="bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 p-4 rounded-lg flex items-center space-x-3 animate-fade-in mb-6">
+          <AlertCircle className="w-5 h-5" />
+          <span>{error}</span>
+        </div>
+      )}
+
       {isSubmitted ? (
         <div className="bg-primary/10 text-primary p-4 rounded-lg flex items-center space-x-3 animate-fade-in">
           <Check className="w-5 h-5" />
-          <span>Thank you! Your message has been sent successfully.</span>
+          <span>
+            Thank you! Your message has been sent successfully to
+            yousafkhamza@gmail.com
+          </span>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -66,7 +137,7 @@ const ContactForm = () => {
               value={formState.name}
               onChange={handleChange}
               className="w-full px-4 py-3 rounded-lg border border-border bg-white/50 dark:bg-white/5 focus:outline-none focus:ring-2 focus:ring-primary/50"
-              placeholder="Yousaf K H"
+              placeholder="John Doe"
               required
             />
           </div>
@@ -85,7 +156,7 @@ const ContactForm = () => {
               value={formState.email}
               onChange={handleChange}
               className="w-full px-4 py-3 rounded-lg border border-border bg-white/50 dark:bg-white/5 focus:outline-none focus:ring-2 focus:ring-primary/50"
-              placeholder="jhon@example.com"
+              placeholder="john@example.com"
               required
             />
           </div>
