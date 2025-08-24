@@ -200,3 +200,102 @@
 .stagger-delay-8 {
   animation-delay: 0.8s;
 }
+
+/* Mobile-first responsive design improvements */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 100%;
+  }
+
+  /* Ensure text doesn't overflow on small screens */
+  h1,
+  h2,
+  h3 {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* Prevent horizontal scrolling */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Mobile-specific font size adjustments */
+  .font-rockybilly {
+    line-height: 1.1;
+  }
+
+  /* Ensure buttons don't break layout */
+  .stagger-item {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Extra small screens adjustments */
+  .glass-card {
+    padding: 1rem !important;
+    margin: 0.5rem;
+    max-width: calc(100vw - 2rem);
+  }
+
+  /* Ensure buttons don't overflow */
+  .btn-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Better spacing for mobile */
+  section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  /* Prevent text from causing horizontal scroll */
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+/* Fix for very small screens (phones in portrait) */
+@media (max-width: 375px) {
+  .text-xl {
+    font-size: 1.125rem;
+  }
+
+  .text-2xl {
+    font-size: 1.25rem;
+  }
+
+  .text-3xl {
+    font-size: 1.5rem;
+  }
+
+  .text-4xl {
+    font-size: 1.875rem;
+  }
+
+  .glass-card {
+    padding: 0.75rem !important;
+    margin: 0.25rem;
+  }
+
+  /* Ensure name doesn't get cut off */
+  .font-rockybilly {
+    font-size: clamp(1.25rem, 5vw, 2rem) !important;
+    line-height: 1.1;
+  }
+}
+
+/* Landscape phones */
+@media (max-width: 896px) and (orientation: landscape) {
+  .min-h-screen {
+    min-height: 100vh;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}

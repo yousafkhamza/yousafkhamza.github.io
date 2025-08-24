@@ -46,7 +46,7 @@ const Index = () => {
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
         <CloudAnimation />
         <Header />
-        <main>
+        <main className="overflow-x-hidden">
           <Hero />
           <About />
           <Experience />
