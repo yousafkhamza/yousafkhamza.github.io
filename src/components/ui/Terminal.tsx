@@ -124,9 +124,9 @@ DevOps Infrastructure Monitor
 ═══════════════════
 
 📊 Repository Stats:
-• Public Repositories: 50+
-• Total Stars Earned: 200+
-• Followers: 150+    • Following: 100+
+• Public Repositories: 30+
+• Total Stars Earned: 50+
+• Followers: 90+    • Following: 10+
 
 💻 Language Distribution:
 

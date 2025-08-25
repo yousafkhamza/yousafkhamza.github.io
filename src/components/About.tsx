@@ -11,7 +11,7 @@ const About = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <span className="chip mb-4">About Me</span>
-          <h2 className="section-title">DevOps Engineer Profile</h2>
+          <h2 className="section-title">Who I Am</h2>
           <p className="text-foreground/70 mt-4 max-w-2xl mx-auto">
             {showTerminal ? (
               <>
@@ -60,7 +60,7 @@ const About = () => {
                 </div>
                 <Terminal
                   interactive={true}
-                  height="440px"
+                  height="355px"
                   title="Try typing 'help'"
                 />
               </div>
@@ -71,41 +71,43 @@ const About = () => {
                 </h3>
                 <div className="space-y-3 sm:space-y-4 flex-1">
                   <p className="text-sm sm:text-base text-foreground/80 leading-relaxed">
-                    I'm a passionate DevOps Engineer with expertise in cloud
-                    platforms, container orchestration, and infrastructure
-                    automation. My mission is to bridge the gap between
-                    development and operations through innovative solutions and
-                    best practices.
+                    Senior DevOps Engineer with 6+ years of experience
+                    architecting cloud-native solutions and automating
+                    infrastructure. Specialized in building secure, scalable
+                    CI/CD pipelines and reducing operational overhead through
+                    innovation.
                   </p>
                   <div className="space-y-2 sm:space-y-3">
                     <div className="flex items-start space-x-3">
                       <div className="w-2 h-2 bg-yousaf rounded-full mt-2 flex-shrink-0"></div>
                       <p className="text-xs sm:text-sm text-foreground/70 leading-relaxed">
-                        <strong>Cloud Expertise:</strong> AWS, Azure, GCP with
-                        focus on scalable architecture and cost optimization
+                        <strong>Cloud Platforms:</strong> AWS Solutions
+                        Architect certified with expertise in EKS, Lambda, RDS,
+                        and Infrastructure as Code
                       </p>
                     </div>
                     <div className="flex items-start space-x-3">
                       <div className="w-2 h-2 bg-yousaf rounded-full mt-2 flex-shrink-0"></div>
                       <p className="text-xs sm:text-sm text-foreground/70 leading-relaxed">
-                        <strong>DevOps Tools:</strong> Kubernetes, Docker,
-                        Terraform, Jenkins, GitHub, CI/CD, Linux, Bash/Python
-                        Scripting
+                        <strong>Container Orchestration:</strong> Kubernetes
+                        (CKA certified), Docker, Helm with production-grade
+                        deployments and scaling
                       </p>
                     </div>
                     <div className="flex items-start space-x-3">
                       <div className="w-2 h-2 bg-yousaf rounded-full mt-2 flex-shrink-0"></div>
                       <p className="text-xs sm:text-sm text-foreground/70 leading-relaxed">
-                        <strong>Security Focus:</strong> DevSecOps practices
-                        with tools like Snyk, Grype, Trivy, and OWASP
-                        integration
+                        <strong>DevSecOps:</strong> Integrated security
+                        practices reducing vulnerabilities by 90% using SAST,
+                        DAST, and automated scanning tools
                       </p>
                     </div>
                     <div className="flex items-start space-x-3">
                       <div className="w-2 h-2 bg-yousaf rounded-full mt-2 flex-shrink-0"></div>
                       <p className="text-xs sm:text-sm text-foreground/70 leading-relaxed">
-                        <strong>Monitoring:</strong> Prometheus, Grafana, ELK
-                        Stack for comprehensive observability
+                        <strong>Leadership:</strong> Team leadership, mentoring,
+                        and delivering enterprise-grade infrastructure
+                        automation solutions
                       </p>
                     </div>
                   </div>
