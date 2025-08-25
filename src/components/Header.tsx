@@ -69,6 +69,25 @@ const Header = () => {
 
         <div className="flex items-center space-x-2 sm:space-x-4">
           <button
+            onClick={() => {
+              // Scroll to about section
+              const aboutSection = document.getElementById("about");
+              if (aboutSection) {
+                aboutSection.scrollIntoView({ behavior: "smooth" });
+                // Wait for scroll to complete, then trigger terminal
+                setTimeout(() => {
+                  const event = new CustomEvent("activateTerminal");
+                  window.dispatchEvent(event);
+                }, 500);
+              }
+            }}
+            className="hidden lg:flex items-center px-3 py-1.5 text-xs font-medium bg-yousaf text-white rounded-lg hover:bg-yousaf-dark transition-colors"
+            aria-label="Try Interactive Terminal"
+          >
+            💻 Try Terminal
+          </button>
+
+          <button
             onClick={toggleTheme}
             className="rounded-full p-2 hover:bg-accent transition-colors"
             aria-label="Toggle theme"

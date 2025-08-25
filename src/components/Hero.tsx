@@ -100,8 +100,29 @@ const Hero = () => {
               download="Yousaf_K_Hamza_Resume.pdf"
               className="flex-1 sm:flex-initial px-4 sm:px-6 py-3 bg-gradient-to-r from-yousaf to-yousaf-dark text-white rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-center text-sm sm:text-base whitespace-nowrap"
             >
-              Resume
+              📄 Resume
             </a>
+          </div>
+
+          {/* Try Terminal Button - Mobile Only */}
+          <div className="stagger-item stagger-delay-5.5 mb-6 sm:mb-8 lg:hidden">
+            <button
+              onClick={() => {
+                // Scroll to about section
+                const aboutSection = document.getElementById("about");
+                if (aboutSection) {
+                  aboutSection.scrollIntoView({ behavior: "smooth" });
+                  // Wait for scroll to complete, then trigger terminal
+                  setTimeout(() => {
+                    const event = new CustomEvent("activateTerminal");
+                    window.dispatchEvent(event);
+                  }, 500);
+                }
+              }}
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base font-medium"
+            >
+              💻 Try Interactive Terminal
+            </button>
           </div>
 
           {/* Animated Stats */}

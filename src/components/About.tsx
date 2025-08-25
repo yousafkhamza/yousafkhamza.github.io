@@ -1,10 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AnimatedCard from "@/components/ui/AnimatedCard";
 import Terminal from "@/components/ui/Terminal";
 import { Cloud, Server, Award, Terminal as TerminalIcon } from "lucide-react";
 
 const About = () => {
   const [showTerminal, setShowTerminal] = useState(false);
+
+  useEffect(() => {
+    // Check if URL contains terminal parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("terminal") === "true") {
+      setShowTerminal(true);
+      // Remove the parameter from URL
+      window.history.replaceState({}, "", window.location.pathname + "#about");
+    }
+
+    // Listen for custom event to activate terminal
+    const handleActivateTerminal = () => {
+      setShowTerminal(true);
+    };
+
+    window.addEventListener("activateTerminal", handleActivateTerminal);
+
+    // Cleanup event listener
+    return () => {
+      window.removeEventListener("activateTerminal", handleActivateTerminal);
+    };
+  }, []);
+
+  const handleTerminalToggle = (show: boolean) => {
+    setShowTerminal(show);
+    if (!show) {
+      // Clear any terminal parameter when closing
+      window.history.replaceState({}, "", window.location.pathname + "#about");
+    }
+  };
 
   return (
     <section id="about" className="py-20 md:py-28 relative">
@@ -32,7 +62,7 @@ const About = () => {
                 Learn about my expertise and experience in DevOps and Cloud
                 engineering.{" "}
                 <button
-                  onClick={() => setShowTerminal(true)}
+                  onClick={() => handleTerminalToggle(true)}
                   className="text-yousaf hover:underline font-medium"
                 >
                   Try interactive terminal →
@@ -52,7 +82,7 @@ const About = () => {
                     Interactive Terminal
                   </h3>
                   <button
-                    onClick={() => setShowTerminal(false)}
+                    onClick={() => handleTerminalToggle(false)}
                     className="text-sm text-foreground/60 hover:text-foreground"
                   >
                     Show Profile ←
