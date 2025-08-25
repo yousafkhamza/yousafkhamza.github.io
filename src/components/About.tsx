@@ -47,7 +47,7 @@ const About = () => {
               <>
                 Interactive terminal mode! Use commands like{" "}
                 <code className="bg-foreground/10 px-2 py-1 rounded">
-                  cat profile
+                  cat resume.pdf
                 </code>
                 ,
                 <code className="bg-foreground/10 px-2 py-1 rounded mx-1">
