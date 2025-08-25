@@ -100,7 +100,7 @@ const Hero = () => {
               download="Yousaf_K_Hamza_Resume.pdf"
               className="flex-1 sm:flex-initial px-4 sm:px-6 py-3 bg-gradient-to-r from-yousaf to-yousaf-dark text-white rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-center text-sm sm:text-base whitespace-nowrap"
             >
-              📄 Resume
+              Resume
             </a>
           </div>
 
