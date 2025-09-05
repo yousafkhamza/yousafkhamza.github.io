@@ -72,8 +72,9 @@ const About = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto items-stretch">
-          <div className="glass-card rounded-2xl p-4 sm:p-6 lg:p-8 order-2 lg:order-1 flex flex-col">
+        {/* Terminal always comes first, then the cards */}
+        <div className="max-w-6xl mx-auto flex flex-col gap-8 lg:gap-10">
+          <div className="glass-card rounded-2xl p-4 sm:p-6 lg:p-8 flex flex-col">
             {showTerminal ? (
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between mb-4">
@@ -145,8 +146,7 @@ const About = () => {
               </div>
             )}
           </div>
-
-          <div className="flex flex-col gap-4 sm:gap-6 order-1 lg:order-2">
+          <div className="flex flex-col gap-4 sm:gap-6">
             <AnimatedCard className="glass-card rounded-2xl p-4 sm:p-6 flex items-start space-x-3 sm:space-x-4 transition-all hover:translate-x-1">
               <div className="rounded-full bg-yousaf/10 p-2 sm:p-3 text-yousaf flex-shrink-0">
                 <Cloud className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -162,7 +162,6 @@ const About = () => {
                 </p>
               </div>
             </AnimatedCard>
-
             <AnimatedCard className="glass-card rounded-2xl p-4 sm:p-6 flex items-start space-x-3 sm:space-x-4 transition-all hover:translate-x-1">
               <div className="rounded-full bg-yousaf/10 p-2 sm:p-3 text-yousaf flex-shrink-0">
                 <Server className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -178,7 +177,6 @@ const About = () => {
                 </p>
               </div>
             </AnimatedCard>
-
             <AnimatedCard className="glass-card rounded-2xl p-4 sm:p-6 flex items-start space-x-3 sm:space-x-4 transition-all hover:translate-x-1">
               <div className="rounded-full bg-yousaf/10 p-2 sm:p-3 text-yousaf flex-shrink-0">
                 <Award className="w-5 h-5 sm:w-6 sm:h-6" />

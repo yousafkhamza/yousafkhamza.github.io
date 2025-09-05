@@ -77,34 +77,16 @@ const Hero = () => {
             </span>
           </div>
 
+
+
           <p className="stagger-item stagger-delay-4 text-sm sm:text-base md:text-lg lg:text-xl text-foreground/80 max-w-2xl mx-auto mb-6 sm:mb-8 px-2">
-            Transforming cloud infrastructure with innovative DevOps solutions.
-            Specializing in AWS, Terraform, Kubernetes, and CI/CD automation.
+            Transforming cloud infrastructure with innovative DevOps solutions.<br />
+            Specializing in AWS, Terraform, Kubernetes, and CI/CD automation.<br />
+            <span className="text-foreground/60 text-xs sm:text-sm block mt-2">
+              Based in Kerala, India &mdash; open to remote/on-site/EU relocation &mdash; available from Oct 2025.
+            </span>
           </p>
-
-          <div className="stagger-item stagger-delay-5 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 mb-6 sm:mb-8 w-full max-w-md sm:max-w-none mx-auto">
-            <a
-              href="#about"
-              className="flex-1 sm:flex-initial px-4 sm:px-6 py-3 bg-yousaf text-white rounded-lg shadow-lg hover:bg-yousaf-dark transition-colors text-center text-sm sm:text-base whitespace-nowrap"
-            >
-              Discover More
-            </a>
-            <a
-              href="#contact"
-              className="flex-1 sm:flex-initial px-4 sm:px-6 py-3 bg-transparent border border-yousaf text-yousaf rounded-lg hover:bg-yousaf/10 transition-colors text-center text-sm sm:text-base whitespace-nowrap"
-            >
-              Get in Touch
-            </a>
-            <a
-              href="/resume.pdf"
-              download="Yousaf_K_Hamza_Resume.pdf"
-              className="flex-1 sm:flex-initial px-4 sm:px-6 py-3 bg-gradient-to-r from-yousaf to-yousaf-dark text-white rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-center text-sm sm:text-base whitespace-nowrap"
-            >
-              Resume
-            </a>
-          </div>
-
-          {/* Try Terminal Button - Mobile Only */}
+          {/* Try Interactive Terminal - Mobile Only */}
           <div className="stagger-item stagger-delay-5.5 mb-6 sm:mb-8 lg:hidden">
             <button
               onClick={() => {
@@ -119,10 +101,32 @@ const Hero = () => {
                   }, 500);
                 }
               }}
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base font-medium"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-all text-sm sm:text-base font-medium"
             >
               💻 Try Interactive Terminal
             </button>
+          </div>
+
+          {/* Main CTAs: Only Calendly and Resume */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6 sm:mb-8 w-full max-w-lg mx-auto">
+            <a
+              href="https://calendly.com/yousafkhamza"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 px-4 sm:px-6 py-3 bg-purple-700 text-white rounded-lg shadow-lg text-center text-sm sm:text-base font-semibold whitespace-nowrap"
+              style={{ transition: 'none', transform: 'none' }}
+            >
+              Book a Meeting
+            </a>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener"
+              className="flex-1 px-4 sm:px-6 py-3 bg-gradient-to-r from-yousaf to-yousaf-dark text-white rounded-lg shadow-lg text-center text-sm sm:text-base font-semibold whitespace-nowrap border border-yousaf"
+              style={{ transition: 'none', transform: 'none' }}
+            >
+              Download Resume (PDF)
+            </a>
           </div>
 
           {/* Animated Stats */}
@@ -180,7 +184,8 @@ const Hero = () => {
         </AnimatedCard>
       </div>
 
-      <div className="absolute bottom-10 left-0 right-0 flex justify-center animate-float">
+      {/* Remove floating/hover/scale effect from scroll-down chevron */}
+      <div className="absolute bottom-10 left-0 right-0 flex justify-center">
         <a
           href="#about"
           className="text-foreground/60 hover:text-yousaf transition-colors"
