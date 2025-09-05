@@ -38,6 +38,9 @@ const About = () => {
 
   return (
     <section id="about" className="py-20 md:py-28 relative">
+      <div className="sr-only">
+        yousaf kh, yousaf k hamza, yousaf
+      </div>
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <span className="chip mb-4">About Me</span>
