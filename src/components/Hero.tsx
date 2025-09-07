@@ -50,7 +50,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="min-h-screen relative flex flex-col justify-center items-center pt-16 px-4 sm:px-6 overflow-hidden"
+      className="min-h-screen relative flex flex-col justify-center items-center pt-16 px-4 sm:px-6"
     >
       <div className="absolute inset-0 bg-gradient-to-b from-yousaf/5 to-transparent dark:from-yousaf-dark/10 z-0"></div>
 

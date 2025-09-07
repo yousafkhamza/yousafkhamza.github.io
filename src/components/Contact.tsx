@@ -19,12 +19,12 @@ const Contact = () => {
           </AnimatedCard>
 
           <div className="space-y-8 order-1 lg:order-2">
-            <AnimatedCard className="glass-card rounded-2xl p-8">
+            <AnimatedCard className="glass-card rounded-2xl p-9">
               <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
               <ContactInfo />
             </AnimatedCard>
 
-            <AnimatedCard className="glass-card rounded-2xl p-8">
+            <AnimatedCard className="glass-card rounded-2xl p-9">
               <h3 className="text-xl font-bold mb-4">Connect With Me</h3>
               <p className="text-foreground/70 mb-6">
                 Find me on professional networks and platforms.
