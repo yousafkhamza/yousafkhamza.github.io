@@ -44,7 +44,7 @@ const Header = () => {
             <AnimatedYKHLogo size={50} />
           </div>
           <span className="hidden sm:inline-block font-rockybilly text-2xl sm:text-3xl md:text-4xl lg:text-5xl truncate">
-            Yousaf K Hamza
+            yousaf k hamza
           </span>
           <span className="sm:hidden font-rockybilly text-lg whitespace-nowrap">
             YKH
