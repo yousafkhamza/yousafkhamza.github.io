@@ -14,15 +14,6 @@ interface Certification {
 
 const certifications: Certification[] = [
   {
-    id: "aws-saa",
-    title: "AWS Certified Solutions Architect Associate",
-    organization: "Amazon Web Services",
-    logo: "/aws.png",
-    date: "2023",
-    description:
-      "In-depth knowledge of AWS architectural best practices, cloud security, and cost optimization.",
-  },
-  {
     id: "cka",
     title: "Certified Kubernetes Administrator",
     organization: "The Linux Foundation",
@@ -30,6 +21,15 @@ const certifications: Certification[] = [
     date: "2024",
     description:
       "Expertise in managing and securing Kubernetes clusters in production environments.",
+  },
+  {
+    id: "aws-saa",
+    title: "AWS Certified Solutions Architect Associate",
+    organization: "Amazon Web Services",
+    logo: "/aws.png",
+    date: "2023",
+    description:
+      "In-depth knowledge of AWS architectural best practices, cloud security, and cost optimization.",
   },
   {
     id: "gitops",
@@ -48,6 +48,15 @@ const certifications: Certification[] = [
     date: "2022",
     description:
       "Proficiency in Infrastructure as Code using Terraform for cloud automation.",
+  },
+  {
+    id: "GenAI Foundations",
+    title: "GenAI Foundations",
+    organization: "upGrad",
+    logo: "/upgrad.png",
+    date: "2025",
+    description:
+      "Strong foundation in Generative AI concepts, Prompt Engineering, and DevOps practices for building intelligent and automated solutions.",
   },
   {
     id: "ethical-hacking",
