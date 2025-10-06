@@ -84,20 +84,11 @@ const Hero = () => {
             Transforming cloud infrastructure with innovative DevOps solutions.<br />
             Specializing in AWS, Terraform, Kubernetes, and CI/CD automation.<br />
             <span className="text-foreground/60 text-xs sm:text-sm block mt-2">
-              Based in Thrissur, Kerala, India — Ready for Remote or On-site Roles — EU Relocation Welcome — Available From Oct 2025
+              Based in Thrissur, Kerala, India
             </span>
           </p>
-          {/* Main CTAs: Book a Meeting, Download Resume, Try CLI (mobile third) */}
+          {/* Main CTAs: Download Resume, Try CLI, Contact */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6 sm:mb-8 w-full max-w-lg mx-auto">
-            <a
-              href="https://calendly.com/yousafkhamza"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 px-4 sm:px-6 py-3 bg-purple-700 text-white rounded-lg shadow-lg text-center text-sm sm:text-base font-semibold whitespace-nowrap"
-              style={{ transition: 'none', transform: 'none' }}
-            >
-              Book a Meeting
-            </a>
             <a
               href="/resume.pdf"
               target="_blank"
@@ -106,6 +97,13 @@ const Hero = () => {
               style={{ transition: 'none', transform: 'none' }}
             >
               Download Resume
+            </a>
+            <a
+              href="#contact"
+              className="flex-1 px-4 sm:px-6 py-3 bg-blue-600 text-white rounded-lg shadow-lg text-center text-sm sm:text-base font-semibold whitespace-nowrap"
+              style={{ transition: 'none', transform: 'none' }}
+            >
+              Get In Touch
             </a>
             <button
               onClick={() => {
@@ -121,7 +119,7 @@ const Hero = () => {
               className="flex-1 px-4 sm:px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg shadow-lg text-center text-sm sm:text-base font-semibold whitespace-nowrap lg:hidden"
               style={{ transition: 'none', transform: 'none' }}
             >
-              💻 Try Intractive Terminal
+              💻 Try Interactive Terminal
             </button>
           </div>
 
