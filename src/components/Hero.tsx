@@ -84,7 +84,7 @@ const Hero = () => {
             Transforming cloud infrastructure with innovative DevOps solutions.<br />
             Specializing in AWS, Terraform, Kubernetes, and CI/CD automation.<br />
             <span className="text-foreground/60 text-xs sm:text-sm block mt-2">
-              Based in Thrissur, Kerala, India
+              Based in United Arab Emirates
             </span>
           </p>
           {/* Main CTAs: Download Resume, Try CLI, Contact */}
@@ -193,3 +193,4 @@ const Hero = () => {
 };
 
 export default Hero;
+
