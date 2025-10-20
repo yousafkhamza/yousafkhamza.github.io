@@ -5,7 +5,7 @@ const experiences = [
   {
     id: "Pay10",
     title: "DevOps Engineer",
-    company: "Pay10",
+    company: "Pay10 UAE",
     logo: "/pay10.png",
     period: "Oct 2025 - Present",
     location: "United Arab Emirates",
