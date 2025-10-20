@@ -3,11 +3,27 @@ import AnimatedCard from "@/components/ui/AnimatedCard";
 
 const experiences = [
   {
+    id: "Pay10",
+    title: "DevOps Engineer",
+    company: "Pay10",
+    logo: "/pay10.png",
+    period: "Oct 2025 - Present",
+    location: "United Arab Emirates",
+    description: [
+      " Deployed and managed microservices on AWS ECS with API Gateway, ensuring high availability, scalability, and secure communication.",
+      " Automated infrastructure provisioning and configuration using Terraform, enabling consistent, version-controlled IaC deployments.",
+      " Designed and maintained CI/CD pipelines in Jenkins integrated with GitLab, improving build, test, and release efficiency.",
+      " Conducted compliance and audit reviews for fintech cloud environments, ensuring alignment with UAE regulatory and security standards.",
+      " Administered Linux servers and FreeIPA authentication, enhancing access control, identity management, and operational security.",
+      " Developed Bash automation scripts for deployment, monitoring, and system maintenance across containers and standalone environments.",
+    ],
+  },
+  {
     id: "alamy",
     title: "DevOps Engineer",
     company: "Alamy",
     logo: "/alamy.png",
-    period: "Nov 2023 - Present",
+    period: "Nov 2023 - Oct 2025",
     location: "Trivandrum, India",
     description: [
       " Architected and implemented cloud-native infrastructure on AWS using Terraform, Docker, EKS, Jenkins, GitHub Actions, and Helm to enable scalable, secure, and fully automated CI/CD pipelines.",
