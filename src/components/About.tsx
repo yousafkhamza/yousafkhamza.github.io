@@ -118,7 +118,7 @@ const About = () => {
                         <div className="w-2 h-2 bg-yousaf rounded-full mt-2 flex-shrink-0"></div>
                         <p className="text-xs sm:text-sm text-foreground/70 leading-relaxed">
                           <strong>Cloud Platforms:</strong> AWS Solutions
-                          Architect certified with expertise in EKS, Lambda, RDS,
+                          Architect certified with expertise in EKS, ECS, EC2, VPC, Lambda, RDS,
                           and Infrastructure as Code
                         </p>
                       </div>
