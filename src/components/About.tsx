@@ -107,7 +107,7 @@ const About = () => {
                   </h3>
                   <div className="space-y-3 sm:space-y-4 flex-1">
                     <p className="text-sm sm:text-base text-foreground/80 leading-relaxed">
-                      DevOps Engineer with 6+ years of experience
+                      DevOps Engineer with 7+ years of experience
                       architecting cloud-native solutions and automating
                       infrastructure. Specialized in building secure, scalable
                       CI/CD pipelines and reducing operational overhead through
