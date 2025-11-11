@@ -12,13 +12,13 @@ const ContactForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
 
+  // Read key from Vite env (injected at build time)
+  const accessKey = import.meta.env.VITE_WEB3FORMS_KEY;
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
+    setFormState({ ...formState, [e.target.name]: e.target.value });
     if (error) setError("");
   };
 
@@ -28,29 +28,34 @@ const ContactForm = () => {
     setError("");
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/yousaf.k.hamza@gmail.com", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify({
+          access_key: accessKey,
           name: formState.name,
           email: formState.email,
           message: formState.message,
+          // Optional: redirect after success
+          // redirect: "https://yousafkhamza.github.io/thank-you",
         }),
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         setIsSubmitted(true);
         setFormState({ name: "", email: "", message: "" });
         setTimeout(() => setIsSubmitted(false), 5000);
       } else {
-        throw new Error("Submit failed");
+        throw new Error(result.message || "Submit failed");
       }
     } catch (err) {
-      setError("Failed to send message. Please try again.");
       console.error("Form submission error:", err);
+      setError("Failed to send message. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -73,10 +78,7 @@ const ContactForm = () => {
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-foreground/80 mb-1"
-            >
+            <label htmlFor="name" className="block text-sm font-medium text-foreground/80 mb-1">
               Your Name
             </label>
             <input
@@ -92,10 +94,7 @@ const ContactForm = () => {
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-foreground/80 mb-1"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-foreground/80 mb-1">
               Email Address
             </label>
             <input
@@ -111,10 +110,7 @@ const ContactForm = () => {
           </div>
 
           <div>
-            <label
-              htmlFor="message"
-              className="block text-sm font-medium text-foreground/80 mb-1"
-            >
+            <label htmlFor="message" className="block text-sm font-medium text-foreground/80 mb-1">
               Message
             </label>
             <textarea
@@ -133,15 +129,11 @@ const ContactForm = () => {
             type="submit"
             disabled={isSubmitting}
             className={`w-full flex items-center justify-center space-x-2 py-3 px-6 rounded-lg transition-all ${
-              isSubmitting
-                ? "bg-primary/70 cursor-wait"
-                : "bg-primary hover:bg-primary-dark"
+              isSubmitting ? "bg-primary/70 cursor-wait" : "bg-primary hover:bg-primary-dark"
             } text-white`}
           >
             {isSubmitting ? (
-              <>
-                <span className="animate-pulse">Sending...</span>
-              </>
+              <span className="animate-pulse">Sending...</span>
             ) : (
               <>
                 <Send className="w-4 h-4" />
