@@ -24,12 +24,7 @@ const ContactInfo = () => {
         </div>
         <div>
           <h4 className="font-medium text-foreground">Phone</h4>
-          <a
-            href="tel:+917736720639"
-            className="text-primary hover:text-primary-dark transition-colors"
-          >
-            +91 7736720639
-          </a>
+            <p className="text-primary hover:text-primary-dark transition-colors">  050 985 2566 (UAE) / +91 7736720639 (IN) </p>
         </div>
       </div>
 
@@ -39,7 +34,7 @@ const ContactInfo = () => {
         </div>
         <div>
           <h4 className="font-medium text-foreground">Location</h4>
-          <p className="text-foreground/70">Thrissur, Kerala, India</p>
+          <p className="text-foreground/70">Dubai, United Arab Emirates</p>
         </div>
       </div>
     </div>
