@@ -48,7 +48,7 @@ const experiences = [
     id: "quantiphi",
     title: "Senior Platform Engineer",
     company: "Quantiphi",
-    logo: "https://images.seeklogo.com/logo-png/43/1/quantiphi-logo-png_seeklogo-434243.png",
+    logo: "/qph.png",
     period: "Aug 2021 - Nov 2023",
     location: "Trivandrum, India",
     description: [
