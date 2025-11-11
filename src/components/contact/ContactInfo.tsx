@@ -24,7 +24,11 @@ const ContactInfo = () => {
         </div>
         <div>
           <h4 className="font-medium text-foreground">Phone</h4>
-            <p className="text-primary hover:text-primary-dark transition-colors">  050 985 2566 (UAE) / +91 7736720639 (IN) </p>
+          {/* Removed tel: link so clicks won't open the phone app.
+              Added a second number. Replace the second number below with your actual alternate number. */}
+          <div className="space-y-1">
+            <p className="text-primary">+971 50 985 2566 (UAE), +91 7736720639 (IN)</p>
+          </div>
         </div>
       </div>
 

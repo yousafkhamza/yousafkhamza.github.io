@@ -19,7 +19,6 @@ const ContactForm = () => {
       ...formState,
       [e.target.name]: e.target.value,
     });
-    // Clear error when user starts typing
     if (error) setError("");
   };
 
@@ -29,76 +28,28 @@ const ContactForm = () => {
     setError("");
 
     try {
-      // Method 1: Try Formspree (you need to replace with your actual endpoint)
-      // For now, we'll use a mailto fallback
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          message: formState.message,
+        }),
+      });
 
-      // Create mailto link as backup
-      const subject = encodeURIComponent(
-        `Portfolio Contact from ${formState.name}`
-      );
-      const body = encodeURIComponent(`
-Name: ${formState.name}
-Email: ${formState.email}
-
-Message:
-${formState.message}
-      `);
-
-      // Try modern approach first, fallback to mailto
-      try {
-        const response = await fetch(
-          "https://formsubmit.co/yousaf.k.hamza@gmail.com",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name: formState.name,
-              email: formState.email,
-              message: formState.message,
-              _subject: `Portfolio Contact from ${formState.name}`,
-              _captcha: "false",
-              _template: "table",
-            }),
-          }
-        );
-
-        if (response.ok) {
-          setIsSubmitted(true);
-          // Reset form
-          setFormState({
-            name: "",
-            email: "",
-            message: "",
-          });
-
-          // Reset submission status after 5 seconds
-          setTimeout(() => {
-            setIsSubmitted(false);
-          }, 5000);
-        } else {
-          throw new Error("Service unavailable");
-        }
-      } catch (serviceError) {
-        // Fallback to mailto
-        window.location.href = `mailto:yousaf.k.hamza@gmail.com?subject=${subject}&body=${body}`;
-
+      if (response.ok) {
         setIsSubmitted(true);
-        setFormState({
-          name: "",
-          email: "",
-          message: "",
-        });
-
-        setTimeout(() => {
-          setIsSubmitted(false);
-        }, 5000);
+        setFormState({ name: "", email: "", message: "" });
+        setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        throw new Error("Submit failed");
       }
     } catch (err) {
-      setError(
-        "Please use your email client or contact me directly at yousafkhamza@gmail.com"
-      );
+      setError("Failed to send message. Please try again.");
+      console.error("Form submission error:", err);
     } finally {
       setIsSubmitting(false);
     }
@@ -116,10 +67,7 @@ ${formState.message}
       {isSubmitted ? (
         <div className="bg-primary/10 text-primary p-4 rounded-lg flex items-center space-x-3 animate-fade-in">
           <Check className="w-5 h-5" />
-          <span>
-            Thank you! Your message has been sent successfully to
-            yousaf.k.hamza@gmail.com
-          </span>
+          <span>Thank you! Your message has been sent successfully.</span>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
