@@ -81,8 +81,8 @@ const Hero = () => {
 
 
           <p className="stagger-item stagger-delay-4 text-sm sm:text-base md:text-lg lg:text-xl text-foreground/80 max-w-2xl mx-auto mb-6 sm:mb-8 px-2">
-            Transforming cloud infrastructure with innovative DevOps solutions.<br />
-            Specializing in AWS, Terraform, Kubernetes, and CI/CD automation.<br />
+            Transforming cloud infrastructure with innovative DevSecOps solutions.<br />
+            Specializing in AWS, Terraform, Kubernetes, Docker, Scritping, Security, Monitoring and CI/CD automation.<br />
             <span className="text-foreground/60 text-xs sm:text-sm block mt-2">
               Based in Dubai, United Arab Emirates
             </span>
