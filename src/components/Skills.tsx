@@ -181,13 +181,19 @@ const skills: Skill[] = [
   {
     name: "OWASP ZAP",
     icon: "./owasp.png",
-    proficiency: 70,
+    proficiency: 80,
     category: "Security",
   },
   {
-    name: "Burp Suite",
-    icon: "./burp.png",
-    proficiency: 70,
+    name: "WAF",
+    icon: "./waf.png",
+    proficiency: 90,
+    category: "Security",
+  },
+  {
+    name: "Wazuh",
+    icon: "./wazuh.png",
+    proficiency: 90,
     category: "Security",
   },
   {
@@ -199,7 +205,7 @@ const skills: Skill[] = [
   {
     name: "AWS API Gateway",
     icon: "https://www.svgrepo.com/show/353444/aws-api-gateway.svg",
-    proficiency: 60,
+    proficiency: 80,
     category: "Gateway",
   },
 ];
