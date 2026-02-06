@@ -14,9 +14,32 @@ const Footer = () => {
               <span className="font-rockybilly text-xl md:text-3xl">
                 Yousaf K Hamza
               </span>
+
               <p className="text-sm text-foreground/60 mt-1">
                 DevOps Engineer • DevSecOps Engineer • Cloud Engineer • Site
-                Relibility Engineer • Platform Engineer
+                Reliability Engineer • Platform Engineer
+              </p>
+
+              {/* NEW: Technical writing links (SEO + clean UI) */}
+              <p className="text-xs text-foreground/50 mt-1">
+                Technical writing:
+                <a
+                  href="https://medium.com/@yousafkhamza"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-1 underline hover:text-foreground"
+                >
+                  Medium
+                </a>
+                <span className="mx-1">·</span>
+                <a
+                  href="https://linkedin.com/in/yousafkhamza"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-foreground"
+                >
+                  LinkedIn
+                </a>
               </p>
             </div>
           </div>
