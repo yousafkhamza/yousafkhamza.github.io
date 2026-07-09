@@ -34,10 +34,11 @@ interface Project {
 const projects: Project[] = [
   {
     id: "aws-patch",
-    title: "aws-patch",
+    title: "aws patch",
     description:
       "A production-grade Linux patch automation tool for AWS EC2, built in Bash. Supports Ubuntu, Amazon Linux 2 and Amazon Linux 2023 across multiple regions, with a ShellCheck-clean codebase, 51 passing tests, and a one-line installer.",
-    tags: ["Bash", 
+    tags: [
+      "Bash", 
       "AWS EC2", 
       "Amazon Linux",
       "Ubuntu",
@@ -49,7 +50,7 @@ const projects: Project[] = [
       "ShellCheck", 
       "DevOps",
     ],
-    images: ["/project-aws-patch.jpg"],
+    images: ["/project-aws-batch.jpg"],
     github: "https://github.com/yousafkhamza/aws-patch",
     demo: "https://yousafkhamza.github.io/aws-patch/",
   },
