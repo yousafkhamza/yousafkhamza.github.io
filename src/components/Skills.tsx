@@ -53,6 +53,12 @@ const skills: Skill[] = [
     category: "Container Orchestration",
   },
   {
+    name: "Karpenter",
+    icon: "./karpenter.png",
+    proficiency: 80,
+    category: "Container Orchestration",
+  },
+  {
     name: "Jenkins",
     icon: "https://www.svgrepo.com/show/373699/jenkins.svg",
     proficiency: 80,
@@ -67,7 +73,7 @@ const skills: Skill[] = [
   {
     name: "Argo CD",
     icon: "./argo.png",
-    proficiency: 70,
+    proficiency: 80,
     category: "CI/CD",
   },
   {
@@ -95,6 +101,12 @@ const skills: Skill[] = [
     category: "Operating System",
   },
   {
+    name: "Windows",
+    icon: "https://www.svgrepo.com/show/382713/windows-applications.svg",
+    proficiency: 70,
+    category: "Operating System",
+  },
+  {
     name: "Python",
     icon: "https://www.svgrepo.com/show/452091/python.svg",
     proficiency: 80,
@@ -103,7 +115,7 @@ const skills: Skill[] = [
   {
     name: "GoLang",
     icon: "https://www.svgrepo.com/show/355038/golang.svg",
-    proficiency: 70,
+    proficiency: 40,
     category: "Programming",
   },
   {
@@ -121,7 +133,7 @@ const skills: Skill[] = [
   {
     name: "Concourse CI",
     icon: "https://www.svgrepo.com/show/353595/concourse.svg",
-    proficiency: 80,
+    proficiency: 70,
     category: "CI/CD",
   },
   {
@@ -139,7 +151,7 @@ const skills: Skill[] = [
   {
     name: "Datadog",
     icon: "https://www.svgrepo.com/show/448219/datadog.svg",
-    proficiency: 60,
+    proficiency: 40,
     category: "Monitoring",
   },
   {
@@ -151,31 +163,31 @@ const skills: Skill[] = [
   {
     name: "SonarQube",
     icon: "https://www.svgrepo.com/show/354365/sonarqube.svg",
-    proficiency: 80,
+    proficiency: 70,
     category: "Security",
   },
   {
     name: "Snyk",
     icon: "https://www.svgrepo.com/show/448249/snyk.svg",
-    proficiency: 90,
+    proficiency: 80,
     category: "Security",
   },
   {
     name: "Checkmarx",
     icon: "./checkmarx.png",
-    proficiency: 70,
+    proficiency: 50,
     category: "Security",
   },
   {
     name: "Trivy",
     icon: "/trivy.png",
-    proficiency: 90,
+    proficiency: 80,
     category: "Security",
   },
   {
     name: "Grype",
     icon: "/grype.png",
-    proficiency: 90,
+    proficiency: 85,
     category: "Security",
   },
   {
@@ -207,6 +219,30 @@ const skills: Skill[] = [
     icon: "https://www.svgrepo.com/show/353444/aws-api-gateway.svg",
     proficiency: 80,
     category: "Gateway",
+  },
+  {
+    name: "MySQL",
+    icon: "https://www.svgrepo.com/show/473731/mysql.svg",
+    proficiency: 80,
+    category: "Database",
+  },
+  {
+    name: "MongoDB",
+    icon: "https://www.svgrepo.com/show/439231/mongodb.svg",
+    proficiency: 70,
+    category: "Database",
+  },
+  {
+    name: "PostgreSQL",
+    icon: "https://www.svgrepo.com/show/439268/postgresql.svg",
+    proficiency: 60,
+    category: "Database",
+  },
+  {
+    name: "DynamoDB",
+    icon: "https://www.svgrepo.com/show/353450/aws-dynamodb.svg",
+    proficiency: 70,
+    category: "Database",
   },
 ];
 
