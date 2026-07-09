@@ -53,7 +53,7 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          {["About", "Experience", "Skills", "Certifications", "Contact"].map(
+          {["About", "Experience", "Skills", "Projects", "Certifications", "Contact"].map(
             (item) => (
               <a
                 key={item}
@@ -117,7 +117,7 @@ const Header = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 backdrop-blur-lg bg-white/95 dark:bg-black/95 border-t border-border animate-fade-in shadow-lg">
           <nav className="container mx-auto px-4 py-4 flex flex-col space-y-3">
-            {["About", "Experience", "Skills", "Certifications", "Contact"].map(
+            {["About", "Experience", "Skills", "Projects", "Certifications", "Contact"].map(
               (item) => (
                 <a
                   key={item}
