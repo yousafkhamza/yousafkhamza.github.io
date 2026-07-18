@@ -63,9 +63,9 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         yousaf: {
-          light: "#E0F2FE",
-          DEFAULT: "#0EA5E9",
-          dark: "#0369A1",
+          light: "#4ADE80",
+          DEFAULT: "#22C55E",
+          dark: "#15803D",
         },
       },
       borderRadius: {
@@ -75,7 +75,7 @@ export default {
       },
       fontFamily: {
         sans: ["SF Pro Display", "Inter", "sans-serif"],
-        mono: ["SF Mono", "monospace"],
+        mono: ["JetBrains Mono", "SF Mono", "monospace"],
         "great-vibes": ["Great Vibes", "cursive"],
         whisper: ["Whisper", "cursive"],
         angel: ["Angel", "cursive"],
