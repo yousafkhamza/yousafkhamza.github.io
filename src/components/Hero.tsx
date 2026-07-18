@@ -57,7 +57,7 @@ const Hero = () => {
       <div className="container mx-auto relative z-10 flex flex-col items-center justify-center w-full">
         <AnimatedCard className="glass-card rounded-2xl p-4 sm:p-6 md:p-8 lg:p-12 max-w-4xl mx-auto text-center w-full">
           <div className="stagger-item stagger-delay-1 mb-4 sm:mb-6 relative inline-block">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full overflow-hidden border-4 border-white/30 shadow-lg mx-auto">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full overflow-hidden border-4 border-yousaf/30 shadow-lg shadow-yousaf/10 mx-auto">
               <img
                 src="https://avatars.githubusercontent.com/yousafkhamza"
                 alt="Yousaf K Hamza"
@@ -66,8 +66,8 @@ const Hero = () => {
             </div>
           </div>
 
-          <h1 className="stagger-item stagger-delay-2 text-xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-rockybilly text-foreground mb-3 sm:mb-4 px-2 break-words">
-            Yousaf K Hamza
+          <h1 className="stagger-item stagger-delay-2 text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-mono font-extrabold text-foreground mb-3 sm:mb-4 px-2 break-words tracking-tight">
+            <span className="text-yousaf">&gt;</span> Yousaf K Hamza
             <span className="sr-only">yousaf kh, yousaf k hamza, yousaf</span>
           </h1>
 
@@ -100,7 +100,7 @@ const Hero = () => {
             </a>
             <a
               href="#contact"
-              className="flex-1 px-4 sm:px-6 py-3 bg-blue-600 text-white rounded-lg shadow-lg text-center text-sm sm:text-base font-semibold whitespace-nowrap"
+              className="flex-1 px-4 sm:px-6 py-3 bg-transparent border border-yousaf/40 text-yousaf hover:bg-yousaf/10 rounded-lg text-center text-sm sm:text-base font-semibold whitespace-nowrap"
               style={{ transition: 'none', transform: 'none' }}
             >
               Get In Touch
@@ -133,7 +133,7 @@ const Hero = () => {
               href="https://github.com/yousafkhamza"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-foreground/70 hover:text-rifkhan transition-colors p-2"
+              className="text-foreground/70 hover:text-yousaf transition-colors p-2"
               aria-label="GitHub"
             >
               <svg
@@ -148,7 +148,7 @@ const Hero = () => {
               href="https://www.linkedin.com/in/yousafkhamza/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-foreground/70 hover:text-rifkhan transition-colors p-2"
+              className="text-foreground/70 hover:text-yousaf transition-colors p-2"
               aria-label="LinkedIn"
             >
               <svg
@@ -163,7 +163,7 @@ const Hero = () => {
               href="https://medium.com/@yousaf.k.hamza"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-foreground/70 hover:text-rifkhan transition-colors p-2"
+              className="text-foreground/70 hover:text-yousaf transition-colors p-2"
               aria-label="Medium"
             >
               <svg

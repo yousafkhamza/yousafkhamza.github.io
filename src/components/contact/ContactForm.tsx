@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { Check, Send, AlertCircle } from "lucide-react";
 
+// FormSubmit.co forwards submissions straight to this inbox — no API key,
+// no signup/dashboard, nothing to configure. The only one-time step is that
+// the FIRST message ever sent triggers a confirmation email to this address;
+// click "Activate Form" in that email once, and every submission after that
+// arrives normally.
+const CONTACT_EMAIL = "yousaf.k.hamza@gmail.com";
+
 const ContactForm = () => {
   const [formState, setFormState] = useState({
     name: "",
@@ -11,9 +18,6 @@ const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
-
-  // Read key from Vite env (injected at build time)
-  const accessKey = import.meta.env.VITE_WEB3FORMS_KEY;
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -28,31 +32,32 @@ const ContactForm = () => {
     setError("");
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: accessKey,
-          name: formState.name,
-          email: formState.email,
-          message: formState.message,
-          // Optional: redirect after success
-          // redirect: "https://yousafkhamza.github.io/thank-you",
-        }),
-      });
+      const response = await fetch(
+        `https://formsubmit.co/ajax/${CONTACT_EMAIL}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: formState.name,
+            email: formState.email,
+            message: formState.message,
+            _subject: `Portfolio message from ${formState.name}`,
+            _template: "table",
+            _captcha: "false",
+          }),
+        }
+      );
 
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        setIsSubmitted(true);
-        setFormState({ name: "", email: "", message: "" });
-        setTimeout(() => setIsSubmitted(false), 5000);
-      } else {
-        throw new Error(result.message || "Submit failed");
+      if (!response.ok) {
+        throw new Error("Submit failed");
       }
+
+      setIsSubmitted(true);
+      setFormState({ name: "", email: "", message: "" });
+      setTimeout(() => setIsSubmitted(false), 5000);
     } catch (err) {
       console.error("Form submission error:", err);
       setError("Failed to send message. Please try again.");
