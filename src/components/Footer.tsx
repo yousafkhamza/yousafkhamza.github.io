@@ -11,8 +11,8 @@ const Footer = () => {
           <div className="mb-4 md:mb-0 flex items-center">
             <AnimatedYKHLogo size={50} />
             <div className="ml-2">
-              <span className="font-rockybilly text-xl md:text-3xl">
-                Yousaf K Hamza
+              <span className="font-mono font-bold text-lg md:text-xl tracking-tight">
+                <span className="text-yousaf">~/</span>yousaf-k-hamza
               </span>
 
               <p className="text-sm text-foreground/60 mt-1">

@@ -43,11 +43,11 @@ const Header = () => {
           <div className="flex-shrink-0">
             <AnimatedYKHLogo size={50} />
           </div>
-          <span className="hidden sm:inline-block font-rockybilly text-2xl sm:text-3xl md:text-4xl lg:text-5xl truncate">
-            yousaf k hamza
+          <span className="hidden sm:inline-block font-mono font-bold text-xl sm:text-2xl md:text-3xl tracking-tight truncate">
+            <span className="text-yousaf">~/</span>yousaf-k-hamza
           </span>
-          <span className="sm:hidden font-rockybilly text-lg whitespace-nowrap">
-            YKH
+          <span className="sm:hidden font-mono font-bold text-base whitespace-nowrap">
+            <span className="text-yousaf">~/</span>ykh
           </span>
         </a>
 
