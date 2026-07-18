@@ -54,7 +54,7 @@ const experiences = [
     title: "System Engineer (Cloud Support)",
     company: "Armia Systems",
     logo: "/armia.png",
-    period: "May 2020 - Aug 2021",
+    period: "Jun 2020 - Aug 2021",
     location: "Ernakulam, India",
     description: [
       " Automated Linux-based cloud infrastructure provisioning, patch management, and configuration management using scripting and automation tools, improving operational consistency.",
@@ -67,7 +67,7 @@ const experiences = [
     title: "System Engineer (TechOps)",
     company: "Activelobby",
     logo: "/al.png",
-    period: "Oct 2018 - Mar 2020",
+    period: "Oct 2018 - Feb 2020",
     location: "Ernakulam, India",
     description: [
       " Managed Linux and Windows servers supporting production and staging environments, including system administration, backup management, and infrastructure maintenance.",

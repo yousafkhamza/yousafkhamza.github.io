@@ -107,11 +107,15 @@ const About = () => {
                   </h3>
                   <div className="space-y-3 sm:space-y-4 flex-1">
                     <p className="text-sm sm:text-base text-foreground/80 leading-relaxed">
-                      DevOps Engineer with 7+ years of experience
-                      architecting cloud-native solutions and automating
-                      infrastructure. Specialized in building secure, scalable
-                      CI/CD pipelines and reducing operational overhead through
-                      innovation.
+                      DevOps Engineer with 7+ years building secure, highly
+                      available AWS and Kubernetes platforms for fintech and
+                      regulated enterprise environments. Track record of
+                      migrating production workloads to EKS, automating
+                      infrastructure with Terraform, and embedding
+                      security and compliance controls (SOC 2, PCI, ISO 27001)
+                      directly into CI/CD pipelines &mdash; alongside
+                      independently designing and shipping production-quality
+                      open-source DevOps tooling on GitHub.
                     </p>
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-start space-x-3">
