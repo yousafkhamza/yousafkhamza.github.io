@@ -109,18 +109,21 @@
     @apply bg-white/90 dark:bg-card border border-black/5 dark:border-yousaf/10 shadow-sm dark:shadow-none;
   }
 
-  .section-title {
-    @apply text-3xl md:text-4xl font-bold mb-6 relative inline-block font-mono tracking-tight;
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-widest text-yousaf mb-4;
   }
 
-  .section-title::before {
-    content: "// ";
-    @apply text-yousaf/50;
-  }
-
-  .section-title::after {
+  .eyebrow::before {
     content: "";
-    @apply absolute bottom-0 left-0 w-1/2 h-0.5 bg-yousaf rounded-full;
+    @apply w-4 h-px bg-yousaf/60;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-5xl font-extrabold mb-4 tracking-tight text-foreground leading-[1.1];
+  }
+
+  .section-subtitle {
+    @apply text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed;
   }
 
   .chip {

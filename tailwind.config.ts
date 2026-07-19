@@ -74,7 +74,7 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["SF Pro Display", "Inter", "sans-serif"],
+        sans: ["Inter", "SF Pro Display", "sans-serif"],
         mono: ["JetBrains Mono", "SF Mono", "monospace"],
         "great-vibes": ["Great Vibes", "cursive"],
         whisper: ["Whisper", "cursive"],

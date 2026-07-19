@@ -19,8 +19,9 @@ const CloudAnimation = ({ className }: CloudAnimationProps) => {
     if (!ctx) return;
 
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const parent = canvas.parentElement;
+      canvas.width = parent ? parent.clientWidth : window.innerWidth;
+      canvas.height = parent ? parent.clientHeight : window.innerHeight;
     };
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
@@ -28,9 +29,9 @@ const CloudAnimation = ({ className }: CloudAnimationProps) => {
     const isDark = theme === "dark";
     const nodeColor = isDark ? "34, 197, 94" : "22, 163, 74"; // green
     const accentColor = "245, 158, 11"; // amber, used sparingly
-    const lineOpacity = isDark ? 0.14 : 0.08;
-    const nodeOpacity = isDark ? 0.55 : 0.35;
-    const linkDistance = 150;
+    const lineOpacity = isDark ? 0.09 : 0.06;
+    const nodeOpacity = isDark ? 0.4 : 0.28;
+    const linkDistance = 130;
 
     interface Node {
       x: number;
@@ -42,7 +43,7 @@ const CloudAnimation = ({ className }: CloudAnimationProps) => {
     }
 
     const nodes: Node[] = [];
-    const nodeCount = Math.min(70, Math.floor((window.innerWidth * window.innerHeight) / 22000));
+    const nodeCount = Math.min(45, Math.floor((canvas.width * canvas.height) / 26000));
 
     for (let i = 0; i < nodeCount; i++) {
       nodes.push({
@@ -106,7 +107,7 @@ const CloudAnimation = ({ className }: CloudAnimationProps) => {
   return (
     <canvas
       ref={canvasRef}
-      className={`fixed top-0 left-0 w-full h-full pointer-events-none z-0 ${className}`}
+      className={`absolute inset-0 w-full h-full pointer-events-none z-0 ${className}`}
     />
   );
 };

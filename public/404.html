@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Yousaf K Hamza</title>
+    <!--
+      Single Page Apps for GitHub Pages
+      https://github.com/rafgraph/spa-github-pages
+      This is a workaround so that direct links / refreshes on routes like
+      /experience or /projects don't 404 on GitHub Pages (which has no
+      server-side rewrite support). It redirects to index.html, encoding
+      the real path in the query string; index.html then restores it.
+    -->
+    <script type="text/javascript">
+      var pathSegmentsToKeep = 0; // this is a user page (yousafkhamza.github.io), not a project page
+      var l = window.location;
+      l.replace(
+        l.protocol + "//" + l.hostname + (l.port ? ":" + l.port : "") +
+        l.pathname.split("/").slice(0, 1 + pathSegmentsToKeep).join("/") + "/?/" +
+        l.pathname.slice(1).split("/").slice(pathSegmentsToKeep).join("/").replace(/&/g, "~and~") +
+        (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
+        l.hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>
