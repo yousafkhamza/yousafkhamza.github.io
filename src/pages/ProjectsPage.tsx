@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import PageHero from "@/components/layout/PageHero";
 import Section from "@/components/layout/Section";
 import ProjectCard from "@/components/ProjectCard";
+import ExploreMore from "@/components/ExploreMore";
 import { projects } from "@/data/projects";
 
 const ProjectsPage = () => {
@@ -23,6 +24,10 @@ const ProjectsPage = () => {
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
+      </Section>
+
+      <Section border={false} className="pt-0">
+        <ExploreMore />
       </Section>
     </div>
   );
