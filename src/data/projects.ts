@@ -67,4 +67,23 @@ export const projects: Project[] = [
   github: "https://github.com/yousafkhamza/pxtrim",
   demo: "https://yousafkhamza.github.io/pxtrim/",
 },
+{
+  id: "the-manifest",
+  title: "The Manifest",
+  description:
+    "A self-publishing daily e-newspaper for cloud & infrastructure news — AWS, Azure, GCP, Kubernetes, Terraform, Python, Go, Rust, and JavaScript/Node.js. A GitHub Actions cron job pulls each topic's official RSS/Atom feed every morning, keeps only the publisher's own title, summary, and thumbnail (falling back to original per-topic cover art when a feed has none), and rebuilds a broadsheet-style front page with zero manual steps.",
+  tags: [
+    "JavaScript",
+    "Vite",
+    "RSS Aggregation",
+    "GitHub Actions",
+    "Static Site",
+    "Automation",
+    "Open-Source",
+    "DevOps",
+  ],
+  images: ["/project-manifest.png"],
+  github: "https://github.com/yousafkhamza/the-manifest",
+  demo: "https://yousafkhamza.github.io/the-manifest/",
+},
 ];
