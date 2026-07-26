@@ -82,7 +82,7 @@ export const projects: Project[] = [
     "Open-Source",
     "DevOps",
   ],
-  images: ["/manifest.png"],
+  images: ["/project-manifest.png"],
   github: "https://github.com/yousafkhamza/the-manifest",
   demo: "https://yousafkhamza.github.io/the-manifest/",
 },
