@@ -86,4 +86,23 @@ export const projects: Project[] = [
   github: "https://github.com/yousafkhamza/the-manifest",
   demo: "https://yousafkhamza.github.io/the-manifest/",
 },
+{
+  id: "iam-visualizer",
+  title: "IAM Policy Visualizer",
+  description:
+    "A client-side tool that parses AWS IAM policy JSON and renders each statement as a risk-scored card — flagging wildcard actions, unscoped resources, missing Condition blocks, and privilege-escalation paths like unconditioned iam:PassRole in plain English. No policy data ever leaves the browser.",
+  tags: [
+    "TypeScript",
+    "React",
+    "Vite",
+    "AWS IAM",
+    "Security Tooling",
+    "GitHub Actions",
+    "Static Site",
+    "Open-Source",
+  ],
+  images: ["/project-iam.png"],
+  github: "https://github.com/yousafkhamza/iam-visualizer",
+  demo: "https://yousafkhamza.github.io/iam-visualizer/",
+},
 ];
