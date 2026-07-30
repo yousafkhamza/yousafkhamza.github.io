@@ -37,4 +37,40 @@
     <priority>0.6</priority>
   </url>
 
+  <url>
+    <loc>https://yousafkhamza.github.io/the-manifest/</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://yousafkhamza.github.io/aws-patch/</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://yousafkhamza.github.io/iam-visualizer/</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://yousafkhamza.github.io/k8s-resource-sizer/</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://yousafkhamza.github.io/pxtrim/</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://yousafkhamza.github.io/universal-app-chart/</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>
