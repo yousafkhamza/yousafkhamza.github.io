@@ -87,6 +87,24 @@ export const projects: Project[] = [
   demo: "https://yousafkhamza.github.io/pxtrim/",
 },
 {
+  id: "kubesizer",
+  title: "kubesizer",
+  description:
+    "A client-side tool that parses kubectl top output and renders sized CPU/memory requests and limits per container — peak+buffer sizing for a single snapshot, or percentile-based sizing (p50 requests, p95 limits) automatically once multiple snapshots are pasted. Ships with a bundled capture script for gathering samples during peak load, and traces exactly which snapshot a container's data is missing from if a kubectl call fails mid-run. No cluster data ever leaves the browser.",
+  tags: [
+    "TypeScript",
+    "Vite",
+    "Kubernetes",
+    "DevOps Tooling",
+    "GitHub Actions",
+    "Static Site",
+    "Open-Source",
+  ],
+  images: ["/project-kubesizer.png"],
+  github: "https://github.com/yousafkhamza/k8s-resource-sizer",
+  demo: "https://yousafkhamza.github.io/k8s-resource-sizer/",
+},
+{
   id: "the-manifest",
   title: "The Manifest",
   description:
