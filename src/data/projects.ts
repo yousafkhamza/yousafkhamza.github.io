@@ -105,6 +105,25 @@ export const projects: Project[] = [
   demo: "https://yousafkhamza.github.io/k8s-resource-sizer/",
 },
 {
+  id: "loadcannon",
+  title: "loadcannon",
+  description:
+    "A CLI that load-tests internal and public HTTP APIs from one scenario format — public hostname, internal LB, or a direct IP with Host-header override, all through the same config. Wraps k6 for the actual traffic generation; loadcannon handles target resolution and secret injection. Tokens and passwords are never hardcoded — resolved at runtime from an env var, AWS SSM, or a masked prompt, and only ever passed to k6 via its process environment, never as a CLI argument or written to disk. Ships with six live example scenarios so it runs end-to-end against real public test APIs with zero setup.",
+  tags: [
+    "Go",
+    "k6",
+    "Kubernetes",
+    "AWS",
+    "DevOps Tooling",
+    "GitHub Actions",
+    "Static Site",
+    "Open-Source",
+  ],
+  images: ["/project-loadcannon.png"],
+  github: "https://github.com/yousafkhamza/loadcannon",
+  demo: "https://yousafkhamza.github.io/loadcannon/",
+},
+{
   id: "the-manifest",
   title: "The Manifest",
   description:
