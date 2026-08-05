@@ -124,6 +124,25 @@ export const projects: Project[] = [
   demo: "https://yousafkhamza.github.io/loadcannon/",
 },
 {
+  id: "openvpn-dns-tools",
+  title: "openvpn-dns-tools",
+  description:
+    "A DNS-attribution toolkit for OpenVPN that answers what OpenVPN itself can't: who ran this query. Captures DNS on the tunnel interface and correlates it against live session state — status.log on Community Edition, sacli VPNStatus on Access Server (including AWS Marketplace) — auto-detecting which one you're running, no config edits either way. VPN IPs get reused across sessions, so every match is resolved by IP and timestamp together, never IP alone, and an unparseable record is skipped rather than guessed. Ships with a one-command installer that auto-detects your tunnel interface and attribution backend, then wires up short commands and systemd services end-to-end.",
+  tags: [
+    "Python",
+    "Bash",
+    "OpenVPN",
+    "Networking",
+    "DevOps Tooling",
+    "GitHub Actions",
+    "Static Site",
+    "Open-Source",
+  ],
+  images: ["/project-vpn-tool.png"],
+  github: "https://github.com/yousafkhamza/openvpn-dns-tools",
+  demo: "https://yousafkhamza.github.io/openvpn-dns-tools/",
+},
+{
   id: "the-manifest",
   title: "The Manifest",
   description:
