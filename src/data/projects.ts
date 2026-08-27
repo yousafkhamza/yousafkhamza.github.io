@@ -48,6 +48,28 @@ export const projects: Project[] = [
   demo: "https://yousafkhamza.github.io/iam-visualizer/",
 },
 {
+  id: "platform-copilot",
+  title: "platform-copilot",
+  description:
+    "A self-hosted RAG assistant that answers questions from your own documents — Qdrant for vector search, Ollama for local inference, FastAPI tying it together — built to understand RAG pipelines end to end rather than just call someone else's API. Every layer runs inside your own cluster on purpose: embeddings, vector store, and LLM never leave it, which matters the moment what you're indexing is sensitive. Chunks documents at ~800 characters with 100-character overlap so a fact split across a boundary doesn't get lost in retrieval, and the prompt is built to force the model to answer only from retrieved context, with the source file cited back so an answer can be verified instead of trusted blindly. The one gotcha worth knowing if you're testing the hosted demo against your own local instance: a public https:// page reaching into localhost gets blocked by Chrome's Private Network Access policy, a separate check from ordinary CORS — the API has to explicitly grant it on the preflight response, or the request silently fails with a CORS-shaped error that has nothing to do with your CORS config.",
+  tags: [
+    "Python",
+    "FastAPI",
+    "RAG",
+    "LLM",
+    "Qdrant",
+    "Ollama",
+    "Kubernetes",
+    "Docker",
+    "GitHub Actions",
+    "Nginx",
+    "Open-Source",
+  ],
+  images: ["/project-platform-copilot.png"],
+  github: "https://github.com/yousafkhamza/platform-copilot",
+  demo: "https://yousafkhamza.github.io/platform-copilot/",
+},
+{
   id: "podgauge",
   title: "podgauge",
   description:
