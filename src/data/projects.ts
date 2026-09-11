@@ -91,6 +91,27 @@ export const projects: Project[] = [
   demo: "https://yousafkhamza.github.io/podgauge/",
 },
 {
+  id: "iso27001-auditor",
+  title: "iso27001-auditor",
+  description:
+    "A read-only AWS scanner that checks EC2, RDS, EKS, ECS, ECR, IAM, S3, and a dozen other services against ISO 27001:2022 Annex A controls, and produces an evidence report instead of just a pass/fail badge — every finding carries the exact resource ID and a remediation command, so it doubles as audit evidence and a to-do list. Runs from one machine holding a single read-only role; nothing it does can write to the account. Every AWS call is wrapped so a missing permission just gets logged and skipped rather than crashing the scan, and a service you're not running (no DynamoDB, no Lambda) shows a clean informational line instead of a false failure. The optional report-publishing step shells out to the aws CLI directly rather than juggling a boto3 client, because a custom client is exactly where the real bugs ended up living. The gotcha worth knowing: an explicit Deny in a bucket's or KMS key's own resource policy always overrides an IAM Allow, no matter how permissive the scanning role is — so a handful of skipped checks can look like a gap in the role's policy when the actual fix is on the resource side, in a policy the auditor role was never going to be allowed to touch.",
+  tags: [
+    "Python",
+    "AWS",
+    "IAM",
+    "boto3",
+    "S3",
+    "EKS",
+    "ECS",
+    "Compliance",
+    "GitHub Actions",
+    "Open-Source",
+  ],
+  images: ["/project-iso27001-auditor.png"],
+  github: "https://github.com/yousafkhamza/iso27001-auditor",
+  demo: "https://yousafkhamza.github.io/iso27001-auditor/",
+},
+{
   id: "aws-patch",
   title: "aws patch",
   description:
