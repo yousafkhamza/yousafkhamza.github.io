@@ -13,7 +13,7 @@ export const projects: Project[] = [
   id: "k8s-incident-copilot",
   title: "K8s Incident Copilot",
   description:
-    "Know why a Kubernetes pod is failing before you open a terminal. Incident Copilot runs in your cluster, watches the namespaces you opt in, and when a pod breaks it gathers what you'd normally collect by hand — spec, failing conditions, events, logs from the crashed run, volume claims — then has a model explain the root cause and the fix, and sends it to Slack, Teams, Discord, Google Chat, email or any webhook. The model is a small Ollama inside the cluster by default, so nothing leaves it; or bring Claude, OpenAI, Azure OpenAI, Gemini, Bedrock or any OpenAI-compatible API. Hosted models run as an agent with twelve read-only cluster tools, so they can find causes outside the failing pod — like a database Service with no endpoints — and every check shows up on the incident card. It never reads Secrets, can never change a workload, and redacts tokens, keys and card numbers before anything is sent out. The gotcha worth knowing: small local models are bad at tool calling, so auto mode keeps Ollama on a single-shot answer and only lets hosted models investigate — and per-incident and daily token budgets stop a crash-looping Deployment from quietly running up an API bill. Ships with nine deliberately broken workloads, each annotated with its correct answer, so you can score a model instead of guessing.",
+    "Know why a Kubernetes pod is failing before you open a terminal. Runs in your cluster, and when a pod breaks it gathers the spec, events, logs from the crashed run and volume claims, then has a model explain the root cause and the fix and sends it to Slack, Teams, email or any webhook. Uses a local Ollama model by default so nothing leaves the cluster, or Claude, OpenAI, Gemini and Bedrock as an agent with read-only cluster tools. It never reads Secrets, can never change a workload, and redacts tokens and keys before anything is sent.",
   tags: [
     "Python",
     "AI Agents",
@@ -34,7 +34,7 @@ export const projects: Project[] = [
   id: "platform-copilot",
   title: "platform-copilot",
   description:
-    "A self-hosted RAG assistant that answers questions from your own documents — Qdrant for vector search, Ollama for local inference, FastAPI tying it together — built to understand RAG pipelines end to end rather than just call someone else's API. Every layer runs inside your own cluster on purpose: embeddings, vector store, and LLM never leave it, which matters the moment what you're indexing is sensitive. Chunks documents at ~800 characters with 100-character overlap so a fact split across a boundary doesn't get lost in retrieval, and the prompt is built to force the model to answer only from retrieved context, with the source file cited back so an answer can be verified instead of trusted blindly. The one gotcha worth knowing if you're testing the hosted demo against your own local instance: a public https:// page reaching into localhost gets blocked by Chrome's Private Network Access policy, a separate check from ordinary CORS — the API has to explicitly grant it on the preflight response, or the request silently fails with a CORS-shaped error that has nothing to do with your CORS config.",
+    "A self-hosted RAG assistant that answers questions from your own documents, with Qdrant for vector search, Ollama for local inference and FastAPI tying it together. Every layer runs inside your own cluster, so embeddings, vectors and the LLM never leave it. Chunks documents at ~800 characters with overlap so a fact split across a boundary isn't lost, and forces the model to answer only from retrieved context, citing the source file so an answer can be checked instead of trusted blindly.",
   tags: [
     "Python",
     "FastAPI",
@@ -56,7 +56,7 @@ export const projects: Project[] = [
   id: "iam-visualizer",
   title: "IAM Policy Visualizer",
   description:
-    "A client-side tool that parses AWS IAM policy JSON and renders each statement as a risk-scored card — flagging wildcard actions, unscoped resources, missing Condition blocks, and privilege-escalation paths like unconditioned iam:PassRole in plain English. No policy data ever leaves the browser.",
+    "A client-side tool that parses AWS IAM policy JSON and renders each statement as a risk-scored card. Flags wildcard actions, unscoped resources, missing Condition blocks and privilege-escalation paths like unconditioned iam:PassRole, all explained in plain English. Built for reviewing a policy before it ships rather than after an incident. No policy data ever leaves the browser.",
   tags: [
     "TypeScript",
     "React",
@@ -75,7 +75,7 @@ export const projects: Project[] = [
   id: "iso27001-auditor",
   title: "iso27001-auditor",
   description:
-    "A read-only AWS scanner that checks EC2, RDS, EKS, ECS, ECR, IAM, S3, and a dozen other services against ISO 27001:2022 Annex A controls, and produces an evidence report instead of just a pass/fail badge — every finding carries the exact resource ID and a remediation command, so it doubles as audit evidence and a to-do list. Runs from one machine holding a single read-only role; nothing it does can write to the account. Every AWS call is wrapped so a missing permission just gets logged and skipped rather than crashing the scan, and a service you're not running (no DynamoDB, no Lambda) shows a clean informational line instead of a false failure. The optional report-publishing step shells out to the aws CLI directly rather than juggling a boto3 client, because a custom client is exactly where the real bugs ended up living. The gotcha worth knowing: an explicit Deny in a bucket's or KMS key's own resource policy always overrides an IAM Allow, no matter how permissive the scanning role is — so a handful of skipped checks can look like a gap in the role's policy when the actual fix is on the resource side, in a policy the auditor role was never going to be allowed to touch.",
+    "A read-only AWS scanner that checks EC2, RDS, EKS, ECS, IAM, S3 and a dozen other services against ISO 27001:2022 Annex A controls. Produces an evidence report rather than a pass/fail badge: every finding carries the exact resource ID and a remediation command, so it doubles as audit evidence and a to-do list. Runs from a single read-only role, and a missing permission or an unused service is logged and skipped instead of crashing the scan or showing a false failure.",
   tags: [
     "Python",
     "AWS",
@@ -96,7 +96,7 @@ export const projects: Project[] = [
   id: "podgauge",
   title: "podgauge",
   description:
-    "A Kubernetes CPU/memory right-sizing tool that reads like a server-rack status wall instead of a spreadsheet. Ships with a read-only script that diffs kubectl top usage against configured requests/limits per Deployment, then paste the CSV into the browser — nothing leaves the tab. Suggests right-sized requests plus a memory limit with real headroom, but deliberately does NOT suggest a formula-based CPU limit by default: a limit sized off steady-state usage throttles JVM startup bursts (class loading, JIT warm-up) hard enough to turn a 10-20s boot into minutes, since only the request affects node scheduling — the limit is free to set generously or skip. A JVM-workloads toggle floors the fallback number at an observed startup-burst value for teams that must set one anyway.",
+    "A Kubernetes CPU/memory right-sizing tool that reads like a server-rack status wall instead of a spreadsheet. A read-only script diffs kubectl top usage against each Deployment's requests and limits, then you paste the CSV into the browser and nothing leaves the tab. Suggests right-sized requests and a memory limit with real headroom, but deliberately skips a formula-based CPU limit by default, since one sized off steady-state usage throttles JVM startup bursts and turns a 10-20s boot into minutes.",
   tags: [
     "TypeScript",
     "React",
@@ -117,7 +117,7 @@ export const projects: Project[] = [
   id: "universal-app-chart",
   title: "Universal App Helm Chart",
   description:
-    "A production-ready, reusable Helm chart for deploying applications on Kubernetes and AWS EKS. Supports Deployments, StatefulSets, ALB Ingress, HPA, EBS, EFS, ConfigMaps, Secrets, IRSA, ServiceAccounts, node scheduling, health probes, and production-ready examples—all configurable through a single values.yaml.",
+    "A production-ready, reusable Helm chart for deploying applications on Kubernetes and AWS EKS. Supports Deployments, StatefulSets, ALB Ingress, HPA, EBS and EFS volumes, ConfigMaps, Secrets, IRSA, ServiceAccounts, node scheduling and health probes. Everything is configured through a single values.yaml, and it ships with production-ready examples so a new service can go from zero to deployed without writing a chart of its own.",
   tags: [
     "Helm",
     "Kubernetes",
@@ -136,7 +136,7 @@ export const projects: Project[] = [
   id: "kubesizer",
   title: "kubesizer",
   description:
-    "A client-side tool that parses kubectl top output and renders sized CPU/memory requests and limits per container — peak+buffer sizing for a single snapshot, or percentile-based sizing (p50 requests, p95 limits) automatically once multiple snapshots are pasted. Ships with a bundled capture script for gathering samples during peak load, and traces exactly which snapshot a container's data is missing from if a kubectl call fails mid-run. No cluster data ever leaves the browser.",
+    "A client-side tool that parses kubectl top output and renders sized CPU/memory requests and limits per container. Uses peak plus buffer for a single snapshot, and switches to percentile-based sizing (p50 requests, p95 limits) automatically once multiple snapshots are pasted. Ships with a capture script for gathering samples during peak load, and shows exactly which snapshot a container's data is missing from if a kubectl call fails mid-run. No cluster data ever leaves the browser.",
   tags: [
     "TypeScript",
     "Vite",
@@ -154,7 +154,7 @@ export const projects: Project[] = [
   id: "loadcannon",
   title: "loadcannon",
   description:
-    "A CLI that load-tests internal and public HTTP APIs from one scenario format — public hostname, internal LB, or a direct IP with Host-header override, all through the same config. Wraps k6 for the actual traffic generation; loadcannon handles target resolution and secret injection. Tokens and passwords are never hardcoded — resolved at runtime from an env var, AWS SSM, or a masked prompt, and only ever passed to k6 via its process environment, never as a CLI argument or written to disk. Ships with six live example scenarios so it runs end-to-end against real public test APIs with zero setup.",
+    "A CLI that load-tests internal and public HTTP APIs from one scenario format: public hostname, internal load balancer, or a direct IP with a Host-header override. Wraps k6 for the traffic itself while loadcannon handles target resolution and secret injection. Tokens are resolved at runtime from an env var, AWS SSM or a masked prompt, and only ever passed to k6 through its process environment, never as an argument or on disk. Six live example scenarios run end to end with zero setup.",
   tags: [
     "Go",
     "k6",
@@ -173,7 +173,7 @@ export const projects: Project[] = [
   id: "aws-patch",
   title: "aws patch",
   description:
-    "A production-grade Linux patch automation tool for AWS EC2, built in Bash. Supports Ubuntu, Amazon Linux 2 and Amazon Linux 2023 across multiple regions, with a ShellCheck-clean codebase, 51 passing tests, and a one-line installer.",
+    "A production-grade Linux patch automation tool for AWS EC2 fleets, built in Bash. Supports Ubuntu, Amazon Linux 2 and Amazon Linux 2023 across multiple regions, handling apt, yum and dnf from a single command. The codebase is ShellCheck-clean with 51 passing tests, and a one-line installer gets it running on a new machine in seconds, so patching a fleet stops being a manual, host-by-host chore.",
   tags: [
     "Bash", 
     "AWS EC2", 
@@ -195,7 +195,7 @@ export const projects: Project[] = [
   id: "accessrig",
   title: "accessrig",
   description:
-    "A one-command CLI wrapper around JumpServer's official jmsctl.sh installer, built after one too many manual PAM deployments went sideways. Detects install-vs-update from real container state (not a bookkeeping file that can drift out of sync), and treats 'latest' as something you opt into rather than something that happens silently — every install/update pins an explicit --version, with --list-versions and --current-version to check before you commit. Downgrading to an older release requires an explicit --confirm-downgrade flag on top of the automatic backup, since a JumpServer DB schema that's already migrated forward isn't guaranteed to run cleanly against older application code. Also sets DOMAINS in JumpServer's shared config at install time — skipping this is the single most common cause of a 'CSRF Failed: Origin checking failed' error the first time you access JumpServer over HTTPS through a real domain, and it's easy to miss until it's already biting you in front of users.",
+    "A one-command CLI wrapper around JumpServer's official installer, built after one too many manual PAM deployments went sideways. Detects install versus update from real container state rather than a bookkeeping file that can drift, and pins an explicit version on every run instead of silently pulling latest. Downgrades need an explicit flag on top of an automatic backup, and DOMAINS is set at install time to avoid the common 'CSRF Failed: Origin checking failed' error behind a real domain.",
   tags: [
     "Bash",
     "JumpServer",
@@ -215,7 +215,7 @@ export const projects: Project[] = [
   id: "openvpn-dns-tools",
   title: "openvpn-dns-tools",
   description:
-    "A DNS-attribution toolkit for OpenVPN that answers what OpenVPN itself can't: who ran this query. Captures DNS on the tunnel interface and correlates it against live session state — status.log on Community Edition, sacli VPNStatus on Access Server (including AWS Marketplace) — auto-detecting which one you're running, no config edits either way. VPN IPs get reused across sessions, so every match is resolved by IP and timestamp together, never IP alone, and an unparseable record is skipped rather than guessed. Ships with a one-command installer that auto-detects your tunnel interface and attribution backend, then wires up short commands and systemd services end-to-end.",
+    "A DNS-attribution toolkit for OpenVPN that answers what OpenVPN itself can't: who ran this query. Captures DNS on the tunnel interface and correlates it with live session state from Community Edition or Access Server, auto-detecting which one you run. VPN IPs get reused, so every match is resolved by IP and timestamp together, never IP alone. A one-command installer detects the tunnel interface and backend, then wires up short commands and systemd services.",
   tags: [
     "Python",
     "Bash",
@@ -234,7 +234,7 @@ export const projects: Project[] = [
   id: "the-manifest",
   title: "The Manifest",
   description:
-    "A self-publishing daily e-newspaper for cloud & infrastructure news — AWS, Azure, GCP, Kubernetes, Terraform, Python, Go, Rust, and JavaScript/Node.js. A GitHub Actions cron job pulls each topic's official RSS/Atom feed every morning, keeps only the publisher's own title, summary, and thumbnail (falling back to original per-topic cover art when a feed has none), and rebuilds a broadsheet-style front page with zero manual steps.",
+    "A self-publishing daily e-newspaper for cloud and infrastructure news covering AWS, Azure, GCP, Kubernetes, Terraform, Python, Go, Rust and Node.js. A GitHub Actions cron job pulls each topic's official RSS/Atom feed every morning and keeps only the publisher's own title, summary and thumbnail, falling back to original cover art when a feed has none. The broadsheet-style front page rebuilds itself every day with zero manual steps.",
   tags: [
     "JavaScript",
     "Vite",
@@ -253,7 +253,7 @@ export const projects: Project[] = [
   id: "pxtrim",
   title: "pxtrim",
   description:
-    "A tiny, fully client-side image resize, batch convert & compress tool. Drop one file or a whole batch, adjust scale/quality/format, and download — no uploads, no backend, no storage. Everything runs in the browser via the Canvas API for the current session only.",
+    "A tiny, fully client-side tool to resize, batch convert and compress images. Drop one file or a whole batch, adjust scale, quality and format, and download the results. There are no uploads, no backend and no storage: everything runs in the browser through the Canvas API and only for the current session, so images never leave your device.",
   tags: [
     "JavaScript",
     "Vite",
