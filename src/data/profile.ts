@@ -1,12 +1,16 @@
 export const profile = {
-  name: "Yousaf K Hamza",
+  name: "Yousaf Hamza",
+  /** also known as: GitHub handle and the name on older profiles */
+  altName: "Yousaf K Hamza",
+  handle: "yousafkhamza",
+  site: "https://yousafkhamza.github.io",
   role: "Senior DevOps / DevSecOps & Platform Engineer",
   location: "Dubai, UAE",
   timezone: "Asia/Dubai",
   email: "yousaf.k.hamza@gmail.com",
   phone: "+971 50 985 2566",
   phoneAlt: "+91 77367 20639",
-  workAuth: "UAE employment visa",
+  residency: "UAE resident",
   careerStart: "2018-10",
   openTo: ["Senior DevOps", "Platform Engineering", "SRE", "DevSecOps"],
   domains: ["Fintech & payments", "Regulated enterprise", "Multi-cloud"],
@@ -14,7 +18,7 @@ export const profile = {
   github: "https://github.com/yousafkhamza",
   resume: "/resume.pdf",
   summary:
-    "Senior DevOps & Platform Engineer with 8+ years leading secure, highly available AWS and Kubernetes platforms for fintech and regulated enterprises. Owns production end to end: EKS migrations, Terraform automation, GitOps delivery, and SOC 2 / PCI / ISO 27001 controls built into CI/CD.",
+    "Senior DevOps & Platform Engineer in Dubai. Runs secure, highly available AWS and Kubernetes platforms for fintech and regulated enterprises: EKS migrations, Terraform automation, GitOps delivery, and SOC 2 / PCI DSS / ISO 27001 controls built into CI/CD.",
 };
 
 /** whole years since the first role, so the number never goes stale */
@@ -32,16 +36,15 @@ export interface Impact {
   display: string;
   direction: "down" | "up";
   how: string;
-  where: string;
 }
 
 export const impact: Impact[] = [
-  { metric: "Critical security findings", value: 90, display: "−90%", direction: "down", how: "scanning + policy checks in CI/CD", where: "Alamy" },
-  { metric: "Infrastructure provisioning time", value: 70, display: "−70%", direction: "down", how: "end-to-end Terraform", where: "Pay10" },
-  { metric: "Deployment effort", value: 60, display: "−60%", direction: "down", how: "30+ apps moved ECS → EKS with Helm", where: "Pay10" },
-  { metric: "Incident triage time", value: 40, display: "−40%", direction: "down", how: "Grafana, Prometheus, Loki dashboards", where: "Pay10" },
-  { metric: "Release cycle", value: 25, display: "−25%", direction: "down", how: "Jenkins + Docker pipeline rework", where: "Quantiphi" },
-  { metric: "Monthly AWS bill", value: 25, display: "−20–25%", direction: "down", how: "rightsizing, Karpenter, HPA/VPA", where: "Pay10" },
+  { metric: "Critical security findings", value: 90, display: "−90%", direction: "down", how: "scanning + policy checks in CI/CD" },
+  { metric: "Infrastructure provisioning time", value: 70, display: "−70%", direction: "down", how: "end-to-end Terraform" },
+  { metric: "Deployment effort", value: 60, display: "−60%", direction: "down", how: "30+ apps moved ECS → EKS with Helm" },
+  { metric: "Incident triage time", value: 40, display: "−40%", direction: "down", how: "Grafana, Prometheus, Loki dashboards" },
+  { metric: "Release cycle", value: 25, display: "−25%", direction: "down", how: "Jenkins + Docker pipeline rework" },
+  { metric: "Monthly AWS bill", value: 25, display: "−20–25%", direction: "down", how: "rightsizing, Karpenter, HPA/VPA" },
 ];
 
 export interface Service {

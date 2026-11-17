@@ -5,17 +5,14 @@ import ContactForm from "@/components/contact/ContactForm";
 import { profile } from "@/data/profile";
 
 const ContactPage = () => {
-  useEffect(() => {
-    document.title = "Contact | Yousaf K Hamza";
-  }, []);
 
   const rows: [string, React.ReactNode][] = [
     ["Email", <a href={`mailto:${profile.email}`} className="hover:text-yousaf break-all">{profile.email}</a>],
     ["Phone", <span>{profile.phone} (UAE)<br />{profile.phoneAlt} (IN)</span>],
     ["LinkedIn", <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-yousaf">in/yousafkhamza</a>],
     ["GitHub", <a href={profile.github} target="_blank" rel="noopener noreferrer" className="hover:text-yousaf">yousafkhamza</a>],
-    ["Location", "Dubai, UAE · GMT+4"],
-    ["Work status", profile.workAuth],
+    ["Based in", `Dubai, UAE · GMT+4`],
+    ["Residency", profile.residency],
   ];
 
   return (

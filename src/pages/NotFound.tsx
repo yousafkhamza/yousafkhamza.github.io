@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/ui/ThemeProvider";
 const NotFound = () => {
   const { pathname } = useLocation();
   useEffect(() => {
-    document.title = "404 | Yousaf K Hamza";
+    document.title = "Page not found · Yousaf Hamza";
   }, []);
 
   return (

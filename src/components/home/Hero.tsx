@@ -16,8 +16,7 @@ const QuickRead = () => {
     ["Role", "Senior DevOps / DevSecOps & Platform Engineer"],
     ["Experience", `${years}+ years · since Oct 2018`],
     ["Current", `${experiences[0].title}, ${experiences[0].company}`],
-    ["Location", "Dubai, UAE · GMT+4"],
-    ["Work status", profile.workAuth],
+    ["Based in", `Dubai, UAE · ${profile.residency}`],
     ["Certified", coreCerts.join(" · ")],
     ["Domain", profile.domains.join(" · ")],
     ["Open to", profile.openTo.join(" · ")],
@@ -50,7 +49,7 @@ const QuickRead = () => {
           <span className="text-yousaf">$</span> describe engineer yousaf
         </span>
         <span className="flex items-center gap-1.5 font-mono text-[11.5px] text-ok">
-          <span className="dot" /> Ready
+          <span className="dot" /> Available
         </span>
       </div>
       <dl className="px-5 py-4 grid grid-cols-[96px_1fr] gap-x-4 gap-y-2.5 text-[14px]">
@@ -88,14 +87,14 @@ const Hero = () => {
     <div className="wrap pt-12 sm:pt-20 pb-16 sm:pb-24">
       <div className="grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-14 items-start">
         <div>
-          <div className="font-mono text-[13px] text-muted-foreground mb-6">
-            Senior DevOps &amp; Platform Engineer · Dubai
-          </div>
-          <h1 className="text-[44px] sm:text-[64px] lg:text-[72px] font-semibold tracking-[-0.035em] leading-[0.98]">
+          <h1 className="font-mono text-[13px] text-muted-foreground mb-6">
+            {profile.name} <span className="text-border">/</span> Senior DevOps &amp; Platform Engineer, Dubai
+          </h1>
+          <p className="text-[44px] sm:text-[64px] lg:text-[72px] font-semibold tracking-[-0.035em] leading-[0.98] text-foreground">
             I keep production
             <br />
             <span className="hl">boring.</span>
-          </h1>
+          </p>
           <p className="mt-7 text-[18px] sm:text-[19px] leading-relaxed text-muted-foreground max-w-[54ch]">
             {yearsOfExperience()}+ years running AWS and Kubernetes platforms for fintech and regulated
             enterprises. I migrate workloads without drama, automate the infrastructure with Terraform and
@@ -110,7 +109,7 @@ const Hero = () => {
             </Link>
           </div>
           <div className="mt-12">
-            <div className="label mb-3">Shipped production at</div>
+            <div className="label mb-3">Where I have worked</div>
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-[15px] font-medium text-foreground/80">
               {companies.map((c) => (
                 <span key={c}>{c}</span>

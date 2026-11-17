@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Moon, Sun, Menu, X, FileDown } from "lucide-react";
+import { Moon, Sun, Menu, X, FileDown, Search } from "lucide-react";
+import { openCommandMenu } from "@/components/CommandMenu";
 import { useTheme } from "@/components/ui/ThemeProvider";
 import { cn } from "@/lib/utils";
 import { profile } from "@/data/profile";
@@ -27,7 +28,7 @@ const StatusStrip = () => {
           </span>
         </span>
         <span className="flex items-center gap-3 shrink-0">
-          <span className="hidden md:inline">{profile.workAuth}</span>
+          <span className="hidden md:inline">{profile.residency}</span>
           <span className="hidden md:inline text-border">|</span>
           <span>
             Dubai {time} <span className="hidden sm:inline">GMT+4</span>
@@ -67,7 +68,7 @@ const Header = () => {
       >
         <div className="wrap h-16 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-baseline gap-2 group" aria-label="Home">
-            <span className="text-[17px] font-semibold tracking-[-0.01em]">Yousaf K Hamza</span>
+            <span className="text-[17px] font-semibold tracking-[-0.01em]">{profile.name}</span>
             <span className="hidden lg:inline font-mono text-[12px] text-muted-foreground group-hover:text-yousaf transition-colors">
               devops / platform
             </span>
@@ -91,6 +92,21 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center gap-1.5">
+            <button
+              onClick={openCommandMenu}
+              className="hidden lg:inline-flex items-center gap-2 h-9 pl-3 pr-2 rounded-[4px] border border-border bg-card text-[13px] text-muted-foreground hover:text-foreground hover:border-foreground/40 transition-colors"
+              aria-label="Search the site"
+            >
+              <Search className="w-3.5 h-3.5" /> Search
+              <kbd className="font-mono text-[11px] px-1.5 py-0.5 rounded-[3px] bg-secondary border border-border">Ctrl K</kbd>
+            </button>
+            <button
+              onClick={openCommandMenu}
+              className="lg:hidden w-9 h-9 inline-flex items-center justify-center rounded-[4px] hover:bg-secondary"
+              aria-label="Search the site"
+            >
+              <Search className="w-4 h-4" />
+            </button>
             <a href={profile.resume} target="_blank" rel="noopener" className="hidden sm:inline-flex btn-primary h-9 px-4 text-[14px]">
               <FileDown className="w-4 h-4" /> Resume
             </a>

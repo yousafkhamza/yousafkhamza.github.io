@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import PageHero from "@/components/layout/PageHero";
 import ProjectCard from "@/components/ProjectCard";
 import { projects, projectCategories, ProjectCategory } from "@/data/projects";
@@ -7,11 +8,14 @@ import { cn } from "@/lib/utils";
 type Filter = "All" | ProjectCategory;
 
 const ProjectsPage = () => {
-  const [filter, setFilter] = useState<Filter>("All");
+  const [params, setParams] = useSearchParams();
+  const fromUrl = projectCategories.find((c) => c.toLowerCase() === params.get("filter"));
+  const [filter, setFilterState] = useState<Filter>(fromUrl ?? "All");
+  const setFilter = (f: Filter) => {
+    setFilterState(f);
+    setParams(f === "All" ? {} : { filter: f.toLowerCase() }, { replace: true });
+  };
 
-  useEffect(() => {
-    document.title = "Projects | Yousaf K Hamza";
-  }, []);
 
   const counts = useMemo(() => {
     const c: Record<string, number> = { All: projects.length };

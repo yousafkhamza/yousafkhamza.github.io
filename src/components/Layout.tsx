@@ -4,6 +4,8 @@ import { toast } from "sonner";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useSeo } from "@/hooks/useSeo";
+import CommandMenu from "@/components/CommandMenu";
 
 const EASTER_EGG_PHRASE = "sudoplay";
 
@@ -11,14 +13,15 @@ const Layout = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const bufferRef = useRef("");
+  useSeo();
 
   useEffect(() => {
     // Let visitors actually know the game exists — once per browser session,
     // shortly after they land, so it doesn't interrupt the first paint.
     const alreadyHinted = sessionStorage.getItem("game-hint-shown");
-    if (!alreadyHinted && pathname !== "/play") {
+    if (!alreadyHinted && pathname !== "/play" && window.innerWidth >= 768) {
       const hintTimer = setTimeout(() => {
-        toast("There's an on-call game hidden on this site", {
+        toast("Three on-call games are hidden on this site", {
           description: "Type “sudo play” anywhere, or click Play.",
           duration: 9000,
           action: {
@@ -74,6 +77,7 @@ const Layout = () => {
           <Outlet />
         </main>
         <Footer />
+        <CommandMenu />
       </div>
     </ThemeProvider>
   );

@@ -11,9 +11,6 @@ import { profile, yearsOfExperience } from "@/data/profile";
 const ExperiencePage = () => {
   const { hash } = useLocation();
 
-  useEffect(() => {
-    document.title = "Experience | Yousaf K Hamza";
-  }, []);
 
   useEffect(() => {
     if (!hash) return;

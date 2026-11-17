@@ -35,9 +35,6 @@ const CopyEmail = () => {
 };
 
 const Home = () => {
-  useEffect(() => {
-    document.title = "Yousaf K Hamza | Senior DevOps & Platform Engineer, Dubai";
-  }, []);
 
   const featured = projects.slice(0, 3);
 
@@ -59,8 +56,8 @@ const Home = () => {
       <Section
         id="impact"
         label="Impact"
-        title="Numbers from production"
-        intro="Measured on real platforms, not in a lab. Each one is on the resume with the project behind it."
+        title="Impact, in numbers"
+        intro="What changed on the platforms I run at work, and what I build in my own time. Switch tabs to see both."
       >
         <Reveal>
           <ImpactBoard />

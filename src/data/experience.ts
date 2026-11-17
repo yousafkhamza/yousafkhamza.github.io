@@ -37,8 +37,10 @@ export const experiences: Experience[] = [
       "Architected Privileged Access Management with JumpServer CE across 35 production Linux and Windows servers, with vaulted accounts, session recording and audit controls aligned with PCI DSS and SOC 2.",
       "Designed Azure disaster recovery for critical workloads, with geo-redundant backups and automated failover aligned with RTO/RPO and compliance requirements.",
       "Engineered an API security and load-testing platform with endpoint discovery, baseline calibration and automated k6 test generation to catch vulnerabilities before release.",
+      "Built CI/CD and GitOps pipelines with Jenkins, Docker, Amazon ECR, Helm and Argo CD, enabling several production deployments a day with automated rollback and zero-downtime releases.",
       "Established centralised observability with Grafana, Prometheus, Loki and CloudWatch, including an API Gateway access-log dashboard, reducing mean incident triage time by 40%.",
       "Reduced monthly AWS costs by 20–25% through EC2 rightsizing, Karpenter, HPA/VPA autoscaling and EBS/EFS optimisation, with no impact on performance or SLAs.",
+      "Primary engineer for the production Kubernetes platform: incident response, root cause analysis, capacity planning and security checks built into every pipeline.",
     ],
   },
   {
@@ -53,11 +55,13 @@ export const experiences: Experience[] = [
     location: "Trivandrum, India",
     summary:
       "Owned the Kubernetes platform behind 50+ microservices and cut critical infrastructure security findings by 90%.",
-    stack: ["Kubernetes", "AWS", "Direct Connect", "Azure AD", "CI/CD security", "LLM code review"],
+    stack: ["Kubernetes", "AWS", "Direct Connect", "Azure AD / Entra ID", "CI/CD security", "LLM code review", "Databases"],
     description: [
       "Owned the Kubernetes platform supporting 50+ microservices across multiple environments, improving deployment consistency, scalability and reliability for engineering teams.",
       "Reduced critical infrastructure security findings by 90% by integrating automated vulnerability scanning and policy validation into CI/CD pipelines.",
       "Built highly available hybrid networking with AWS VPC, Direct Connect, Site-to-Site VPN and NAT Gateway to secure enterprise-to-cloud connectivity.",
+      "Migrated legacy application and search workloads to cloud-native container platforms, improving scalability and resilience.",
+      "Ran relational and distributed database platforms with backup, replication, high availability and disaster recovery in place.",
       "Implemented enterprise IAM, RBAC and SSO with AWS IAM and Azure AD (Entra ID), strengthening least-privilege access across cloud and SaaS platforms.",
       "Integrated an LLM-based AI code review tool into CI/CD to automate pre-merge analysis, catch defects earlier and reduce manual review effort.",
     ],
@@ -74,12 +78,14 @@ export const experiences: Experience[] = [
     location: "Trivandrum, India",
     summary:
       "Delivered multi-cloud infrastructure on AWS, Azure and GCP for enterprise clients and cut release cycles by 25%.",
-    stack: ["Terraform", "AWS", "Azure", "GCP", "Jenkins", "SageMaker", "Kafka", "Kinesis"],
+    stack: ["Terraform", "AWS", "Azure", "GCP", "EKS / ECS / AKS", "Jenkins", "SageMaker", "Kafka"],
     description: [
       "Delivered multi-cloud infrastructure across AWS, Azure and GCP with Terraform, standardising repeatable deployments for enterprise clients.",
+      "Ran container platforms on Amazon EKS, Amazon ECS and Azure AKS, with rolling and blue-green deployments for highly available applications.",
       "Contributed to multi-cloud architecture and design reviews, mentored engineers, and supported on-call operations and incident response.",
       "Optimised CI/CD pipelines with Jenkins, Git, Docker and Kubernetes, reducing release cycles by 25% while improving consistency.",
       "Provisioned and managed AWS SageMaker, Kinesis and Apache Kafka infrastructure for ML training and real-time data streaming workloads.",
+      "Set up centralised monitoring, logging and secrets management with cloud-native and open-source tooling.",
     ],
   },
   {

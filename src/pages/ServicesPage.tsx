@@ -13,9 +13,6 @@ const steps = [
 ];
 
 const ServicesPage = () => {
-  useEffect(() => {
-    document.title = "Career guidance & reviews | Yousaf K Hamza";
-  }, []);
 
   return (
     <div>
