@@ -1,78 +1,71 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Bot, BookOpenText, GitPullRequest, Cpu } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Bot, BookOpenText, Github } from "lucide-react";
 import { projects } from "@/data/projects";
 
-/** DevOps for AI, and AI for DevOps: the work that maps to where the field is heading */
-const AiSection = () => {
-  const copilot = projects.find((p) => p.id === "k8s-incident-copilot");
-  const rag = projects.find((p) => p.id === "platform-copilot");
-  const cards = [
-    {
-      icon: Bot,
-      color: "pink",
-      kicker: "Agentic AI",
-      title: "An agent that debugs Kubernetes",
-      body: "K8s Incident Copilot investigates a broken pod with read-only cluster tools, finds the root cause and posts the fix to Slack or Teams. Runs Qwen 2.5 on Ollama inside the cluster, or Claude, OpenAI, Gemini and Bedrock.",
-      href: copilot?.demo ?? copilot?.github,
-    },
-    {
-      icon: BookOpenText,
-      color: "violet",
-      kicker: "RAG",
-      title: "Answers from your own docs",
-      body: "Platform Copilot: Qdrant for retrieval, Ollama for inference, every answer cited back to its source file. Nothing leaves the cluster.",
-      href: rag?.demo ?? rag?.github,
-    },
-    {
-      icon: GitPullRequest,
-      color: "cyan",
-      kicker: "AI in CI/CD",
-      title: "LLM review before merge",
-      body: "Wired an LLM code reviewer into the CI pipeline at Alamy to catch defects earlier and cut manual review effort.",
-    },
-    {
-      icon: Cpu,
-      color: "green",
-      kicker: "Platform for AI",
-      title: "Running models on your own EKS",
-      body: "Worked through self-hosted LLM serving: vLLM on Karpenter GPU node pools, scaled with KEDA and shipped with Argo CD.",
-    },
-  ];
+/** The AI projects, each with a live demo: agentic triage and RAG, both self-hostable */
+const META: Record<string, { icon: typeof Bot; color: string; kicker: string; headline: string; body: string }> = {
+  "k8s-incident-copilot": {
+    icon: Bot,
+    color: "pink",
+    kicker: "Agentic AI",
+    headline: "An agent that debugs Kubernetes",
+    body: "Watches your namespaces, investigates a broken pod with read-only cluster tools, and posts the root cause and the fix to Slack or Teams. Runs Qwen 2.5 on Ollama inside the cluster, or Claude, OpenAI, Gemini and Bedrock.",
+  },
+  "platform-copilot": {
+    icon: BookOpenText,
+    color: "violet",
+    kicker: "RAG",
+    headline: "Answers from your own docs",
+    body: "Ask questions about your own runbooks and get answers cited back to the source file. Qdrant for retrieval, Ollama for inference, FastAPI in between, and nothing leaves the cluster.",
+  },
+};
 
+const AiSection = () => {
+  const items = projects.filter((p) => META[p.id]);
   return (
-    <div className="grid md:grid-cols-2 gap-4">
-      {cards.map(({ icon: Icon, color, kicker, title, body, href }) => {
-        const inner = (
-          <>
-            <div className="flex items-center gap-3">
-              <span className="inline-grid place-items-center w-10 h-10 rounded-lg tint-bg">
-                <Icon className="w-5 h-5" />
-              </span>
-              <span className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.08em] tint">{kicker}</span>
-            </div>
-            <div className="mt-4 font-display text-[21px] font-bold leading-tight">{title}</div>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">{body}</p>
-            {href && (
-              <span className="mt-4 inline-flex items-center gap-1 text-[14px] font-semibold tint">
-                See it live <ArrowRight className="w-4 h-4" />
-              </span>
-            )}
-          </>
-        );
-        const cls = "panel p-6 block border-l-4 transition-transform hover:-translate-y-0.5";
-        const style = { ["--c" as string]: `var(--c-${color})`, borderLeftColor: `hsl(var(--c-${color}))` };
-        return href ? (
-          <a key={title} href={href} target="_blank" rel="noopener noreferrer" className={cls} style={style}>
-            {inner}
-          </a>
-        ) : (
-          <div key={title} className={cls} style={style}>
-            {inner}
-          </div>
-        );
-      })}
-      <Link to="/projects?filter=ai" className="md:col-span-2 btn-link justify-self-start">
-        All AI projects <ArrowRight className="w-4 h-4" />
+    <div>
+      <div className="grid md:grid-cols-2 gap-5">
+        {items.map((p) => {
+          const m = META[p.id];
+          const Icon = m.icon;
+          return (
+            <article
+              key={p.id}
+              className="panel overflow-hidden flex flex-col group transition-transform hover:-translate-y-1"
+              style={{ ["--c" as string]: `var(--c-${m.color})` }}
+            >
+              <a href={p.demo ?? p.github} target="_blank" rel="noopener noreferrer" className="block aspect-video overflow-hidden border-b border-border" tabIndex={-1} aria-hidden>
+                <img src={p.images[0]} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+              </a>
+              <div className="p-6 flex flex-col flex-1">
+                <div className="flex items-center gap-3">
+                  <span className="inline-grid place-items-center w-9 h-9 rounded-lg tint-bg">
+                    <Icon className="w-[18px] h-[18px]" />
+                  </span>
+                  <span className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.08em] tint">{m.kicker}</span>
+                  <span className="ml-auto font-mono text-[11.5px] text-muted-foreground">{p.title}</span>
+                </div>
+                <h3 className="mt-4 font-display text-[23px] font-bold leading-tight">{m.headline}</h3>
+                <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">{m.body}</p>
+                <div className="mt-auto pt-5 flex items-center gap-5 text-[14px] font-semibold">
+                  {p.demo && (
+                    <a href={p.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 tint">
+                      See it live <ArrowUpRight className="w-4 h-4" />
+                    </a>
+                  )}
+                  {p.github && (
+                    <a href={p.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground">
+                      <Github className="w-4 h-4" /> Code
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      <Link to="/projects?filter=ai" className="btn-link mt-6">
+        AI projects on the projects page <ArrowRight className="w-4 h-4" />
       </Link>
     </div>
   );

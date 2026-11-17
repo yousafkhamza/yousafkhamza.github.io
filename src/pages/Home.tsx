@@ -39,7 +39,8 @@ const CopyEmail = () => {
 
 const Home = () => {
 
-  const featured = projects.slice(0, 3);
+  // the AI projects have their own section above, so lead with the rest here
+  const featured = projects.filter((p) => !p.categories.includes("AI")).slice(0, 3);
 
   return (
     <div>
@@ -71,11 +72,21 @@ const Home = () => {
       </Section>
 
       <Section
+        id="ai"
+        color="pink"
+        label="DevOps × AI"
+        title="AI that takes the first look at an incident"
+        intro="Where DevOps is heading: agents that do first-line triage and retrieval over your own runbooks. Both are open source, self-hostable and live."
+      >
+        <AiSection />
+      </Section>
+
+      <Section
         id="work"
         color="violet"
         label="Open source"
-        title="Built because I needed them"
-        intro="Tools that started as a problem at work. All open source, all documented, most running in a browser with nothing to install."
+        title="More tools I built because I needed them"
+        intro="Each one started as a problem at work. All open source and documented, and most run in a browser with nothing to install."
         aside={
           <Link to="/projects" className="btn-link">
             All {projects.length} projects <ArrowRight className="w-4 h-4" />
@@ -89,16 +100,6 @@ const Home = () => {
             </Reveal>
           ))}
         </div>
-      </Section>
-
-      <Section
-        id="ai"
-        color="pink"
-        label="DevOps × AI"
-        title="AI for the platform, and a platform for AI"
-        intro="Where DevOps is heading: agents that do first-line triage, retrieval over your own runbooks, and the GPU infrastructure to run models yourself."
-      >
-        <AiSection />
       </Section>
 
       <Section id="stack" color="amber" label="Stack" title="What I work with" intro="The highlighted tools are what I run in production today. The rest I have shipped with before.">

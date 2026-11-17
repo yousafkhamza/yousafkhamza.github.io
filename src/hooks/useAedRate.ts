@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 /**
  * USD -> AED for the services prices. The dirham is pegged at 3.6725, so the
  * fallback is exact; the live rate comes from open.er-api.com (free, no key)
- * and is cached for the browser session.
+ * (falling back to a second free source) and is cached for the browser session.
  */
 const PEG = 3.6725;
 const CACHE_KEY = "usd-aed-rate";
@@ -27,28 +27,38 @@ export function useAedRate(): AedRate {
 
   useEffect(() => {
     if (state.live) return;
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 4000);
-    fetch("https://open.er-api.com/v6/latest/USD", { signal: ctrl.signal })
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((d) => {
-        const rate = Number(d?.rates?.AED);
-        if (!rate || rate < 3 || rate > 4.5) return;
-        const next = { rate, live: true, updated: d?.time_last_update_utc as string | undefined };
-        setState(next);
+    let cancelled = false;
+    // two free, key-less sources; the first that answers wins
+    const sources: [string, (d: any) => number | undefined][] = [
+      ["https://open.er-api.com/v6/latest/USD", (d) => d?.rates?.AED],
+      ["https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json", (d) => d?.usd?.aed],
+    ];
+    (async () => {
+      for (const [url, pick] of sources) {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 4000);
         try {
-          sessionStorage.setItem(CACHE_KEY, JSON.stringify(next));
+          const res = await fetch(url, { signal: ctrl.signal });
+          if (!res.ok) continue;
+          const rate = Number(pick(await res.json()));
+          if (!rate || rate < 3 || rate > 4.5) continue;
+          const next = { rate, live: true, updated: new Date().toISOString() };
+          if (!cancelled) setState(next);
+          try {
+            sessionStorage.setItem(CACHE_KEY, JSON.stringify(next));
+          } catch {
+            /* ignore */
+          }
+          return;
         } catch {
-          /* ignore */
+          /* try the next source */
+        } finally {
+          clearTimeout(timer);
         }
-      })
-      .catch(() => {
-        /* offline or blocked: keep the peg */
-      })
-      .finally(() => clearTimeout(timer));
+      }
+    })();
     return () => {
-      clearTimeout(timer);
-      ctrl.abort();
+      cancelled = true;
     };
   }, [state.live]);
 

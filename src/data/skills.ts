@@ -1,59 +1,61 @@
 export interface SkillGroup {
   id: string;
   label: string;
-  /** daily = used in production right now, the rest = shipped with before */
+  /** in production right now (highlighted) */
   daily: string[];
+  /** shipped with before, or used occasionally */
   also: string[];
 }
 
+// Kept roughly even (5-6 daily, 4-5 also) so the boxes line up.
 export const skillGroups: SkillGroup[] = [
   {
     id: "cloud",
     label: "Cloud",
-    daily: ["AWS", "EKS", "EC2", "VPC", "IAM", "S3", "RDS", "Route 53", "WAF", "CloudTrail"],
-    also: ["Azure (AKS, Entra ID, Key Vault)", "GCP (GKE, Compute Engine)", "AWS Organizations"],
+    daily: ["AWS", "EKS", "EC2", "IAM", "RDS", "S3"],
+    also: ["CloudTrail", "AWS Organizations", "Azure (AKS, Entra ID)", "GCP (GKE)"],
   },
   {
     id: "containers",
     label: "Containers",
     daily: ["Kubernetes", "Docker", "Helm", "Karpenter", "HPA / VPA"],
-    also: ["AKS", "GKE", "OpenShift", "Amazon ECS"],
+    also: ["Amazon ECS", "AKS", "GKE", "OpenShift"],
   },
   {
     id: "iac",
-    label: "Infrastructure as Code",
-    daily: ["Terraform"],
-    also: ["CloudFormation", "Ansible"],
+    label: "IaC & scripting",
+    daily: ["Terraform", "Bash", "Python"],
+    also: ["CloudFormation", "Ansible", "Go (CLI tools)", "TypeScript"],
   },
   {
     id: "cicd",
     label: "CI/CD & GitOps",
-    daily: ["Argo CD", "GitHub Actions", "Jenkins", "Kustomize", "k6 load testing"],
-    also: ["GitLab CI", "Bitbucket", "Concourse CI", "goreleaser", "Supply-chain security for CI"],
+    daily: ["Argo CD", "GitHub Actions", "Jenkins", "Kustomize"],
+    also: ["GitLab CI", "Bitbucket Pipelines", "Concourse CI", "k6 load tests"],
   },
   {
     id: "security",
-    label: "Security & Compliance",
-    daily: ["GuardDuty", "Wazuh", "Trivy", "JumpServer PAM", "HashiCorp Vault", "IAM least privilege"],
-    also: ["Snyk", "SonarQube", "Checkov", "SAST / DAST / SCA", "OpenVPN", "PCI DSS", "SOC 2", "ISO 27001", "CBUAE audit"],
+    label: "Security & compliance",
+    daily: ["GuardDuty", "Wazuh", "Trivy", "JumpServer PAM", "HashiCorp Vault"],
+    also: ["Checkov", "SonarQube", "PCI DSS", "SOC 2", "ISO 27001"],
   },
   {
     id: "observability",
     label: "Observability",
     daily: ["Prometheus", "Grafana", "Loki", "Grafana Alloy", "CloudWatch"],
-    also: ["OpenTelemetry", "Fluent Bit", "New Relic", "ELK"],
+    also: ["OpenTelemetry", "Fluent Bit", "ELK", "New Relic"],
   },
   {
     id: "ai",
     label: "AI & LLM Ops",
-    daily: ["Agentic AI (tool-calling agents)", "RAG", "LLM integration", "Ollama", "Qwen", "Claude API", "Amazon Bedrock", "Qdrant"],
-    also: ["vLLM", "GPU NodePools (Karpenter)", "KEDA", "OpenAI / Gemini APIs", "Prompt design & evals", "AI code review in CI", "SageMaker", "MLOps", "FastAPI"],
+    daily: ["Agentic AI", "RAG", "Ollama", "Qwen", "Claude API", "Amazon Bedrock"],
+    also: ["Qdrant", "vLLM", "GPU node pools", "OpenAI / Gemini APIs"],
   },
   {
-    id: "code",
-    label: "Scripting",
-    daily: ["Bash", "Python"],
-    also: ["Go (CLI tools)", "TypeScript", "React (internal tools)"],
+    id: "network",
+    label: "Networking & access",
+    daily: ["VPC", "Route 53", "AWS WAF", "Site-to-Site VPN", "OpenVPN"],
+    also: ["Direct Connect", "NAT Gateway", "Squid proxy", "SSO (Entra ID)"],
   },
   {
     id: "data",

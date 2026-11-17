@@ -33,15 +33,18 @@ const Yaml = () => (
 const GROUP_COLORS = ["cyan", "violet", "green", "amber", "pink", "cyan", "violet", "green", "amber"];
 
 const List = () => (
-  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-fr">
     {skillGroups.map((g, i) => (
       <div
         key={g.id}
-        className="panel p-5 border-t-4"
+        className="panel p-5 border-t-4 flex flex-col h-full"
         style={{ ["--c" as string]: `var(--c-${GROUP_COLORS[i]})`, borderTopColor: `hsl(var(--c-${GROUP_COLORS[i]}))` }}
       >
-        <div className="font-mono text-[12px] font-semibold uppercase tracking-[0.08em] tint mb-3">{g.label}</div>
-        <div className="flex flex-wrap gap-1.5 text-[14px] font-semibold">
+        <div className="flex items-center justify-between mb-3">
+          <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.08em] tint">{g.label}</span>
+          <span className="font-mono text-[11px] text-muted-foreground">{g.daily.length + g.also.length}</span>
+        </div>
+        <div className="flex flex-wrap gap-1.5 text-[13.5px] font-semibold">
           {g.daily.map((s) => (
             <span key={s} className="px-2.5 py-1 rounded-md tint-bg">
               {s}
@@ -49,7 +52,16 @@ const List = () => (
           ))}
         </div>
         {g.also.length > 0 && (
-          <div className="mt-2.5 text-[13.5px] text-muted-foreground leading-relaxed">also {g.also.join(", ")}</div>
+          <div className="mt-auto pt-4">
+            <div className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-muted-foreground mb-1.5">also</div>
+            <div className="flex flex-wrap gap-1.5 text-[12.5px]">
+              {g.also.map((s) => (
+                <span key={s} className="px-2 py-0.5 rounded-md border border-border text-muted-foreground">
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
         )}
       </div>
     ))}
