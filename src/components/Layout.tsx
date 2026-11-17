@@ -70,7 +70,7 @@ const Layout = () => {
   }, [navigate]);
 
   return (
-    <ThemeProvider defaultTheme="system">
+    <ThemeProvider defaultTheme="dark">
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden flex flex-col">
         <Header />
         <main className="flex-1">

@@ -1,7 +1,10 @@
-@import "@fontsource/ibm-plex-sans/400.css";
-@import "@fontsource/ibm-plex-sans/500.css";
-@import "@fontsource/ibm-plex-sans/600.css";
-@import "@fontsource/ibm-plex-sans/700.css";
+@import "@fontsource/manrope/400.css";
+@import "@fontsource/manrope/500.css";
+@import "@fontsource/manrope/600.css";
+@import "@fontsource/manrope/700.css";
+@import "@fontsource/bricolage-grotesque/600.css";
+@import "@fontsource/bricolage-grotesque/700.css";
+@import "@fontsource/bricolage-grotesque/800.css";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
 @import "@fontsource/jetbrains-mono/600.css";
@@ -17,70 +20,82 @@
 }
 
 /* Design notes
-   The site reads like a well-kept ops console: warm paper, ink, hairline rules,
-   mono labels. Green means "healthy / done", amber marks what to look at,
-   red is reserved for incidents. No gradients, no glass. */
+   "Control room at night": deep navy, panels like a good Grafana board, and a
+   proper colour palette instead of one accent. Green = healthy, and every section
+   gets its own signal colour (cyan, violet, amber, pink) so the page has rhythm.
+   Light mode keeps the same palette on a cool white. */
 @layer base {
   :root {
-    --background: 45 20% 97%;
-    --foreground: 210 18% 11%;
+    --background: 220 33% 98%;
+    --foreground: 224 45% 9%;
     --card: 0 0% 100%;
-    --card-foreground: 210 18% 11%;
+    --card-foreground: 224 45% 9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 210 18% 11%;
-    --primary: 152 62% 29%;
-    --primary-strong: 152 70% 22%;
+    --popover-foreground: 224 45% 9%;
+    --primary: 160 84% 32%;
+    --primary-strong: 160 84% 26%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 42 16% 92%;
-    --secondary-foreground: 210 18% 11%;
-    --muted: 42 16% 93%;
-    --muted-foreground: 210 8% 38%;
-    --accent: 150 32% 92%;
-    --accent-foreground: 152 60% 20%;
-    --destructive: 4 65% 46%;
+    --secondary: 222 35% 95%;
+    --secondary-foreground: 224 45% 12%;
+    --muted: 222 35% 95%;
+    --muted-foreground: 222 16% 40%;
+    --accent: 160 60% 93%;
+    --accent-foreground: 160 84% 20%;
+    --destructive: 350 75% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 40 12% 85%;
-    --input: 40 12% 82%;
-    --ring: 38 92% 50%;
-    --ok: 152 62% 32%;
-    --warn: 38 92% 46%;
-    --warn-wash: 46 95% 88%;
-    --bad: 4 65% 46%;
-    --radius: 6px;
+    --border: 222 30% 89%;
+    --input: 222 30% 84%;
+    --ring: 189 90% 42%;
+    --ok: 160 84% 32%;
+    --warn: 35 92% 45%;
+    --warn-wash: 46 100% 85%;
+    --bad: 350 75% 52%;
+    --c-green: 160 84% 36%;
+    --c-cyan: 189 90% 38%;
+    --c-violet: 262 70% 58%;
+    --c-amber: 35 92% 46%;
+    --c-pink: 330 75% 52%;
+    --glow: 0.10;
+    --radius: 12px;
   }
 
   .dark {
-    --background: 210 14% 7%;
-    --foreground: 40 16% 90%;
-    --card: 210 12% 10%;
-    --card-foreground: 40 16% 90%;
-    --popover: 210 12% 10%;
-    --popover-foreground: 40 16% 90%;
-    --primary: 150 52% 52%;
-    --primary-strong: 150 52% 62%;
-    --primary-foreground: 210 14% 7%;
-    --secondary: 210 10% 14%;
-    --secondary-foreground: 40 16% 90%;
-    --muted: 210 10% 13%;
-    --muted-foreground: 210 8% 64%;
-    --accent: 150 25% 14%;
-    --accent-foreground: 150 45% 75%;
-    --destructive: 4 70% 60%;
+    --background: 226 45% 7%;
+    --foreground: 220 40% 94%;
+    --card: 226 40% 10%;
+    --card-foreground: 220 40% 94%;
+    --popover: 226 40% 11%;
+    --popover-foreground: 220 40% 94%;
+    --primary: 158 72% 52%;
+    --primary-strong: 158 72% 62%;
+    --primary-foreground: 226 45% 7%;
+    --secondary: 226 34% 14%;
+    --secondary-foreground: 220 40% 94%;
+    --muted: 226 34% 14%;
+    --muted-foreground: 222 22% 68%;
+    --accent: 160 40% 14%;
+    --accent-foreground: 158 72% 70%;
+    --destructive: 350 85% 65%;
     --destructive-foreground: 0 0% 100%;
-    --border: 210 10% 18%;
-    --input: 210 10% 22%;
-    --ring: 40 90% 60%;
-    --ok: 150 52% 52%;
-    --warn: 40 90% 60%;
-    --warn-wash: 40 50% 18%;
-    --bad: 4 75% 64%;
+    --border: 226 30% 18%;
+    --input: 226 30% 24%;
+    --ring: 189 90% 55%;
+    --ok: 158 72% 52%;
+    --warn: 42 96% 60%;
+    --warn-wash: 42 60% 22%;
+    --bad: 350 85% 65%;
+    --c-green: 158 72% 52%;
+    --c-cyan: 189 92% 56%;
+    --c-violet: 258 90% 74%;
+    --c-amber: 42 96% 60%;
+    --c-pink: 330 85% 70%;
+    --glow: 0.22;
   }
 
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-feature-settings: "ss02" 1;
     text-rendering: optimizeLegibility;
   }
   ::selection { background: hsl(var(--warn-wash)); color: hsl(var(--foreground)); }
@@ -98,24 +113,33 @@
 
   /* small mono label, used above headings and as table headers */
   .label { @apply font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground; }
-  .eyebrow { @apply label inline-flex items-center gap-2 mb-3; }
-  .eyebrow::before { content: "//"; @apply text-yousaf; }
+  .eyebrow { @apply inline-flex items-center gap-2 mb-4 font-mono text-[12px] font-medium tracking-[0.08em] uppercase; color: hsl(var(--sec, var(--c-green))); }
+  .eyebrow::before { content: ""; @apply w-6 h-[3px] rounded-full; background: hsl(var(--sec, var(--c-green))); }
 
-  .h-section { @apply text-[28px] sm:text-[36px] font-semibold tracking-[-0.02em] leading-[1.1]; }
+  .h-section { @apply font-display text-[32px] sm:text-[44px] font-bold tracking-[-0.02em] leading-[1.05]; }
   .lede { @apply text-[17px] leading-relaxed text-muted-foreground max-w-[60ch]; }
 
-  .panel { @apply bg-card border border-border rounded-[var(--radius)]; }
+  .panel { @apply bg-card border border-border rounded-[var(--radius)]; box-shadow: 0 1px 0 hsl(var(--foreground) / 0.03), 0 18px 40px -30px hsl(222 60% 10% / 0.45); }
   .rule-t { @apply border-t border-border; }
 
   .btn { @apply inline-flex items-center justify-center gap-2 h-11 px-5 rounded-[var(--radius)] text-[15px] font-medium transition-colors whitespace-nowrap; }
-  .btn-primary { @apply btn bg-foreground text-background hover:bg-yousaf hover:text-primary-foreground; }
-  .btn-ghost { @apply btn border border-border bg-card hover:border-foreground/40; }
+  .btn-primary { @apply btn bg-yousaf text-primary-foreground font-semibold hover:-translate-y-px; box-shadow: 0 10px 30px -10px hsl(var(--primary) / 0.65); }
+  .btn-ghost { @apply btn border border-border bg-card hover:border-[hsl(var(--c-cyan))] hover:text-[hsl(var(--c-cyan))]; }
   .btn-link { @apply inline-flex items-center gap-1.5 text-[15px] font-medium underline decoration-border underline-offset-4 hover:decoration-foreground; }
 
-  .tag { @apply inline-flex items-center h-6 px-2 rounded-[4px] font-mono text-[11.5px] bg-secondary text-secondary-foreground border border-border/70; }
+  .tag { @apply inline-flex items-center h-6 px-2 rounded-[6px] font-mono text-[11.5px] bg-secondary text-secondary-foreground border border-border/70; }
+  /* colour helpers: set --c on an element, then use these */
+  .tint { color: hsl(var(--c)); }
+  .tint-bg { background: hsl(var(--c) / 0.12); color: hsl(var(--c)); }
+  .tint-border { border-color: hsl(var(--c) / 0.45); }
+  .glow { box-shadow: 0 20px 60px -25px hsl(var(--c, var(--primary)) / 0.6); }
+  .bg-grid {
+    background-image: radial-gradient(hsl(var(--foreground) / 0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
   .chip { @apply tag; }
 
-  .hl { background: linear-gradient(transparent 62%, hsl(var(--warn-wash)) 62%); }
+  .hl { color: hsl(var(--c-green)); }
 
   .dot { @apply inline-block w-2 h-2 rounded-full bg-ok; box-shadow: 0 0 0 3px hsl(var(--ok) / 0.18); }
 

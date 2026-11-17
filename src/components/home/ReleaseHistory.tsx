@@ -40,7 +40,7 @@ const ReleaseHistory = () => {
     <div>
       {/* the track */}
       <div className="relative" role="tablist" aria-label="Career releases" onKeyDown={onKey}>
-        <div className="relative h-14 sm:h-16 rounded-[var(--radius)] bg-secondary border border-border overflow-hidden">
+        <div className="relative h-14 sm:h-16 rounded-[var(--radius)] bg-secondary/60 border border-border overflow-hidden">
           {chronological.map((e) => {
             const s = toMonths(e.start) - start;
             const len = (e.end ? toMonths(e.end) : end) - toMonths(e.start);
@@ -52,19 +52,21 @@ const ReleaseHistory = () => {
                 aria-selected={on}
                 tabIndex={on ? 0 : -1}
                 onClick={() => setActive(e.id)}
-                className={cn(
-                  "absolute top-0 bottom-0 border-r-2 border-background text-left px-2 sm:px-3 transition-colors group",
-                  on ? "bg-foreground text-background" : "bg-card hover:bg-accent text-foreground"
-                )}
-                style={{ left: `${(s / span) * 100}%`, width: `${(len / span) * 100}%` }}
+                className="absolute top-0 bottom-0 border-r-2 border-background text-left px-2 sm:px-3 transition-all group"
+                style={{
+                  left: `${(s / span) * 100}%`,
+                  width: `${(len / span) * 100}%`,
+                  background: on ? `hsl(var(--c-${e.color}))` : `hsl(var(--c-${e.color}) / 0.14)`,
+                  color: on ? "hsl(var(--background))" : `hsl(var(--c-${e.color}))`,
+                }}
               >
-                <span className={cn("block font-mono text-[11px] sm:text-[12px]", on ? "text-background/70" : "text-muted-foreground")}>
+                <span className="block font-mono text-[11px] sm:text-[12px] opacity-80">
                   {e.version}
                   {!e.end && (
-                    <span className={cn("ml-1.5 inline-block w-1.5 h-1.5 rounded-full align-middle animate-pulse", on ? "bg-yousaf" : "bg-ok")} />
+                    <span className="ml-1.5 inline-block w-1.5 h-1.5 rounded-full align-middle animate-pulse bg-current" />
                   )}
                 </span>
-                <span className="hidden sm:block text-[14px] font-medium truncate">
+                <span className="hidden sm:block text-[14px] font-bold truncate">
                   {e.company.replace(" UAE", "").replace(" IS", "")}
                 </span>
               </button>
@@ -91,14 +93,19 @@ const ReleaseHistory = () => {
       </div>
 
       {/* release notes for the selected role */}
-      <div key={current.id} className="mt-8 grid md:grid-cols-[260px_1fr] gap-6 md:gap-10 animate-fade-in" role="tabpanel">
+      <div
+        key={current.id}
+        className="mt-8 panel p-6 sm:p-8 grid md:grid-cols-[260px_1fr] gap-6 md:gap-10 animate-fade-in border-t-4"
+        style={{ borderTopColor: `hsl(var(--c-${current.color}))`, ["--c" as string]: `var(--c-${current.color})` }}
+        role="tabpanel"
+      >
         <div>
           <div className="flex items-center gap-2 font-mono text-[12px] text-muted-foreground">
-            <span className="tag">{current.version}</span>
-            {current.end ? "released" : <span className="text-ok">live</span>}
+            <span className="tag tint-bg border-transparent font-semibold">{current.version}</span>
+            {current.end ? "released" : <span className="tint">live</span>}
           </div>
-          <h3 className="mt-3 text-[22px] font-semibold leading-tight">{current.title}</h3>
-          <div className="mt-1 text-[15px]">{current.company}</div>
+          <h3 className="mt-3 font-display text-[24px] font-bold leading-tight">{current.title}</h3>
+          <div className="mt-1 text-[15px] font-semibold tint">{current.company}</div>
           <div className="mt-1 font-mono text-[12px] text-muted-foreground">
             {current.period} · {current.location}
           </div>
@@ -115,7 +122,7 @@ const ReleaseHistory = () => {
           <ul className="mt-4 space-y-2.5">
             {current.description.slice(0, 3).map((d) => (
               <li key={d} className="relative pl-5 text-[15px] leading-relaxed text-muted-foreground">
-                <span className="absolute left-0 top-0 font-mono text-yousaf">+</span>
+                <span className="absolute left-0 top-0 font-mono tint">+</span>
                 {d}
               </li>
             ))}

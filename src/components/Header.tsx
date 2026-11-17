@@ -67,8 +67,14 @@ const Header = () => {
         )}
       >
         <div className="wrap h-16 flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-baseline gap-2 group" aria-label="Home">
-            <span className="text-[17px] font-semibold tracking-[-0.01em]">{profile.name}</span>
+          <Link to="/" className="flex items-center gap-2.5 group" aria-label="Home">
+            <span
+              className="w-8 h-8 rounded-lg grid place-items-center font-display font-extrabold text-[14px] text-[hsl(226_45%_7%)]"
+              style={{ background: "linear-gradient(135deg, hsl(var(--c-green)), hsl(var(--c-cyan)))" }}
+            >
+              YH
+            </span>
+            <span className="font-display text-[18px] font-bold tracking-[-0.01em]">{profile.name}</span>
             <span className="hidden lg:inline font-mono text-[12px] text-muted-foreground group-hover:text-yousaf transition-colors">
               devops / platform
             </span>
@@ -82,7 +88,7 @@ const Header = () => {
                 className={({ isActive }) =>
                   cn(
                     "px-3 py-2 text-[14.5px] rounded-[4px] transition-colors",
-                    isActive ? "text-foreground bg-secondary" : "text-muted-foreground hover:text-foreground"
+                    isActive ? "text-c-green bg-c-green/10 font-semibold" : "text-muted-foreground hover:text-foreground"
                   )
                 }
               >

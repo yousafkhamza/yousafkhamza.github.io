@@ -31,17 +31,22 @@ const ServicesPage = () => {
       <section className="rule-t">
         <div className="wrap py-12 sm:py-16 grid md:grid-cols-2 gap-5">
           {services.map((s, i) => (
-            <article key={s.id} id={s.id} className="panel p-6 sm:p-7 flex flex-col">
+            <article
+              key={s.id}
+              id={s.id}
+              className="panel p-6 sm:p-7 flex flex-col border-t-4"
+              style={{ ["--c" as string]: `var(--c-${["green", "cyan", "violet", "amber"][i % 4]})`, borderTopColor: "hsl(var(--c))" }}
+            >
               <div className="flex items-center justify-between font-mono text-[12px] text-muted-foreground">
-                <span>{String(i + 1).padStart(2, "0")}</span>
+                <span className="font-display text-[22px] font-extrabold tint">{String(i + 1).padStart(2, "0")}</span>
                 <span>{s.format}</span>
               </div>
-              <h2 className="mt-3 text-[22px] font-semibold tracking-[-0.01em]">{s.title}</h2>
+              <h2 className="mt-3 font-display text-[24px] font-bold tracking-[-0.01em]">{s.title}</h2>
               <p className="mt-2 text-[15px] text-muted-foreground leading-relaxed">{s.who}</p>
               <ul className="mt-5 space-y-2">
                 {s.what.map((w) => (
                   <li key={w} className="relative pl-5 text-[15px]">
-                    <span className="absolute left-0 font-mono text-yousaf">+</span>
+                    <span className="absolute left-0 font-mono tint">+</span>
                     {w}
                   </li>
                 ))}
@@ -58,7 +63,7 @@ const ServicesPage = () => {
         <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border rounded-[var(--radius)] overflow-hidden">
           {steps.map(([t, d], i) => (
             <li key={t} className="bg-card p-6">
-              <div className="font-mono text-[12px] text-yousaf">step {i + 1}</div>
+              <div className="font-mono text-[12px] font-semibold" style={{ color: `hsl(var(--c-${["green", "cyan", "violet", "amber"][i % 4]}))` }}>step {i + 1}</div>
               <div className="mt-2 text-[17px] font-semibold">{t}</div>
               <p className="mt-2 text-[14.5px] text-muted-foreground leading-relaxed">{d}</p>
             </li>

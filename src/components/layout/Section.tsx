@@ -10,10 +10,16 @@ interface SectionProps {
   children: ReactNode;
   className?: string;
   border?: boolean;
+  /** signal colour for this section's label and accents */
+  color?: "green" | "cyan" | "violet" | "amber" | "pink";
 }
 
-const Section = ({ id, label, title, intro, aside, children, className, border = true }: SectionProps) => (
-  <section id={id} className={cn("py-16 sm:py-24 scroll-mt-20", border && "rule-t", className)}>
+const Section = ({ id, label, title, intro, aside, children, className, border = true, color = "green" }: SectionProps) => (
+  <section
+    id={id}
+    className={cn("py-16 sm:py-24 scroll-mt-20", border && "rule-t", className)}
+    style={{ ["--sec" as string]: `var(--c-${color})`, ["--c" as string]: `var(--c-${color})` }}
+  >
     <div className="wrap">
       {(label || title) && (
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">

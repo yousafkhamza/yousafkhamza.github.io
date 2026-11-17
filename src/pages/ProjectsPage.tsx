@@ -4,6 +4,7 @@ import PageHero from "@/components/layout/PageHero";
 import ProjectCard from "@/components/ProjectCard";
 import { projects, projectCategories, ProjectCategory } from "@/data/projects";
 import { cn } from "@/lib/utils";
+import { CATEGORY_COLOR } from "@/components/ProjectCard";
 
 type Filter = "All" | ProjectCategory;
 
@@ -41,11 +42,10 @@ const ProjectsPage = () => {
                 role="tab"
                 aria-selected={filter === f}
                 onClick={() => setFilter(f)}
+                style={{ ["--c" as string]: f === "All" ? "var(--primary)" : `var(--c-${CATEGORY_COLOR[f]})` }}
                 className={cn(
-                  "h-9 px-3.5 rounded-[4px] border font-mono text-[12.5px] transition-colors",
-                  filter === f
-                    ? "bg-foreground text-background border-foreground"
-                    : "border-border bg-card text-muted-foreground hover:text-foreground hover:border-foreground/40"
+                  "h-9 px-4 rounded-full border font-mono text-[12.5px] font-semibold transition-colors",
+                  filter === f ? "bg-[hsl(var(--c))] text-background border-transparent" : "border-border bg-card tint"
                 )}
               >
                 {f === "All" ? "all" : f.toLowerCase()} <span className="opacity-60">{counts[f]}</span>

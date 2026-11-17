@@ -2,6 +2,8 @@ export interface Experience {
   id: string;
   /** release tag shown in the history, oldest = v1 */
   version: string;
+  /** signal colour used for this role across the site */
+  color: "green" | "cyan" | "violet" | "amber" | "pink";
   title: string;
   company: string;
   logo: string;
@@ -19,6 +21,7 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     id: "pay10",
+    color: "green",
     version: "v5",
     title: "Senior DevOps Engineer",
     company: "Pay10 UAE",
@@ -45,6 +48,7 @@ export const experiences: Experience[] = [
   },
   {
     id: "alamy",
+    color: "pink",
     version: "v4",
     title: "Senior DevOps Engineer",
     company: "Alamy",
@@ -68,6 +72,7 @@ export const experiences: Experience[] = [
   },
   {
     id: "quantiphi",
+    color: "amber",
     version: "v3",
     title: "Senior Platform Engineer (SRE)",
     company: "Quantiphi",
@@ -90,6 +95,7 @@ export const experiences: Experience[] = [
   },
   {
     id: "armia",
+    color: "violet",
     version: "v2",
     title: "Site Reliability Engineer",
     company: "Armia Systems",
@@ -108,6 +114,7 @@ export const experiences: Experience[] = [
   },
   {
     id: "activelobby",
+    color: "cyan",
     version: "v1",
     title: "TechOps Engineer",
     company: "Activelobby IS",

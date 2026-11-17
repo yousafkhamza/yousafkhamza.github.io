@@ -4,6 +4,7 @@ import { ArrowRight, Check, Copy, FileDown } from "lucide-react";
 import { profile, yearsOfExperience } from "@/data/profile";
 import { experiences } from "@/data/experience";
 import { certifications } from "@/data/certifications";
+import PodField from "@/components/home/PodField";
 
 const coreCerts = certifications.filter((c) => c.core && c.id !== "genai").map((c) => c.short);
 
@@ -43,19 +44,19 @@ const QuickRead = () => {
   };
 
   return (
-    <aside className="panel shadow-[0_1px_0_hsl(var(--border)),0_18px_40px_-28px_hsl(var(--foreground)/0.35)]" aria-label="Profile summary">
+    <aside className="panel overflow-hidden" aria-label="Profile summary">
       <div className="flex items-center justify-between px-5 h-11 border-b border-border">
         <span className="font-mono text-[12px] text-muted-foreground">
-          <span className="text-yousaf">$</span> describe engineer yousaf
+          <span className="text-c-green">$</span> <span className="text-c-cyan">describe</span> engineer yousaf
         </span>
-        <span className="flex items-center gap-1.5 font-mono text-[11.5px] text-ok">
+        <span className="flex items-center gap-1.5 font-mono text-[11.5px] text-c-green bg-c-green/10 px-2 py-0.5 rounded-full">
           <span className="dot" /> Available
         </span>
       </div>
       <dl className="px-5 py-4 grid grid-cols-[96px_1fr] gap-x-4 gap-y-2.5 text-[14px]">
         {rows.map(([k, v]) => (
           <div key={k} className="contents">
-            <dt className="font-mono text-[12px] text-muted-foreground pt-[2px]">{k}</dt>
+            <dt className="font-mono text-[12px] text-c-violet pt-[2px]">{k}</dt>
             <dd className="leading-snug">{v}</dd>
           </div>
         ))}
@@ -65,13 +66,13 @@ const QuickRead = () => {
           href={profile.resume}
           target="_blank"
           rel="noopener"
-          className="flex-1 inline-flex items-center justify-center gap-2 h-11 text-[14px] font-medium hover:bg-secondary transition-colors"
+          className="flex-1 inline-flex items-center justify-center gap-2 h-11 text-[14px] font-semibold text-c-green hover:bg-c-green/10 transition-colors"
         >
           <FileDown className="w-4 h-4" /> Resume PDF
         </a>
         <button
           onClick={copy}
-          className="flex-1 inline-flex items-center justify-center gap-2 h-11 text-[14px] font-medium border-l border-border hover:bg-secondary transition-colors"
+          className="flex-1 inline-flex items-center justify-center gap-2 h-11 text-[14px] font-semibold border-l border-border text-c-cyan hover:bg-c-cyan/10 transition-colors"
         >
           {copied ? <Check className="w-4 h-4 text-ok" /> : <Copy className="w-4 h-4" />}
           {copied ? "Copied" : "Copy summary"}
@@ -81,24 +82,48 @@ const QuickRead = () => {
   );
 };
 
-const Hero = () => {
-  const companies = [...experiences].map((e) => e.company.replace(" UAE", "").replace(" IS", ""));
-  return (
-    <div className="wrap pt-12 sm:pt-20 pb-16 sm:pb-24">
-      <div className="grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-14 items-start">
+const Squiggle = () => (
+  <svg className="absolute left-0 right-0 -bottom-3 sm:-bottom-4 w-full h-4 sm:h-5" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden>
+    <path
+      d="M2 14 C 25 4, 45 4, 66 12 S 108 20, 130 10 S 172 2, 198 10"
+      fill="none"
+      stroke="hsl(var(--c-amber))"
+      strokeWidth="5"
+      strokeLinecap="round"
+      className="[stroke-dasharray:260] [stroke-dashoffset:260] animate-[draw_1.2s_ease-out_.4s_forwards]"
+    />
+  </svg>
+);
+
+const Hero = () => (
+  <div className="relative overflow-hidden">
+    {/* backdrop: dot grid and two soft signal-colour lights */}
+    <div className="absolute inset-0 bg-grid [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" aria-hidden />
+    <div className="absolute -top-48 -left-40 w-[640px] h-[640px] rounded-full" style={{ background: "radial-gradient(closest-side, hsl(var(--c-green) / var(--glow)), transparent)" }} aria-hidden />
+    <div className="absolute top-0 -right-48 w-[700px] h-[700px] rounded-full" style={{ background: "radial-gradient(closest-side, hsl(var(--c-violet) / var(--glow)), transparent)" }} aria-hidden />
+
+    <div className="wrap relative pt-12 sm:pt-16 pb-16 sm:pb-24">
+      <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-14 items-start">
         <div>
-          <h1 className="font-mono text-[13px] text-muted-foreground mb-6">
-            {profile.name} <span className="text-border">/</span> Senior DevOps &amp; Platform Engineer, Dubai
+          <div className="inline-flex items-center gap-2 rounded-full border border-c-green/40 bg-c-green/10 px-3 py-1.5 font-mono text-[12px] text-c-green">
+            <span className="dot" /> Open to Senior DevOps · Platform · SRE roles
+          </div>
+          <h1 className="mt-6 font-mono text-[13px] text-muted-foreground">
+            {profile.name} <span className="text-c-violet">/</span> Senior DevOps &amp; Platform Engineer, Dubai
           </h1>
-          <p className="text-[44px] sm:text-[64px] lg:text-[72px] font-semibold tracking-[-0.035em] leading-[0.98] text-foreground">
-            I keep production
-            <br />
-            <span className="hl">boring.</span>
+          <p className="mt-4 font-display text-[50px] sm:text-[72px] lg:text-[84px] font-extrabold tracking-[-0.035em] leading-[0.95] text-foreground">
+            I keep production{" "}
+            <span className="relative inline-block text-c-green">
+              boring
+              <Squiggle />
+            </span>
+            .
           </p>
-          <p className="mt-7 text-[18px] sm:text-[19px] leading-relaxed text-muted-foreground max-w-[54ch]">
-            {yearsOfExperience()}+ years running AWS and Kubernetes platforms for fintech and regulated
-            enterprises. I migrate workloads without drama, automate the infrastructure with Terraform and
-            GitOps, and build the security controls into the pipeline instead of bolting them on for the audit.
+          <p className="mt-8 text-[18px] sm:text-[19px] leading-relaxed text-muted-foreground max-w-[54ch]">
+            {yearsOfExperience()}+ years running <span className="text-foreground font-semibold">AWS</span> and{" "}
+            <span className="text-foreground font-semibold">Kubernetes</span> platforms for fintech and regulated
+            enterprises. I migrate workloads without drama, automate the infrastructure with Terraform and GitOps, and
+            build the security controls into the pipeline instead of bolting them on for the audit.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link to="/projects" className="btn-primary">
@@ -110,17 +135,25 @@ const Hero = () => {
           </div>
           <div className="mt-12">
             <div className="label mb-3">Where I have worked</div>
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-[15px] font-medium text-foreground/80">
-              {companies.map((c) => (
-                <span key={c}>{c}</span>
+            <div className="flex flex-wrap gap-2">
+              {experiences.map((e) => (
+                <span
+                  key={e.id}
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-[14px] font-semibold"
+                >
+                  <span className="w-2 h-2 rounded-full" style={{ background: `hsl(var(--c-${e.color}))` }} />
+                  {e.company.replace(" UAE", "").replace(" IS", "")}
+                </span>
               ))}
             </div>
           </div>
         </div>
-        <QuickRead />
+        <div className="space-y-5 lg:pt-4">
+          <PodField />
+          <QuickRead />
+        </div>
       </div>
     </div>
-  );
-};
-
+  </div>
+);
 export default Hero;

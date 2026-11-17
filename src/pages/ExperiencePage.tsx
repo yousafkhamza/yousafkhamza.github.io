@@ -42,20 +42,21 @@ const ExperiencePage = () => {
               key={e.id}
               id={e.id}
               className="scroll-mt-28 grid md:grid-cols-[280px_1fr] gap-6 md:gap-12 py-12 border-b border-border last:border-b-0"
+              style={{ ["--c" as string]: `var(--c-${e.color})` }}
             >
               <header className="md:sticky md:top-32 self-start">
                 <div className="flex items-center gap-2">
-                  <span className="tag">{e.version}</span>
+                  <span className="tag tint-bg border-transparent font-semibold">{e.version}</span>
                   {!e.end && (
                     <span className="font-mono text-[11.5px] text-ok flex items-center gap-1.5">
                       <span className="dot" /> current
                     </span>
                   )}
                 </div>
-                <h2 className="mt-3 text-[22px] font-semibold leading-tight">{e.title}</h2>
+                <h2 className="mt-3 font-display text-[24px] font-bold leading-tight">{e.title}</h2>
                 <div className="mt-1.5 flex items-center gap-2.5">
                   <img src={e.logo} alt="" className="w-6 h-6 rounded-[4px] object-contain bg-white border border-border" />
-                  <span className="text-[15px] font-medium">{e.company}</span>
+                  <span className="text-[15px] font-bold tint">{e.company}</span>
                 </div>
                 <div className="mt-2 font-mono text-[12px] text-muted-foreground leading-relaxed">
                   {e.period}
@@ -68,7 +69,7 @@ const ExperiencePage = () => {
                 <ul className="mt-5 space-y-3">
                   {e.description.map((d) => (
                     <li key={d} className="relative pl-5 text-[15.5px] leading-relaxed text-foreground/80">
-                      <span className="absolute left-0 top-0 font-mono text-yousaf">+</span>
+                      <span className="absolute left-0 top-0 font-mono tint">+</span>
                       {d}
                     </li>
                   ))}
