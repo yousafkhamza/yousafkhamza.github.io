@@ -18,8 +18,8 @@ const Layout = () => {
     const alreadyHinted = sessionStorage.getItem("game-hint-shown");
     if (!alreadyHinted && pathname !== "/play") {
       const hintTimer = setTimeout(() => {
-        toast("🎮 There's a hidden game on this site", {
-          description: "An on-call incident-response game. Type “sudo play” anywhere, or just click Play.",
+        toast("There's an on-call game hidden on this site", {
+          description: "Type “sudo play” anywhere, or click Play.",
           duration: 9000,
           action: {
             label: "Play",

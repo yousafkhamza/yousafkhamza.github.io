@@ -1,34 +1,60 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PageHero from "@/components/layout/PageHero";
-import Section from "@/components/layout/Section";
 import ProjectCard from "@/components/ProjectCard";
-import ExploreMore from "@/components/ExploreMore";
-import { projects } from "@/data/projects";
+import { projects, projectCategories, ProjectCategory } from "@/data/projects";
+import { cn } from "@/lib/utils";
+
+type Filter = "All" | ProjectCategory;
 
 const ProjectsPage = () => {
+  const [filter, setFilter] = useState<Filter>("All");
+
   useEffect(() => {
     document.title = "Projects | Yousaf K Hamza";
   }, []);
 
+  const counts = useMemo(() => {
+    const c: Record<string, number> = { All: projects.length };
+    projectCategories.forEach((cat) => (c[cat] = projects.filter((p) => p.categories.includes(cat)).length));
+    return c;
+  }, []);
+
+  const shown = filter === "All" ? projects : projects.filter((p) => p.categories.includes(filter));
+
   return (
     <div>
       <PageHero
-        eyebrow="Open-Source"
-        title="Tools I've built to fix my own problems."
-        description="Side projects born from real DevOps friction — published, documented, and used in production. Each one started as 'I keep doing this by hand.'"
+        path="projects"
+        title="Built because I needed them."
+        description="Each one started as something I kept doing by hand at work. All open source, documented, and most run in a browser with nothing to install."
       />
-
-      <Section border={false}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+      <section className="rule-t">
+        <div className="wrap py-10 sm:py-14">
+          <div className="flex flex-wrap gap-2 mb-8" role="tablist" aria-label="Filter projects">
+            {(["All", ...projectCategories] as Filter[]).map((f) => (
+              <button
+                key={f}
+                role="tab"
+                aria-selected={filter === f}
+                onClick={() => setFilter(f)}
+                className={cn(
+                  "h-9 px-3.5 rounded-[4px] border font-mono text-[12.5px] transition-colors",
+                  filter === f
+                    ? "bg-foreground text-background border-foreground"
+                    : "border-border bg-card text-muted-foreground hover:text-foreground hover:border-foreground/40"
+                )}
+              >
+                {f === "All" ? "all" : f.toLowerCase()} <span className="opacity-60">{counts[f]}</span>
+              </button>
+            ))}
+          </div>
+          <div className="grid md:grid-cols-2 gap-5">
+            {shown.map((p) => (
+              <ProjectCard key={p.id} project={p} index={projects.indexOf(p)} />
+            ))}
+          </div>
         </div>
-      </Section>
-
-      <Section border={false} className="pt-0">
-        <ExploreMore />
-      </Section>
+      </section>
     </div>
   );
 };

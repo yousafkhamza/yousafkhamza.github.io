@@ -1,9 +1,15 @@
+export type ProjectCategory = "AI" | "Kubernetes" | "Security" | "AWS" | "Tools";
+
+export const projectCategories: ProjectCategory[] = ["AI", "Kubernetes", "Security", "AWS", "Tools"];
+
 export interface Project {
   id: string;
   title: string;
   description: string;
   tags: string[];
   images: string[];
+  /** used by the filter on the projects page */
+  categories: ProjectCategory[];
   github?: string;
   demo?: string;
 }
@@ -27,6 +33,7 @@ export const projects: Project[] = [
     "Open-Source",
   ],
   images: ["/project-k8s-incident-copilot.png"],
+  categories: ["AI", "Kubernetes"],
   github: "https://github.com/yousafkhamza/k8s-incident-copilot",
   demo: "https://yousafkhamza.github.io/k8s-incident-copilot/",
 },
@@ -49,6 +56,7 @@ export const projects: Project[] = [
     "Open-Source",
   ],
   images: ["/project-platform-copilot.png"],
+  categories: ["AI", "Kubernetes"],
   github: "https://github.com/yousafkhamza/platform-copilot",
   demo: "https://yousafkhamza.github.io/platform-copilot/",
 },
@@ -69,6 +77,7 @@ export const projects: Project[] = [
     "Open-Source",
   ],
   images: ["/project-devops-quiz.png"],
+  categories: ["Tools"],
   github: "https://github.com/yousafkhamza/devops-quiz",
   demo: "https://yousafkhamza.github.io/devops-quiz/",
 },
@@ -88,6 +97,7 @@ export const projects: Project[] = [
     "Open-Source",
   ],
   images: ["/project-iam.png"],
+  categories: ["Security", "AWS"],
   github: "https://github.com/yousafkhamza/iam-visualizer",
   demo: "https://yousafkhamza.github.io/iam-visualizer/",
 },
@@ -109,6 +119,7 @@ export const projects: Project[] = [
     "Open-Source",
   ],
   images: ["/project-iso27001-auditor.png"],
+  categories: ["Security", "AWS"],
   github: "https://github.com/yousafkhamza/iso27001-auditor",
   demo: "https://yousafkhamza.github.io/iso27001-auditor/",
 },
@@ -130,6 +141,7 @@ export const projects: Project[] = [
     "Open-Source",
   ],
   images: ["/project-podgauge.png"],
+  categories: ["Kubernetes", "Tools"],
   github: "https://github.com/yousafkhamza/podgauge",
   demo: "https://yousafkhamza.github.io/podgauge/",
 },
@@ -149,6 +161,7 @@ export const projects: Project[] = [
     "Infrastructure as Code",
   ],
   images: ["/project-helm.jpg"],
+  categories: ["Kubernetes", "AWS"],
   github: "https://github.com/yousafkhamza/universal-app-chart",
   demo: "https://yousafkhamza.github.io/universal-app-chart/",
 },
@@ -167,6 +180,7 @@ export const projects: Project[] = [
     "Open-Source",
   ],
   images: ["/project-kubesizer.png"],
+  categories: ["Kubernetes", "Tools"],
   github: "https://github.com/yousafkhamza/k8s-resource-sizer",
   demo: "https://yousafkhamza.github.io/k8s-resource-sizer/",
 },
@@ -186,6 +200,7 @@ export const projects: Project[] = [
     "Open-Source",
   ],
   images: ["/project-loadcannon.png"],
+  categories: ["Tools", "AWS"],
   github: "https://github.com/yousafkhamza/loadcannon",
   demo: "https://yousafkhamza.github.io/loadcannon/",
 },
@@ -208,6 +223,7 @@ export const projects: Project[] = [
     "DevOps",
   ],
   images: ["/project-aws-batch.jpg"],
+  categories: ["AWS", "Security"],
   github: "https://github.com/yousafkhamza/aws-patch",
   demo: "https://yousafkhamza.github.io/aws-patch/",
 },
@@ -228,6 +244,7 @@ export const projects: Project[] = [
     "Open-Source",
   ],
   images: ["/project-accessrig.png"],
+  categories: ["Security", "Tools"],
   github: "https://github.com/yousafkhamza/accessrig",
   demo: "https://yousafkhamza.github.io/accessrig/",
 },
@@ -247,6 +264,7 @@ export const projects: Project[] = [
     "Open-Source",
   ],
   images: ["/project-vpn-tool.png"],
+  categories: ["Security", "Tools"],
   github: "https://github.com/yousafkhamza/openvpn-dns-tools",
   demo: "https://yousafkhamza.github.io/openvpn-dns-tools/",
 },
@@ -266,6 +284,7 @@ export const projects: Project[] = [
     "DevOps",
   ],
   images: ["/project-manifest.png"],
+  categories: ["Tools"],
   github: "https://github.com/yousafkhamza/the-manifest",
   demo: "https://yousafkhamza.github.io/the-manifest/",
 },
@@ -283,6 +302,7 @@ export const projects: Project[] = [
     "GitHub Actions",
   ],
   images: ["/project-pxtrim.jpg"],
+  categories: ["Tools"],
   github: "https://github.com/yousafkhamza/pxtrim",
   demo: "https://yousafkhamza.github.io/pxtrim/",
 },

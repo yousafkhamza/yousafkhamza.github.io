@@ -1,134 +1,83 @@
-import { useEffect, useState } from "react";
-import { Github, ExternalLink, FolderGit2, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { ArrowUpRight, Github } from "lucide-react";
 import type { Project } from "@/data/projects";
+import { cn } from "@/lib/utils";
 
-const AUTO_ROTATE_MS = 3500;
-
-const ProjectImage = ({ project, activeIndex }: { project: Project; activeIndex: number }) => {
-  if (project.images.length === 0) {
-    return (
-      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-yousaf/20 via-accent to-yousaf-light/40 dark:from-yousaf/10 dark:via-accent/40 dark:to-yousaf-dark/20">
-        <FolderGit2 className="w-14 h-14 text-yousaf/70" strokeWidth={1.5} />
-      </div>
-    );
-  }
+const ProjectCard = ({ project, index, compact = false }: { project: Project; index?: number; compact?: boolean }) => {
+  const [expanded, setExpanded] = useState(false);
+  const shownTags = project.tags.slice(0, 5);
+  const extra = project.tags.length - shownTags.length;
 
   return (
-    <>
-      {project.images.map((src, i) => (
-        <img
-          key={src}
-          src={src}
-          alt={`${project.title} screenshot ${i + 1}`}
-          loading="lazy"
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
-            i === activeIndex ? "opacity-100" : "opacity-0"
-          }`}
-        />
-      ))}
-    </>
-  );
-};
-
-const ProjectCard = ({ project }: { project: Project }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const hasMultipleImages = project.images.length > 1;
-
-  useEffect(() => {
-    if (!hasMultipleImages || isPaused) return;
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % project.images.length);
-    }, AUTO_ROTATE_MS);
-    return () => clearInterval(interval);
-  }, [hasMultipleImages, isPaused, project.images.length]);
-
-  const goTo = (index: number) => {
-    setActiveIndex((index + project.images.length) % project.images.length);
-  };
-
-  return (
-    <div className="rounded-2xl overflow-hidden flex flex-col h-full group border border-border hover:border-yousaf/30 transition-colors bg-card">
-      <div
-        className="relative w-full aspect-video overflow-hidden bg-accent/50"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
+    <article className="panel flex flex-col h-full overflow-hidden group">
+      <a
+        href={project.demo ?? project.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block relative aspect-video overflow-hidden border-b border-border bg-secondary"
+        tabIndex={-1}
+        aria-hidden
       >
-        <ProjectImage project={project} activeIndex={activeIndex} />
-
-        {hasMultipleImages && (
-          <>
-            <button
-              aria-label="Previous screenshot"
-              onClick={() => goTo(activeIndex - 1)}
-              className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              aria-label="Next screenshot"
-              onClick={() => goTo(activeIndex + 1)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center space-x-1.5">
-              {project.images.map((_, i) => (
-                <button
-                  key={i}
-                  aria-label={`Show screenshot ${i + 1}`}
-                  onClick={() => goTo(i)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === activeIndex ? "w-4 bg-white" : "w-1.5 bg-white/50"
-                  }`}
-                />
-              ))}
-            </div>
-          </>
+        {project.images[0] && (
+          <img
+            src={project.images[0]}
+            alt=""
+            loading="lazy"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          />
         )}
-      </div>
-
-      <div className="p-6 flex flex-col flex-1">
-        <h3 className="font-bold text-lg text-foreground mb-2">{project.title}</h3>
-        <p className="text-sm text-foreground/70 flex-1 leading-relaxed">{project.description}</p>
-
-        <div className="flex flex-wrap gap-2 mt-4">
-          {project.tags.map((tag) => (
-            <span key={tag} className="chip">
-              {tag}
+      </a>
+      <div className="p-5 sm:p-6 flex flex-col flex-1">
+        <div className="flex items-center gap-2 font-mono text-[11.5px] text-muted-foreground">
+          {index !== undefined && <span>{String(index + 1).padStart(2, "0")}</span>}
+          {project.categories.map((c) => (
+            <span key={c} className="text-yousaf">
+              #{c.toLowerCase()}
             </span>
           ))}
         </div>
-
-        {(project.github || project.demo) && (
-          <div className="flex items-center gap-4 mt-5 pt-4 border-t border-border/50">
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 hover:text-yousaf transition-colors"
-              >
-                <Github className="w-4 h-4" />
-                Code
-              </a>
-            )}
-            {project.demo && (
-              <a
-                href={project.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 hover:text-yousaf transition-colors"
-              >
-                <ExternalLink className="w-4 h-4" />
-                Live
-              </a>
-            )}
+        <h3 className="mt-2 text-[20px] font-semibold tracking-[-0.01em]">{project.title}</h3>
+        <p
+          className={cn(
+            "mt-2 text-[14.5px] leading-relaxed text-muted-foreground",
+            !expanded && (compact ? "line-clamp-3" : "line-clamp-4")
+          )}
+        >
+          {project.description}
+        </p>
+        {!compact && (
+          <button
+            onClick={() => setExpanded((v) => !v)}
+            className="self-start mt-1.5 font-mono text-[12px] text-foreground/70 hover:text-yousaf"
+            aria-expanded={expanded}
+          >
+            {expanded ? "− less" : "+ read more"}
+          </button>
+        )}
+        {!compact && (
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {shownTags.map((t) => (
+              <span key={t} className="tag">
+                {t}
+              </span>
+            ))}
+            {extra > 0 && <span className="tag text-muted-foreground">+{extra}</span>}
           </div>
         )}
+        <div className="mt-auto pt-5 flex items-center gap-5 text-[14px] font-medium">
+          {project.demo && (
+            <a href={project.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-yousaf">
+              Live <ArrowUpRight className="w-4 h-4" />
+            </a>
+          )}
+          {project.github && (
+            <a href={project.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-yousaf">
+              <Github className="w-4 h-4" /> Code
+            </a>
+          )}
+        </div>
       </div>
-    </div>
+    </article>
   );
 };
 

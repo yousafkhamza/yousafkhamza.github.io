@@ -1,119 +1,120 @@
-import { useState, useEffect } from "react";
-import { GraduationCap, Award } from "lucide-react";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { FileDown } from "lucide-react";
 import PageHero from "@/components/layout/PageHero";
 import Section from "@/components/layout/Section";
 import { experiences } from "@/data/experience";
 import { education } from "@/data/education";
 import { certifications } from "@/data/certifications";
+import { profile, yearsOfExperience } from "@/data/profile";
 
 const ExperiencePage = () => {
-  const [openCert, setOpenCert] = useState<string | null>(null);
+  const { hash } = useLocation();
 
   useEffect(() => {
     document.title = "Experience | Yousaf K Hamza";
   }, []);
 
+  useEffect(() => {
+    if (!hash) return;
+    const el = document.getElementById(hash.slice(1));
+    if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
+  }, [hash]);
+
   return (
     <div>
       <PageHero
-        eyebrow="Career"
-        title="Seven years building platforms that stay up."
-        description="From TechOps support to leading Kubernetes platform architecture for fintech — here's the path, the credentials, and the schools it started at."
-      />
+        path="experience"
+        title={<>{yearsOfExperience()} years, five releases.</>}
+        description="From TechOps support in 2018 to leading DevOps for a payments platform in Dubai. Full notes for every role below, newest first."
+      >
+        <div className="mt-8 flex flex-wrap gap-3">
+          <a href={profile.resume} target="_blank" rel="noopener" className="btn-primary">
+            <FileDown className="w-4 h-4" /> Resume PDF
+          </a>
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+            LinkedIn profile
+          </a>
+        </div>
+      </PageHero>
 
-      {/* EXPERIENCE TIMELINE */}
-      <Section>
-        <div className="relative max-w-3xl">
-          <div className="absolute left-[23px] top-3 bottom-3 w-px bg-border" />
-          <div className="space-y-10">
-            {experiences.map((exp) => (
-              <div key={exp.id} className="relative pl-16">
-                <div className="absolute left-0 top-0 w-12 h-12 rounded-full border-2 border-background overflow-hidden bg-white ring-1 ring-border">
-                  <img src={exp.logo} alt={exp.company} className="w-full h-full object-cover" />
+      <section className="rule-t">
+        <div className="wrap">
+          {experiences.map((e) => (
+            <article
+              key={e.id}
+              id={e.id}
+              className="scroll-mt-28 grid md:grid-cols-[280px_1fr] gap-6 md:gap-12 py-12 border-b border-border last:border-b-0"
+            >
+              <header className="md:sticky md:top-32 self-start">
+                <div className="flex items-center gap-2">
+                  <span className="tag">{e.version}</span>
+                  {!e.end && (
+                    <span className="font-mono text-[11.5px] text-ok flex items-center gap-1.5">
+                      <span className="dot" /> current
+                    </span>
+                  )}
                 </div>
-                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-1">
-                  <h3 className="text-lg font-bold text-foreground">{exp.title}</h3>
-                  <span className="text-xs font-mono text-muted-foreground">{exp.period}</span>
+                <h2 className="mt-3 text-[22px] font-semibold leading-tight">{e.title}</h2>
+                <div className="mt-1.5 flex items-center gap-2.5">
+                  <img src={e.logo} alt="" className="w-6 h-6 rounded-[4px] object-contain bg-white border border-border" />
+                  <span className="text-[15px] font-medium">{e.company}</span>
                 </div>
-                <div className="text-sm text-yousaf font-medium mb-3">
-                  {exp.company} · {exp.location}
+                <div className="mt-2 font-mono text-[12px] text-muted-foreground leading-relaxed">
+                  {e.period}
+                  <br />
+                  {e.location}
                 </div>
-                <ul className="space-y-2">
-                  {exp.description.map((item, i) => (
-                    <li key={i} className="flex items-start text-sm text-foreground/75 leading-relaxed">
-                      <span className="text-yousaf mr-2.5 mt-1 shrink-0 text-xs">●</span>
-                      <span>{item}</span>
+              </header>
+              <div>
+                <p className="text-[18px] leading-relaxed font-medium">{e.summary}</p>
+                <ul className="mt-5 space-y-3">
+                  {e.description.map((d) => (
+                    <li key={d} className="relative pl-5 text-[15.5px] leading-relaxed text-foreground/80">
+                      <span className="absolute left-0 top-0 font-mono text-yousaf">+</span>
+                      {d}
                     </li>
                   ))}
                 </ul>
+                <div className="mt-6 flex flex-wrap gap-1.5">
+                  {e.stack.map((s) => (
+                    <span key={s} className="tag">
+                      {s}
+                    </span>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
+            </article>
+          ))}
         </div>
-      </Section>
+      </section>
 
-      {/* EDUCATION */}
-      <Section>
-        <span className="eyebrow">Academic Background</span>
-        <h2 className="section-title">Education</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8 max-w-3xl">
-          {education.map((edu) => (
-            <div key={edu.degree} className="flex items-center gap-4 rounded-2xl border border-border p-5">
-              <div className="w-14 h-14 rounded-xl overflow-hidden bg-white flex items-center justify-center p-2 shrink-0">
-                <img src={edu.logo} alt={edu.school} className="w-full h-full object-contain" />
+      <Section label="Credentials" title="Certifications">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border rounded-[var(--radius)] overflow-hidden">
+          {certifications.map((c) => (
+            <div key={c.id} className="bg-card p-5">
+              <div className="flex items-center justify-between font-mono text-[11.5px] text-muted-foreground">
+                <span>{c.organization}</span>
+                <span>{c.date}</span>
               </div>
-              <div className="min-w-0">
-                <div className="font-bold text-foreground truncate">{edu.degree}</div>
-                <div className="text-sm text-muted-foreground truncate">{edu.school}</div>
-                <div className="text-xs font-mono text-yousaf mt-0.5">{edu.period}</div>
-              </div>
+              <div className={c.core ? "mt-2 text-[16px] font-semibold" : "mt-2 text-[15px]"}>{c.title}</div>
             </div>
           ))}
         </div>
       </Section>
 
-      {/* CERTIFICATIONS */}
-      <Section border={false}>
-        <span className="eyebrow">Achievements</span>
-        <h2 className="section-title">Certifications</h2>
-        <div className="grid grid-cols-1 gap-3 mt-8 max-w-3xl">
-          {certifications.map((cert) => {
-            const isOpen = openCert === cert.id;
-            return (
-              <button
-                key={cert.id}
-                onClick={() => setOpenCert(isOpen ? null : cert.id)}
-                className={`text-left rounded-xl border p-4 sm:p-5 transition-colors ${
-                  isOpen ? "border-yousaf/40 bg-yousaf/5" : "border-border hover:border-yousaf/25"
-                }`}
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-11 h-11 rounded-full overflow-hidden bg-white flex items-center justify-center p-1.5 shrink-0">
-                    <img
-                      src={cert.logo}
-                      alt={cert.organization}
-                      className={`w-full h-full object-contain ${cert.logoClassName || ""}`}
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-foreground truncate">{cert.title}</div>
-                    <div className="text-sm text-muted-foreground truncate">
-                      {cert.organization} · {cert.date}
-                    </div>
-                  </div>
-                  <Award
-                    className={`w-4 h-4 text-yousaf shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
-                  />
-                </div>
-                {isOpen && (
-                  <p className="text-sm text-foreground/70 leading-relaxed mt-3 pt-3 border-t border-border/60 animate-fade-in">
-                    {cert.description}
-                  </p>
-                )}
-              </button>
-            );
-          })}
+      <Section label="Education" title="Where it started">
+        <div className="grid sm:grid-cols-2 gap-5">
+          {education.map((e) => (
+            <div key={e.degree} className="panel p-6 flex items-start gap-4">
+              <img src={e.logo} alt="" className="w-11 h-11 rounded-[4px] object-contain bg-white border border-border" />
+              <div>
+                <div className="text-[17px] font-semibold">{e.degree}</div>
+                <div className="text-[14.5px] text-muted-foreground">{e.school}</div>
+                <div className="font-mono text-[12px] text-muted-foreground mt-1">{e.period}</div>
+              </div>
+            </div>
+          ))}
         </div>
       </Section>
     </div>

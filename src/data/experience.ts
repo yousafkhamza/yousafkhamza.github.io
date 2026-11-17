@@ -1,84 +1,120 @@
 export interface Experience {
   id: string;
+  /** release tag shown in the history, oldest = v1 */
+  version: string;
   title: string;
   company: string;
   logo: string;
   period: string;
+  /** ISO month the role started / ended (end = null for current) — drives the timeline widths */
+  start: string;
+  end: string | null;
   location: string;
+  /** one line a recruiter can read in five seconds */
+  summary: string;
+  stack: string[];
   description: string[];
 }
 
 export const experiences: Experience[] = [
   {
-    id: "Pay10",
-    title: "DevOps Engineer",
+    id: "pay10",
+    version: "v5",
+    title: "Senior DevOps Engineer",
     company: "Pay10 UAE",
     logo: "/pay10.png",
-    period: "Oct 2025 - Present",
-    location: "United Arab Emirates",
+    period: "Oct 2025 – Present",
+    start: "2025-10",
+    end: null,
+    location: "Dubai, UAE",
+    summary:
+      "Lead DevOps for a payments platform: 30+ microservices on EKS at 99.9% availability, with PCI DSS and SOC 2 controls built in.",
+    stack: ["AWS", "EKS", "Terraform", "Helm", "Argo CD", "Karpenter", "Grafana", "JumpServer", "Azure"],
     description: [
-      "Architected and operated highly available AWS and Azure platforms supporting 30+ microservices across Production, UAT, and Pre-Production environments using Amazon EKS, Terraform, Helm, ArgoCD, and GitOps, maintaining 99.9% service availability.",
-      "Led the migration of 30+ applications from Amazon ECS to Amazon EKS, standardizing deployments with Helm charts and ArgoCD ApplicationSets, reducing deployment effort by 60% while improving release consistency and scalability.",
-      "Automated cloud infrastructure provisioning using Terraform, eliminating manual deployments and reducing infrastructure provisioning time by 70% across networking, compute, IAM, storage, and Kubernetes resources.",
-      "Built enterprise CI/CD and GitOps pipelines using Jenkins, Git, Helm, Docker, Amazon ECR, and ArgoCD, enabling multiple production-ready deployments daily with automated rollback, version control, and zero-downtime deployment strategies.",
-      "Implemented centralized observability using Grafana, Prometheus, Loki, and Amazon CloudWatch, improving incident detection and reducing troubleshooting time by 40% through proactive monitoring, alerting, and infrastructure dashboards.",
-      "Optimized AWS infrastructure through EC2 rightsizing, Kubernetes autoscaling (Karpenter, HPA/VPA), EBS/EFS optimization, and CloudWatch log retention improvements, contributing to 20–25% monthly cloud cost savings while maintaining application performance.",
-      "Embedded DevSecOps practices into CI/CD pipelines through automated security scanning, IAM best practices, and infrastructure validation while serving as the primary DevOps engineer for production Kubernetes platforms, leading incident response, root cause analysis, capacity planning, and continuous reliability improvements.",
+      "Lead DevOps for production AWS and Kubernetes platforms supporting 30+ microservices across Production, UAT and Pre-Production using Amazon EKS, Terraform, Helm and Argo CD, maintaining 99.9% availability.",
+      "Led the migration of 30+ applications from Amazon ECS to Amazon EKS, standardising deployments with Helm charts and reducing deployment effort by 60% while eliminating environment drift.",
+      "Automated end-to-end AWS provisioning across networking, compute, IAM, storage and Kubernetes with Terraform, cutting provisioning time by 70% and removing manual steps.",
+      "Architected Privileged Access Management with JumpServer CE across 35 production Linux and Windows servers, with vaulted accounts, session recording and audit controls aligned with PCI DSS and SOC 2.",
+      "Designed Azure disaster recovery for critical workloads, with geo-redundant backups and automated failover aligned with RTO/RPO and compliance requirements.",
+      "Engineered an API security and load-testing platform with endpoint discovery, baseline calibration and automated k6 test generation to catch vulnerabilities before release.",
+      "Established centralised observability with Grafana, Prometheus, Loki and CloudWatch, including an API Gateway access-log dashboard, reducing mean incident triage time by 40%.",
+      "Reduced monthly AWS costs by 20–25% through EC2 rightsizing, Karpenter, HPA/VPA autoscaling and EBS/EFS optimisation, with no impact on performance or SLAs.",
     ],
   },
   {
     id: "alamy",
+    version: "v4",
     title: "Senior DevOps Engineer",
     company: "Alamy",
     logo: "/alamy.png",
-    period: "Nov 2023 - Oct 2025",
+    period: "Nov 2023 – Oct 2025",
+    start: "2023-11",
+    end: "2025-10",
     location: "Trivandrum, India",
+    summary:
+      "Owned the Kubernetes platform behind 50+ microservices and cut critical infrastructure security findings by 90%.",
+    stack: ["Kubernetes", "AWS", "Direct Connect", "Azure AD", "CI/CD security", "LLM code review"],
     description: [
-      "Managed Kubernetes-based application platforms supporting 50+ microservices across multiple environments, improving platform stability, workload scalability, and release consistency.",
-      "Engineered highly available cloud networking using AWS VPC, Direct Connect, Site-to-Site VPN, NAT Gateway, Route Tables, and Security Groups, ensuring secure hybrid connectivity between enterprise and cloud environments.",
-      "Administered relational and distributed database platforms, implementing backup, replication, high availability, and disaster recovery strategies to support business continuity objectives.",
-      "Improved application security by integrating automated vulnerability assessments, policy validation, and security controls into delivery workflows, reducing critical infra security findings by 90%.",
-      "Modernized legacy application and search workloads by migrating them to cloud-native container platforms, improving scalability, operational resilience, and overall system performance.",
-      "Implemented enterprise identity and access management using AWS IAM, Azure Active Directory (Entra ID), RBAC, and SSO to strengthen access governance and least-privilege security.",
+      "Owned the Kubernetes platform supporting 50+ microservices across multiple environments, improving deployment consistency, scalability and reliability for engineering teams.",
+      "Reduced critical infrastructure security findings by 90% by integrating automated vulnerability scanning and policy validation into CI/CD pipelines.",
+      "Built highly available hybrid networking with AWS VPC, Direct Connect, Site-to-Site VPN and NAT Gateway to secure enterprise-to-cloud connectivity.",
+      "Implemented enterprise IAM, RBAC and SSO with AWS IAM and Azure AD (Entra ID), strengthening least-privilege access across cloud and SaaS platforms.",
+      "Integrated an LLM-based AI code review tool into CI/CD to automate pre-merge analysis, catch defects earlier and reduce manual review effort.",
     ],
   },
   {
     id: "quantiphi",
-    title: "Senior Platform Engineer",
+    version: "v3",
+    title: "Senior Platform Engineer (SRE)",
     company: "Quantiphi",
     logo: "/qph.png",
-    period: "Aug 2021 - Nov 2023",
+    period: "Aug 2021 – Nov 2023",
+    start: "2021-08",
+    end: "2023-11",
     location: "Trivandrum, India",
+    summary:
+      "Delivered multi-cloud infrastructure on AWS, Azure and GCP for enterprise clients and cut release cycles by 25%.",
+    stack: ["Terraform", "AWS", "Azure", "GCP", "Jenkins", "SageMaker", "Kafka", "Kinesis"],
     description: [
-      "Delivered multi-cloud infrastructure across AWS, Azure, and GCP using Terraform and Infrastructure as Code, enabling standardized and repeatable cloud deployments.",
-      "Managed container platforms including Amazon EKS, Amazon ECS, and Azure Kubernetes Service (AKS), implementing rolling and blue-green deployment strategies for highly available applications.",
-      "Built CI/CD pipelines using Jenkins, Git, Docker, and Kubernetes, reducing release cycles by 25% while improving deployment consistency.",
-      "Implemented centralized monitoring, logging, and secrets management using cloud-native services and open-source observability tools, improving platform visibility and operational efficiency.",
+      "Delivered multi-cloud infrastructure across AWS, Azure and GCP with Terraform, standardising repeatable deployments for enterprise clients.",
+      "Contributed to multi-cloud architecture and design reviews, mentored engineers, and supported on-call operations and incident response.",
+      "Optimised CI/CD pipelines with Jenkins, Git, Docker and Kubernetes, reducing release cycles by 25% while improving consistency.",
+      "Provisioned and managed AWS SageMaker, Kinesis and Apache Kafka infrastructure for ML training and real-time data streaming workloads.",
     ],
   },
   {
     id: "armia",
-    title: "System Engineer (Cloud Support)",
+    version: "v2",
+    title: "Site Reliability Engineer",
     company: "Armia Systems",
     logo: "/armia.png",
-    period: "Jun 2020 - Aug 2021",
+    period: "Jun 2020 – Aug 2021",
+    start: "2020-06",
+    end: "2021-08",
     location: "Ernakulam, India",
+    summary: "Ran monitoring and alerting for 100+ production servers against SLA/SLO targets.",
+    stack: ["Linux", "Monitoring", "Patch management", "Capacity planning"],
     description: [
-      "Automated Linux-based cloud infrastructure provisioning, patch management, and configuration management using scripting and automation tools, improving operational consistency.",
-      "Designed monitoring and alerting solutions for 100+ production servers, improving infrastructure availability and supporting SLA/SLO objectives.",
-      "Performed capacity planning, performance tuning, and incident troubleshooting to improve production stability and reduce service disruptions.",
+      "Modernised Linux provisioning, patch management and configuration management, improving consistency across production environments.",
+      "Implemented monitoring and alerting for 100+ production servers, supporting SLA/SLO objectives and faster incident response.",
+      "Performed capacity planning and production incident troubleshooting, reducing service disruptions.",
     ],
   },
   {
     id: "activelobby",
-    title: "System Engineer (TechOps)",
-    company: "Activelobby",
+    version: "v1",
+    title: "TechOps Engineer",
+    company: "Activelobby IS",
     logo: "/al.png",
-    period: "Oct 2018 - Feb 2020",
+    period: "Oct 2018 – Feb 2020",
+    start: "2018-10",
+    end: "2020-02",
     location: "Ernakulam, India",
+    summary: "Where it started: Linux and Windows production servers, backups, patching and shell automation.",
+    stack: ["Linux", "Windows Server", "Bash", "Backups"],
     description: [
-      "Managed Linux and Windows servers supporting production and staging environments, including system administration, backup management, and infrastructure maintenance.",
-      "Automated operational tasks using shell scripting, improving deployment efficiency, reducing manual effort, and supporting a 5-member technical operations team.",
+      "Administered Linux and Windows production and staging servers, managing backups, patching, monitoring and maintenance.",
+      "Automated operational tasks with shell scripting, reducing manual effort across a 5-member technical operations team.",
     ],
   },
 ];

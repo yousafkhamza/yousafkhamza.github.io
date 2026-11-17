@@ -1,93 +1,89 @@
 export interface Certification {
   id: string;
   title: string;
+  short: string;
   organization: string;
   logo: string;
   date: string;
-  description: string;
-  logoClassName?: string;
+  /** the ones a recruiter filters on */
+  core?: boolean;
 }
 
 export const certifications: Certification[] = [
   {
     id: "cka",
     title: "Certified Kubernetes Administrator",
+    short: "CKA",
     organization: "The Linux Foundation",
     logo: "/cka.png",
     date: "2024",
-    description:
-      "Expertise in managing and securing Kubernetes clusters in production environments.",
+    core: true,
   },
   {
     id: "aws-saa",
-    title: "AWS Certified Solutions Architect Associate",
+    title: "AWS Certified Solutions Architect – Associate",
+    short: "AWS SAA",
     organization: "Amazon Web Services",
     logo: "/aws.png",
     date: "2023",
-    description:
-      "In-depth knowledge of AWS architectural best practices, cloud security, and cost optimization.",
-  },
-  {
-    id: "gitops",
-    title: "LFS169: GitOps",
-    organization: "The Linux Foundation",
-    logo: "https://www.svgrepo.com/show/341998/linux-foundation.svg",
-    date: "2024",
-    description:
-      "Expertise in managing and securing Kubernetes clusters in production environments.",
+    core: true,
   },
   {
     id: "terraform-associate",
-    title: "Terraform Associate Certification",
-    organization: "KodeKloud",
+    title: "HashiCorp Certified: Terraform Associate",
+    short: "Terraform Associate",
+    organization: "HashiCorp",
     logo: "/kk.png",
     date: "2022",
-    description:
-      "Proficiency in Infrastructure as Code using Terraform for cloud automation.",
+    core: true,
   },
   {
-    id: "GenAI Foundations",
-    title: "GenAI Foundations",
+    id: "genai",
+    title: "Generative AI Foundations (with Microsoft)",
+    short: "GenAI Foundations",
     organization: "upGrad",
     logo: "/upgrad.png",
     date: "2025",
-    description:
-      "Strong foundation in Generative AI concepts, Prompt Engineering, and DevOps practices for building intelligent and automated solutions.",
+    core: true,
+  },
+  {
+    id: "gitops",
+    title: "LFS169: Introduction to GitOps",
+    short: "GitOps",
+    organization: "The Linux Foundation",
+    logo: "https://www.svgrepo.com/show/341998/linux-foundation.svg",
+    date: "2024",
   },
   {
     id: "ethical-hacking",
     title: "Fundamentals of Ethical Hacking",
+    short: "Ethical Hacking",
     organization: "Offense Hackers Academy",
     logo: "/oa.png",
     date: "2023",
-    description:
-      "Foundational knowledge of penetration testing, security vulnerabilities, and ethical hacking techniques.",
   },
   {
     id: "oracle-cloud",
-    title: "Oracle Cloud Infrastructure Foundations Certified Associate",
+    title: "OCI Foundations Associate",
+    short: "OCI Foundations",
     organization: "Oracle",
     logo: "https://www.svgrepo.com/show/354152/oracle.svg",
     date: "2022",
-    description:
-      "Comprehensive understanding of cloud computing fundamentals, service offerings, and core infrastructure components within Oracle Cloud.",
+  },
+  {
+    id: "python-hackerrank",
+    title: "Python (Basic) Skills Certificate",
+    short: "Python (Basic)",
+    organization: "HackerRank",
+    logo: "https://www.svgrepo.com/show/330599/hackerrank.svg",
+    date: "2021",
   },
   {
     id: "wes",
     title: "Verified International Academic Qualifications",
+    short: "WES verified degrees",
     organization: "World Education Services",
     logo: "/wes.png",
     date: "2022",
-    description:
-      "Certification and validation of academic credentials from recognized international educational institutions and accreditation bodies.",
-  },
-  {
-    id: "python-hackerrank",
-    title: "Basic Python Skills Certification",
-    organization: "HackerRank",
-    logo: "https://www.svgrepo.com/show/330599/hackerrank.svg",
-    date: "2021",
-    description:
-      "Certification and validation of academic credentials from recognized international educational institutions and accreditation bodies.",
   },
 ];

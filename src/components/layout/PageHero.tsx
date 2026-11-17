@@ -1,16 +1,21 @@
+import { ReactNode } from "react";
+
 interface PageHeroProps {
-  eyebrow: string;
-  title: string;
-  description: string;
+  path: string;
+  title: ReactNode;
+  description?: ReactNode;
+  children?: ReactNode;
 }
 
-const PageHero = ({ eyebrow, title, description }: PageHeroProps) => (
-  <div className="container mx-auto px-4 sm:px-6 max-w-6xl pt-16 pb-12 md:pt-24 md:pb-16">
-    <span className="eyebrow">{eyebrow}</span>
-    <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-foreground leading-[1.05] mb-5 max-w-3xl">
-      {title}
-    </h1>
-    <p className="text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed">{description}</p>
+/** top of every inner page: a breadcrumb that reads like a shell path */
+const PageHero = ({ path, title, description, children }: PageHeroProps) => (
+  <div className="wrap pt-12 sm:pt-16 pb-10 sm:pb-14">
+    <div className="font-mono text-[13px] text-muted-foreground mb-5">
+      <span className="text-yousaf">~</span>/{path}
+    </div>
+    <h1 className="text-[36px] sm:text-[52px] font-semibold tracking-[-0.03em] leading-[1.05] max-w-[18ch]">{title}</h1>
+    {description && <p className="lede mt-5">{description}</p>}
+    {children}
   </div>
 );
 
