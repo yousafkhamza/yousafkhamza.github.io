@@ -22,6 +22,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      # The site only works when Pages publishes this workflow's build. If Pages is
+      # set to "Deploy from a branch" it serves the raw repo (blank page) and every
+      # deploy here is silently ignored. Try to switch it, otherwise stop loudly.
+      - name: Check GitHub Pages source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          type=$(gh api "repos/${{ github.repository }}/pages" --jq .build_type 2>/dev/null || echo unknown)
+          echo "Pages build_type: $type"
+          if [ "$type" = "workflow" ]; then exit 0; fi
+          if gh api -X PUT "repos/${{ github.repository }}/pages" -f build_type=workflow >/dev/null 2>&1; then
+            echo "Switched Pages source to GitHub Actions"
+            exit 0
+          fi
+          echo "::error::GitHub Pages source is '$type', not 'GitHub Actions', so the live site serves the raw repo and shows a blank page. Fix once: repo Settings > Pages > Build and deployment > Source = GitHub Actions, then re-run this workflow."
+          exit 1
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
@@ -79,15 +97,26 @@ jobs:
       - name: Verify the live site
         id: verify
         continue-on-error: true
-        run: bash scripts/verify-deploy.sh
+        run: |
+          set +e
+          bash scripts/verify-deploy.sh
+          code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          exit $code
 
       # The step you used to do by hand: if the first deploy failed or never
       # went live, deploy the same artifact once more and verify again.
       - name: Deploy again
         id: deploy_retry
-        if: steps.deploy.outcome == 'failure' || steps.verify.outcome == 'failure'
+        if: steps.deploy.outcome == 'failure' || (steps.verify.outcome == 'failure' && steps.verify.outputs.code != '2')
         uses: actions/deploy-pages@v4
 
       - name: Verify again
         if: steps.deploy_retry.outcome == 'success'
         run: bash scripts/verify-deploy.sh
+
+      - name: Fail if Pages serves the raw repo
+        if: steps.verify.outputs.code == '2'
+        run: |
+          echo "::error::Live site is the raw repository, not the build. Settings > Pages > Source = GitHub Actions."
+          exit 1
