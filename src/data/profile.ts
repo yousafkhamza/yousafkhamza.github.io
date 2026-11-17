@@ -16,6 +16,7 @@ export const profile = {
   domains: ["Fintech & payments", "Regulated enterprise", "Multi-cloud"],
   linkedin: "https://www.linkedin.com/in/yousafkhamza/",
   github: "https://github.com/yousafkhamza",
+  medium: "https://medium.com/@yousaf.k.hamza",
   resume: "/resume.pdf",
   summary:
     "Senior DevOps & Platform Engineer in Dubai. Runs secure, highly available AWS and Kubernetes platforms for fintech and regulated enterprises: EKS migrations, Terraform automation, GitOps delivery, and SOC 2 / PCI DSS / ISO 27001 controls built into CI/CD.",

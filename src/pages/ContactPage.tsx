@@ -10,6 +10,7 @@ const ContactPage = () => {
     ["Email", <a href={`mailto:${profile.email}`} className="hover:text-yousaf break-all">{profile.email}</a>],
     ["Phone", <span>{profile.phone} (UAE)<br />{profile.phoneAlt} (IN)</span>],
     ["LinkedIn", <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-yousaf">in/yousafkhamza</a>],
+    ["Medium", <a href={profile.medium} target="_blank" rel="noopener noreferrer" className="hover:text-yousaf">@yousaf.k.hamza</a>],
     ["GitHub", <a href={profile.github} target="_blank" rel="noopener noreferrer" className="hover:text-yousaf">yousafkhamza</a>],
     ["Based in", `Dubai, UAE · GMT+4`],
     ["Residency", profile.residency],

@@ -16,7 +16,8 @@ const Footer = () => (
         <span className="label mb-1">Elsewhere</span>
         <a className="hover:text-yousaf" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a className="hover:text-yousaf" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a className="hover:text-yousaf" href={`mailto:${profile.email}`}>{profile.email}</a>
+        <a className="hover:text-yousaf" href={profile.medium} target="_blank" rel="noopener noreferrer">Medium</a>
+        <a className="hover:text-yousaf" href={`mailto:${profile.email}`} title={profile.email}>Email</a>
       </div>
       <div className="flex flex-col gap-2">
         <span className="label mb-1">On this site</span>
