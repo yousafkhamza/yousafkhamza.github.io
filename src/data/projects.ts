@@ -53,6 +53,26 @@ export const projects: Project[] = [
   demo: "https://yousafkhamza.github.io/platform-copilot/",
 },
 {
+  id: "devops-quiz",
+  title: "DevOps Quiz 2.0",
+  description:
+    "678 DevOps questions across 16 topics, from quick concepts to multi-step production incidents you fix by typing real commands. Questions come as real scenarios with logs, kubectl output and manifests, in six formats: MCQ, multi-select, live terminal labs, manifest fill-ins, spot the bug and order the runbook. Exam mode adds timers and negative marking, practice mode gives instant feedback, and results break down by topic and level. Fully static on GitHub Pages, so nothing leaves the browser.",
+  tags: [
+    "JavaScript",
+    "Python",
+    "YAML",
+    "Kubernetes",
+    "AWS",
+    "Terraform",
+    "GitHub Actions",
+    "Static Site",
+    "Open-Source",
+  ],
+  images: ["/project-devops-quiz.png"],
+  github: "https://github.com/yousafkhamza/devops-quiz",
+  demo: "https://yousafkhamza.github.io/devops-quiz/",
+},
+{
   id: "iam-visualizer",
   title: "IAM Policy Visualizer",
   description:
