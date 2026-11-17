@@ -12,7 +12,7 @@ SLEEP="${SLEEP:-10}"
 for i in $(seq 1 "$TRIES"); do
   html=$(curl -fsSL -H 'Cache-Control: no-cache' "$SITE/?cb=${GITHUB_RUN_ID:-local}-$i" || true)
   if echo "$html" | grep -q '/src/main.tsx'; then
-    echo "::error::GitHub Pages is serving the raw repository (index.html still points at /src/main.tsx), so the site is blank. Fix: repo Settings > Pages > Build and deployment > Source = GitHub Actions, then re-run this workflow."
+    echo "live site is serving the raw repository (GitHub's branch build landed after ours)"
     exit 2
   fi
   if echo "$html" | grep -q "name=\"build-id\" content=\"$SHA\""; then
