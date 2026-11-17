@@ -19,7 +19,7 @@ export const routeMeta = (): RouteMeta[] => {
     {
       path: "/",
       title: `${profile.name} (${profile.altName}) · Senior DevOps Engineer in Dubai, UAE`,
-      description: `${profile.name} is a Senior DevOps & Platform Engineer in Dubai, UAE with ${y}+ years on AWS, Kubernetes (EKS), Terraform, GitOps and DevSecOps for fintech and regulated enterprises. Experience, open-source projects and resume.`,
+      description: `${profile.name} is a Senior DevOps & Platform Engineer in Dubai, UAE with ${y}+ years on AWS, Kubernetes (EKS), Terraform, GitOps and DevSecOps for fintech and regulated enterprises, plus agentic AI and RAG tooling for operations. Experience, open-source projects and resume.`,
       priority: 1.0,
     },
     {
@@ -49,7 +49,7 @@ export const routeMeta = (): RouteMeta[] => {
     {
       path: "/play",
       title: `On-call games · ${profile.name}`,
-      description: "Three small browser games about life in DevOps: incident response, a command-line speed run and spot-the-misconfiguration.",
+      description: "Three browser games about life in DevOps: incident response, a command-line challenge with hints, and Spot the Misconfig with 100+ real config files across five levels.",
       priority: 0.3,
     },
   ];

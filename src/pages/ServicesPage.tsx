@@ -4,6 +4,8 @@ import { ArrowRight } from "lucide-react";
 import PageHero from "@/components/layout/PageHero";
 import Section from "@/components/layout/Section";
 import { services, yearsOfExperience } from "@/data/profile";
+import Price from "@/components/Price";
+import { useAedRate } from "@/hooks/useAedRate";
 
 const steps = [
   ["Send a request", "Use the contact form and pick the service. Add a line about where you are and what you want out of it."],
@@ -13,6 +15,7 @@ const steps = [
 ];
 
 const ServicesPage = () => {
+  const { live } = useAedRate();
 
   return (
     <div>
@@ -42,7 +45,8 @@ const ServicesPage = () => {
                 <span>{s.format}</span>
               </div>
               <h2 className="mt-3 font-display text-[24px] font-bold tracking-[-0.01em]">{s.title}</h2>
-              <p className="mt-2 text-[15px] text-muted-foreground leading-relaxed">{s.who}</p>
+              <Price usd={s.priceUsd} unit={s.unit} className="mt-3" />
+              <p className="mt-3 text-[15px] text-muted-foreground leading-relaxed">{s.who}</p>
               <ul className="mt-5 space-y-2">
                 {s.what.map((w) => (
                   <li key={w} className="relative pl-5 text-[15px]">
@@ -58,6 +62,10 @@ const ServicesPage = () => {
           ))}
         </div>
       </section>
+
+      <div className="wrap -mt-6 mb-4 font-mono text-[12px] text-muted-foreground">
+        Prices in USD. AED shown {live ? "at today's live rate" : "at the fixed USD peg (3.6725)"}. Payment details are shared by email when we confirm the session.
+      </div>
 
       <Section label="Process" title="How it works">
         <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border rounded-[var(--radius)] overflow-hidden">

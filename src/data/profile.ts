@@ -54,6 +54,9 @@ export interface Service {
   who: string;
   what: string[];
   format: string;
+  /** price in USD; AED is shown next to it at the live rate */
+  priceUsd: number;
+  unit: string;
 }
 
 export const services: Service[] = [
@@ -68,6 +71,8 @@ export const services: Service[] = [
       "Moving into the UAE / Gulf job market",
     ],
     format: "Video call",
+    priceUsd: 35,
+    unit: "per hour",
   },
   {
     id: "resume",
@@ -80,6 +85,8 @@ export const services: Service[] = [
       "Written notes you can keep",
     ],
     format: "Async review + short call",
+    priceUsd: 20,
+    unit: "per review",
   },
   {
     id: "interview",
@@ -92,6 +99,8 @@ export const services: Service[] = [
       "Honest feedback on what to fix",
     ],
     format: "Video call",
+    priceUsd: 50,
+    unit: "per hour",
   },
   {
     id: "infra",
@@ -104,5 +113,7 @@ export const services: Service[] = [
       "A prioritised list you can act on",
     ],
     format: "Call + written report",
+    priceUsd: 150,
+    unit: "per hour",
   },
 ];

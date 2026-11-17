@@ -5,6 +5,8 @@ import Hero from "@/components/home/Hero";
 import ReleaseHistory from "@/components/home/ReleaseHistory";
 import ImpactBoard from "@/components/home/ImpactBoard";
 import StackView from "@/components/home/StackView";
+import WhyStrip from "@/components/home/WhyStrip";
+import AiSection from "@/components/home/AiSection";
 import Section from "@/components/layout/Section";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
@@ -12,6 +14,7 @@ import { projects } from "@/data/projects";
 import { certifications } from "@/data/certifications";
 import { education } from "@/data/education";
 import { profile, services } from "@/data/profile";
+import Price from "@/components/Price";
 
 const CopyEmail = () => {
   const [copied, setCopied] = useState(false);
@@ -41,6 +44,7 @@ const Home = () => {
   return (
     <div>
       <Hero />
+      <WhyStrip />
 
       <Section
         id="career"
@@ -85,6 +89,16 @@ const Home = () => {
             </Reveal>
           ))}
         </div>
+      </Section>
+
+      <Section
+        id="ai"
+        color="pink"
+        label="DevOps × AI"
+        title="AI for the platform, and a platform for AI"
+        intro="Where DevOps is heading: agents that do first-line triage, retrieval over your own runbooks, and the GPU infrastructure to run models yourself."
+      >
+        <AiSection />
       </Section>
 
       <Section id="stack" color="amber" label="Stack" title="What I work with" intro="The highlighted tools are what I run in production today. The rest I have shipped with before.">
@@ -133,11 +147,13 @@ const Home = () => {
             <Link
               key={s.id}
               to={`/contact?topic=${s.id}`}
-              className="grid grid-cols-[40px_1fr_auto] sm:grid-cols-[56px_1fr_1.4fr_auto] gap-4 items-center py-5 border-b border-border group"
+              style={{ ["--c" as string]: `var(--c-${["green", "cyan", "violet", "amber"][i % 4]})` }}
+              className="grid grid-cols-[40px_1fr_auto] sm:grid-cols-[56px_1fr_1.2fr_auto_auto] gap-4 items-center py-5 border-b border-border group"
             >
               <span className="font-display text-[22px] font-extrabold" style={{ color: `hsl(var(--c-${["green", "cyan", "violet", "amber"][i % 4]}))` }}>{String(i + 1).padStart(2, "0")}</span>
               <span className="text-[18px] font-semibold group-hover:text-yousaf transition-colors">{s.title}</span>
               <span className="hidden sm:block text-[14px] text-muted-foreground">{s.who}</span>
+              <Price usd={s.priceUsd} unit={s.unit} compact className="hidden md:inline-flex" />
               <span className="font-mono text-[12.5px] inline-flex items-center gap-1 text-foreground/70 group-hover:text-yousaf">
                 ask <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
               </span>
