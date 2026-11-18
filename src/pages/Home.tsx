@@ -76,7 +76,7 @@ const Home = () => {
         color="pink"
         label="DevOps × AI"
         title="AI that takes the first look, before you do"
-        intro="Three AI projects I run myself: one triages broken pods, one checks CI pipelines for attacks, one answers from internal runbooks. All open source."
+        intro="AI projects I build and run myself, all open source. Each one has a live demo."
       >
         <AiSection />
       </Section>
