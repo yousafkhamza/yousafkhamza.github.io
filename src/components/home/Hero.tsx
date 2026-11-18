@@ -108,7 +108,7 @@ const LivePill = () => {
       )}
     >
       <span className={cn("dot", !online && "bg-muted-foreground/50 shadow-none")} />
-      {online ? "Online now · Dubai" : `Offline · back ${back} Dubai`}
+      {online ? "Online now · Dubai, UAE" : `Offline · back ${back} · Dubai, UAE`}
     </div>
   );
 };
@@ -125,7 +125,7 @@ const Hero = () => (
         <div>
           <LivePill />
           <h1 className="mt-6 font-mono text-[13px] text-muted-foreground">
-            {profile.name} <span className="text-c-violet">/</span> Senior DevOps &amp; Platform Engineer, Dubai
+            {profile.name} <span className="text-c-violet">/</span> Senior DevOps &amp; Platform Engineer
           </h1>
           <p className="mt-4 font-display text-[50px] sm:text-[72px] lg:text-[84px] font-extrabold tracking-[-0.035em] leading-[0.95] text-foreground">
             I keep production{" "}
