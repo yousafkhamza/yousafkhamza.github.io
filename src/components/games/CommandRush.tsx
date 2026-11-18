@@ -1,5 +1,6 @@
 import { FormEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { COMMANDS, LEVELS, roundSpec, TOOL_HINT, normalise, firstWord, toolOf, isCorrect, Cmd } from "@/data/commands";
 
 /**
  * Command Rush: a situation, a bit of real terminal output, and you type the
@@ -7,292 +8,63 @@ import { cn } from "@/lib/utils";
  * two levels of help, skipping shows the answer before moving on.
  */
 
-type Tool = "kubectl" | "aws" | "terraform" | "helm" | "git" | "docker" | "linux";
+type Prompt = Cmd;
 
-interface Prompt {
-  id: string;
-  ask: string;
-  /** terminal output shown above the prompt, to make the situation real */
-  context?: string[];
-  tool: Tool;
-  accept: RegExp[];
-  answer: string;
-  /** hint 1 points at the idea, hint 2 shows the shape of the command */
-  hints: [string, string];
-  /** shown after the round: why this is the right move */
-  why: string;
-  /** common wrong moves with a specific explanation */
-  near?: { re: RegExp; msg: string }[];
-}
+const SEEN_KEY = "command-rush-seen";
+const BEST_KEY = "command-rush-best-by-level";
+const LEVEL_COLORS = ["green", "cyan", "violet", "amber", "pink"];
 
-const LINUX_TOOLS = ["journalctl", "systemctl", "ss", "netstat", "lsof", "df", "du", "free", "top", "ps", "kill", "chmod", "chown", "tail", "grep", "dig", "nslookup", "curl", "openssl", "find", "ls", "cat", "head"];
-
-const PROMPTS: Prompt[] = [
-  {
-    id: "logs-previous",
-    ask: "payments-api keeps restarting. Read the logs from the run that crashed, not the fresh one.",
-    context: ["$ kubectl get pods", "NAME                 READY  STATUS            RESTARTS", "payments-api-7d9f   0/1    CrashLoopBackOff  6"],
-    tool: "kubectl",
-    accept: [/^kubectl logs (payments-api-7d9f )?(--previous|-p|--previous=true)( payments-api-7d9f)?$/],
-    answer: "kubectl logs payments-api-7d9f --previous",
-    hints: ["kubectl logs shows the current container. There is a flag for the one that died.", "kubectl logs payments-api-7d9f --p…"],
-    why: "After a crash the container is replaced, so plain `kubectl logs` shows the new, empty run. `--previous` reads the last terminated one.",
-    near: [
-      { re: /^kubectl logs payments-api-7d9f$/, msg: "That shows the new container that just started. You want the one that crashed." },
-      { re: /^kubectl describe/, msg: "describe shows events and exit codes, not the app's own log output." },
-    ],
-  },
-  {
-    id: "rollout-undo",
-    ask: "The 14:02 deploy of checkout broke prod. Roll it back to the previous revision, now.",
-    context: ["$ kubectl rollout history deploy/checkout", "REVISION  CHANGE-CAUSE", "11        image: checkout:2.3.0", "12        image: checkout:2.4.0  <- broken"],
-    tool: "kubectl",
-    accept: [/^kubectl rollout undo (deploy|deployment|deployments)(\/| )checkout( --to-revision[= ]11)?$/],
-    answer: "kubectl rollout undo deploy/checkout",
-    hints: ["Deployments keep their revision history. There is a rollout sub-command for going back.", "kubectl rollout u… deploy/checkout"],
-    why: "`rollout undo` switches back to the previous ReplicaSet in seconds. Fix forward in Git afterwards so Argo CD does not re-apply the bad version.",
-    near: [
-      { re: /^kubectl rollout restart/, msg: "restart re-creates pods on the same broken image. You need the previous revision." },
-      { re: /^kubectl set image/, msg: "That works, but it is the slow way. There is a one-word sub-command for going back a revision." },
-    ],
-  },
-  {
-    id: "describe-pending",
-    ask: "worker-1 has been Pending for 10 minutes. Find out why the scheduler will not place it.",
-    context: ["$ kubectl get pod worker-1", "NAME       READY  STATUS   RESTARTS  AGE", "worker-1   0/1    Pending  0         10m"],
-    tool: "kubectl",
-    accept: [/^kubectl describe (pod|pods|po)(\/| )worker-1$/],
-    answer: "kubectl describe pod worker-1",
-    hints: ["A Pending pod has no logs yet. The reason is in its events.", "kubectl desc… pod worker-1"],
-    why: "The Events section at the bottom of `describe` tells you exactly why: insufficient CPU, a taint, an unbound PVC, a node selector.",
-    near: [{ re: /^kubectl logs/, msg: "A Pending pod never started, so there are no logs. Look at its events." }],
-  },
-  {
-    id: "top-memory",
-    ask: "Memory alerts are firing in prod. Which pods are using the most memory right now?",
-    tool: "kubectl",
-    accept: [
-      /^kubectl top (pod|pods|po) (-n|--namespace)[ =]prod( --sort-by[ =]memory)?$/,
-      /^kubectl top (pod|pods|po) --sort-by[ =]memory (-n|--namespace)[ =]prod$/,
-      /^kubectl (-n|--namespace)[ =]prod top (pod|pods|po)( --sort-by[ =]memory)?$/,
-    ],
-    answer: "kubectl top pods -n prod --sort-by=memory",
-    hints: ["metrics-server gives live usage per pod. Do not forget the namespace.", "kubectl top pods -n prod --sort-by=…"],
-    why: "`kubectl top` reads live usage from metrics-server. Sorting by memory puts the suspect at the top.",
-    near: [{ re: /^kubectl top (pod|pods|po)( --sort-by[ =]memory)?$/, msg: "Close, but that is the default namespace. The alert is in prod." }],
-  },
-  {
-    id: "exec-shell",
-    ask: "You need a shell inside debug-0 to test DNS from the pod's point of view.",
-    tool: "kubectl",
-    accept: [/^kubectl exec (-it|-ti|-i -t|-t -i|--stdin --tty|--tty --stdin) debug-0 -- ?(\/bin\/)?(sh|bash)$/, /^kubectl exec debug-0 (-it|-ti) -- ?(\/bin\/)?(sh|bash)$/],
-    answer: "kubectl exec -it debug-0 -- sh",
-    hints: ["You want an interactive terminal inside the container.", "kubectl exec -it debug-0 -- …"],
-    why: "`-it` gives you an interactive TTY, and everything after `--` runs inside the container.",
-    near: [{ re: /^kubectl exec debug-0 -- ?(\/bin\/)?(sh|bash)$/, msg: "Without -it the shell exits immediately. Make it interactive." }],
-  },
-  {
-    id: "all-pods",
-    ask: "Quick health check: list every pod in every namespace.",
-    tool: "kubectl",
-    accept: [/^kubectl get (pods|pod|po) (-A|--all-namespaces)$/, /^kubectl get (-A|--all-namespaces) (pods|pod|po)$/],
-    answer: "kubectl get pods -A",
-    hints: ["One flag means every namespace.", "kubectl get pods -…"],
-    why: "`-A` is short for `--all-namespaces`.",
-    near: [{ re: /^kubectl get (pods|pod|po)$/, msg: "That is only the current namespace." }],
-  },
-  {
-    id: "rollout-restart",
-    ask: "You rotated the database password in the Secret. Restart every checkout pod so they pick it up, without editing the Deployment.",
-    tool: "kubectl",
-    accept: [/^kubectl rollout restart (deploy|deployment|deployments)(\/| )checkout$/],
-    answer: "kubectl rollout restart deploy/checkout",
-    hints: ["Env vars from Secrets are read at start-up. You need a rolling restart.", "kubectl rollout r… deploy/checkout"],
-    why: "`rollout restart` adds an annotation that triggers a normal rolling update, so there is no downtime.",
-    near: [{ re: /^kubectl delete (pod|pods)/, msg: "Deleting pods by hand works but can drop traffic. There is a rollout sub-command for this." }],
-  },
-  {
-    id: "scale",
-    ask: "Black Friday traffic is coming. Scale deployment web to 8 replicas.",
-    tool: "kubectl",
-    accept: [/^kubectl scale (deploy|deployment)(\/| )web --replicas[ =]8$/, /^kubectl scale --replicas[ =]8 (deploy|deployment)(\/| )web$/],
-    answer: "kubectl scale deploy/web --replicas=8",
-    hints: ["There is a kubectl verb that is literally the word you want.", "kubectl scale deploy/web --replicas=…"],
-    why: "Quick and direct. If an HPA manages this deployment, raise its minReplicas instead or it will scale you back down.",
-  },
-  {
-    id: "secret-decode",
-    ask: "The app says the DB password is wrong. Print the decoded password key from secret db-creds.",
-    tool: "kubectl",
-    accept: [/^kubectl get secret db-creds -o (jsonpath|go-template)=?['"]?\{\.data\.password\}['"]? ?\| ?base64 (-d|--decode)$/],
-    answer: "kubectl get secret db-creds -o jsonpath='{.data.password}' | base64 -d",
-    hints: ["Secret values are base64-encoded. Pull out one key, then decode it.", "kubectl get secret db-creds -o jsonpath='{.data.password}' | base64 …"],
-    why: "jsonpath extracts the single key and `base64 -d` decodes it. Never paste it into a ticket.",
-    near: [{ re: /^kubectl get secret db-creds( -o yaml)?$/, msg: "That shows the whole secret, still base64-encoded. Extract one key and decode it." }],
-  },
-  {
-    id: "aws-whoami",
-    ask: "Terraform says AccessDenied. First, check which AWS identity your CLI is actually using.",
-    tool: "aws",
-    accept: [/^aws sts get-caller-identity( --profile \S+)?$/],
-    answer: "aws sts get-caller-identity",
-    hints: ["The STS service can tell you who you are.", "aws sts get-…"],
-    why: "Half of all AccessDenied errors are the wrong profile or an expired role session. This shows the account and ARN in one call.",
-    near: [{ re: /^aws iam get-user$/, msg: "That fails for assumed roles and SSO sessions. Ask STS instead." }],
-  },
-  {
-    id: "aws-s3-ls",
-    ask: "Check that last night's backups landed in s3://pay-backups/db/.",
-    tool: "aws",
-    accept: [/^aws s3 ls s3:\/\/pay-backups\/db\/?( --recursive)?( --human-readable)?( --summarize)?$/],
-    answer: "aws s3 ls s3://pay-backups/db/",
-    hints: ["The high-level s3 commands work like ls.", "aws s3 ls s3://…"],
-    why: "`aws s3 ls` lists a prefix. Add `--recursive --human-readable` to see sizes.",
-  },
-  {
-    id: "tf-plan",
-    ask: "Someone changed the security group module. Preview what Terraform would change, without touching anything.",
-    tool: "terraform",
-    accept: [/^terraform plan( -out[ =]\S+)?$/],
-    answer: "terraform plan",
-    hints: ["You want a dry run.", "terraform p…"],
-    why: "`plan` shows the diff between code and real infrastructure. Save it with `-out` and apply exactly that file.",
-    near: [{ re: /^terraform apply/, msg: "apply changes real infrastructure. You only want to look." }],
-  },
-  {
-    id: "tf-state",
-    ask: "Which resources does this Terraform state know about? List them.",
-    tool: "terraform",
-    accept: [/^terraform state list$/],
-    answer: "terraform state list",
-    hints: ["There is a state sub-command for this.", "terraform state l…"],
-    why: "`state list` prints every address in state, handy before an import, move or remove.",
-    near: [{ re: /^terraform show$/, msg: "show prints everything in detail. You only want the list of addresses." }],
-  },
-  {
-    id: "helm-upgrade",
-    ask: "Deploy release shop from ./chart: upgrade it if it exists, install it if it does not.",
-    tool: "helm",
-    accept: [/^helm upgrade (--install|-i) shop \.\/chart( (-n|--namespace)[ =]\S+)?$/, /^helm upgrade shop \.\/chart (--install|-i)( (-n|--namespace)[ =]\S+)?$/],
-    answer: "helm upgrade --install shop ./chart",
-    hints: ["One command handles both cases, which is why every pipeline uses it.", "helm upgrade --i… shop ./chart"],
-    why: "`upgrade --install` is idempotent, so the same pipeline step works on day one and day one hundred.",
-    near: [{ re: /^helm install shop/, msg: "install fails if the release already exists. You want one command for both cases." }],
-  },
-  {
-    id: "helm-rollback",
-    ask: "Release shop is broken after the last upgrade. Roll it back to revision 3.",
-    tool: "helm",
-    accept: [/^helm rollback shop 3( (-n|--namespace)[ =]\S+)?$/],
-    answer: "helm rollback shop 3",
-    hints: ["Helm keeps release revisions.", "helm rollback shop …"],
-    why: "`helm history shop` lists revisions, and `helm rollback` restores one as a new revision.",
-  },
-  {
-    id: "git-log",
-    ask: "What changed recently? Show the last 5 commits, one line each.",
-    tool: "git",
-    accept: [/^git log --oneline (-5|-n ?5|--max-count[ =]5)$/, /^git log (-5|-n ?5|--max-count[ =]5) --oneline$/],
-    answer: "git log --oneline -5",
-    hints: ["git log has a compact one-line format and a count flag.", "git log --oneline -…"],
-    why: "Quick and readable. Add `--graph` when branches matter.",
-  },
-  {
-    id: "git-revert",
-    ask: "Commit a1b2c3d broke main and is already pushed. Undo it without rewriting history.",
-    tool: "git",
-    accept: [/^git revert a1b2c3d( --no-edit)?$/],
-    answer: "git revert a1b2c3d",
-    hints: ["Shared history should not be rewritten. Add a new commit that undoes the old one.", "git rev… a1b2c3d"],
-    why: "`revert` adds an inverse commit, so nobody else's clone breaks.",
-    near: [{ re: /^git reset/, msg: "reset rewrites history that other people have already pulled. Undo it with a new commit instead." }],
-  },
-  {
-    id: "docker-logs",
-    ask: "The api container on this VM died. Show the last 100 lines of its logs.",
-    tool: "docker",
-    accept: [/^docker logs (--tail[ =]100|-n ?100) api$/, /^docker logs api (--tail[ =]100|-n ?100)$/],
-    answer: "docker logs --tail 100 api",
-    hints: ["docker logs works on stopped containers too. Limit the output.", "docker logs --tail … api"],
-    why: "Logs survive until the container is removed, so you can read why it died.",
-    near: [{ re: /^docker logs api$/, msg: "That dumps everything. Limit it to the last 100 lines." }],
-  },
-  {
-    id: "journal",
-    ask: "nginx on this box will not stay up. Follow its systemd logs live.",
-    tool: "linux",
-    accept: [/^journalctl (-u nginx(\.service)? -f|-f -u nginx(\.service)?|-fu nginx(\.service)?|-u nginx(\.service)? --follow)$/],
-    answer: "journalctl -u nginx -f",
-    hints: ["systemd services log to the journal.", "journalctl -u nginx -…"],
-    why: "`-u` filters to one unit, `-f` follows like `tail -f`.",
-    near: [{ re: /^systemctl status nginx/, msg: "status shows the last few lines only. Follow the journal instead." }],
-  },
-  {
-    id: "port",
-    ask: "The app fails with 'address already in use'. Who is listening on port 8080?",
-    tool: "linux",
-    accept: [/^(sudo )?(ss|netstat) -[a-z]*l[a-z]*p[a-z]*( ?\| ?grep :?8080)?$/, /^(sudo )?lsof -i ?:8080$/, /^(sudo )?ss -[a-z]+ 'sport = :8080'$/],
-    answer: "ss -ltnp | grep 8080   (or: lsof -i :8080)",
-    hints: ["You want listening sockets plus the process that owns them.", "ss -ltnp | grep … (or lsof -i :…)"],
-    why: "`-l` listening, `-t` TCP, `-n` numeric, `-p` process. That shows the PID to deal with.",
-  },
-  {
-    id: "disk",
-    ask: "Pods on node-3 are being evicted with DiskPressure. You are on the node. How full is each filesystem?",
-    tool: "linux",
-    accept: [/^df -[a-zA-Z]*h[a-zA-Z]*$/],
-    answer: "df -h",
-    hints: ["Disk free, in human units.", "df -…"],
-    why: "`df -h` shows usage per mount. Then `du -sh /var/lib/*` finds what is eating it.",
-    near: [{ re: /^du /, msg: "du tells you what uses space inside a folder. First see which filesystem is full." }],
-  },
-  {
-    id: "cert",
-    ask: "Users say the certificate on api.example.com expired. Check its expiry date from your terminal.",
-    tool: "linux",
-    accept: [
-      /^(echo \| )?openssl s_client -connect api\.example\.com:443( -servername api\.example\.com)?( 2>\/dev\/null)? ?\| ?openssl x509 -noout -(enddate|dates)$/,
-      /^curl -(v|vI|Iv) https:\/\/api\.example\.com\/?( 2>&1 \| ?grep -i expire)?$/,
-    ],
-    answer: "openssl s_client -connect api.example.com:443 | openssl x509 -noout -enddate",
-    hints: ["openssl can connect and then print the certificate dates.", "openssl s_client -connect api.example.com:443 | openssl x509 -noout -…"],
-    why: "Shows notAfter straight from the server, including what a CDN or load balancer is actually serving.",
-  },
-];
-
-const GAME_SECONDS = 90;
-const BEST_KEY = "command-rush-best-v2";
-const TOOL_HINT: Record<Tool, string> = {
-  kubectl: "kubectl",
-  aws: "aws",
-  terraform: "terraform",
-  helm: "helm",
-  git: "git",
-  docker: "docker",
-  linux: "a Linux command",
+const readJson = <T,>(key: string, fallback: T): T => {
+  try {
+    const v = localStorage.getItem(key);
+    return v ? (JSON.parse(v) as T) : fallback;
+  } catch {
+    return fallback;
+  }
+};
+const writeJson = (key: string, value: unknown) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    /* storage blocked */
+  }
 };
 
-const normalise = (raw: string) =>
-  raw
-    .trim()
-    .replace(/^\$\s*/, "")
-    .replace(/^sudo\s+(?!lsof|ss|netstat)/, "")
-    .replace(/\s+/g, " ")
-    .replace(/;$/, "")
-    .replace(/^k /, "kubectl ")
-    .replace(/^tf /, "terraform ")
-    .replace(/"/g, "'");
-
-const firstWord = (cmd: string) => cmd.replace(/^sudo /, "").split(" ")[0];
-
-const toolOf = (cmd: string): Tool | null => {
-  const w = firstWord(cmd);
-  if (["kubectl", "aws", "terraform", "helm", "git", "docker"].includes(w)) return w as Tool;
-  if (LINUX_TOOLS.includes(w) || w === "echo") return "linux";
-  return null;
+const shuffle = <T,>(a: T[]) => {
+  const x = [...a];
+  for (let i = x.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [x[i], x[j]] = [x[j], x[i]];
+  }
+  return x;
 };
 
-const shuffle = <T,>(a: T[]) => [...a].sort(() => Math.random() - 0.5);
+/** unseen situations first, so repeat rounds stay fresh; mixes tools within the level */
+const pickDeck = (level: number): Prompt[] => {
+  const pool = COMMANDS.filter((c) => c.level === level);
+  let seen = new Set(readJson<string[]>(SEEN_KEY, []));
+  const n = roundSpec(level).questions;
+  if (pool.filter((c) => !seen.has(c.id)).length < n) {
+    // whole level played through: start the rotation again
+    seen = new Set([...seen].filter((id) => !pool.some((c) => c.id === id)));
+    writeJson(SEEN_KEY, [...seen]);
+  }
+  // one queue per tool, unseen first inside each, then round-robin so every round mixes tools
+  const byTool = new Map<string, Prompt[]>();
+  pool.forEach((c) => byTool.set(c.tool, [...(byTool.get(c.tool) ?? []), c]));
+  const queues = shuffle([...byTool.values()]).map((q) => [
+    ...shuffle(q.filter((c) => !seen.has(c.id))),
+    ...shuffle(q.filter((c) => seen.has(c.id))),
+  ]);
+  const deck: Prompt[] = [];
+  while (deck.length < n && queues.some((q) => q.length)) {
+    for (const q of queues) {
+      const next = q.shift();
+      if (next && deck.length < n) deck.push(next);
+    }
+  }
+  return shuffle(deck);
+};
 
 type Line = { kind: "in" | "err" | "warn" | "hint" | "ok" | "info"; text: string };
 type Result = { prompt: Prompt; outcome: "solved" | "skipped"; hints: number; points: number };
@@ -302,23 +74,20 @@ const points = (hints: number) => (hints === 0 ? 2 : hints === 1 ? 1 : 0);
 
 const CommandRush = () => {
   const [phase, setPhase] = useState<Phase>("idle");
+  const [level, setLevel] = useState(1);
+  const total = roundSpec(level).seconds;
   const [deck, setDeck] = useState<Prompt[]>([]);
   const [i, setI] = useState(0);
   const [input, setInput] = useState("");
-  const [left, setLeft] = useState(GAME_SECONDS);
+  const [left, setLeft] = useState(roundSpec(1).seconds);
   const [lines, setLines] = useState<Line[]>([]);
   const [hintsUsed, setHintsUsed] = useState(0);
   const [results, setResults] = useState<Result[]>([]);
   const [history, setHistory] = useState<string[]>([]);
   const [histIdx, setHistIdx] = useState(-1);
   const [shake, setShake] = useState(false);
-  const [best, setBest] = useState(() => {
-    try {
-      return Number(localStorage.getItem(BEST_KEY) || 0);
-    } catch {
-      return 0;
-    }
-  });
+  const [bestBy, setBestBy] = useState<Record<string, number>>(() => readJson(BEST_KEY, {}));
+  const best = bestBy[String(level)] ?? 0;
   const inputRef = useRef<HTMLInputElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const screenRef = useRef<HTMLDivElement>(null);
@@ -348,22 +117,19 @@ const CommandRush = () => {
 
   useEffect(() => {
     if (phase !== "done") return;
-    setBest((b) => {
-      const v = Math.max(b, score);
-      try {
-        localStorage.setItem(BEST_KEY, String(v));
-      } catch {
-        /* storage blocked */
-      }
-      return v;
+    setBestBy((b) => {
+      const next = { ...b, [String(level)]: Math.max(b[String(level)] ?? 0, score) };
+      writeJson(BEST_KEY, next);
+      return next;
     });
-  }, [phase, score]);
+  }, [phase, score, level]);
 
-  const start = () => {
-    setDeck(shuffle(PROMPTS).slice(0, 12));
+  const start = (lv: number = level) => {
+    setLevel(lv);
+    setDeck(pickDeck(lv));
     setI(0);
     setResults([]);
-    setLeft(GAME_SECONDS);
+    setLeft(roundSpec(lv).seconds);
     setInput("");
     setLines([]);
     setHintsUsed(0);
@@ -393,6 +159,7 @@ const CommandRush = () => {
 
   const skip = () => {
     if (phase !== "ask") return;
+    writeJson(SEEN_KEY, Array.from(new Set([...readJson<string[]>(SEEN_KEY, []), current.id])));
     say({ kind: "info", text: "skipped" });
     finishRound("skipped");
   };
@@ -433,7 +200,8 @@ const CommandRush = () => {
       return;
     }
 
-    if (current.accept.some((re) => re.test(cmd))) {
+    if (isCorrect(current, cmd)) {
+      writeJson(SEEN_KEY, Array.from(new Set([...readJson<string[]>(SEEN_KEY, []), current.id])));
       say({ kind: "ok", text: `✔ correct  +${points(hintsUsed)}` });
       finishRound("solved");
       return;
@@ -509,7 +277,7 @@ const CommandRush = () => {
         <div className="h-1 bg-white/10">
           <div
             className="h-full bg-[hsl(158_72%_52%)] transition-[width] duration-1000 ease-linear"
-            style={{ width: `${(left / GAME_SECONDS) * 100}%` }}
+            style={{ width: `${(left / total) * 100}%` }}
           />
         </div>
 
@@ -517,17 +285,39 @@ const CommandRush = () => {
           {phase === "idle" && (
             <div>
               <p className="font-sans text-[16px] text-white leading-relaxed">
-                12 real on-call situations, {GAME_SECONDS} seconds. Type the command that handles each one.
+                {COMMANDS.length} real on-call situations across 5 levels. Pick one, then type the command that handles each situation.
               </p>
-              <ul className="mt-4 space-y-1.5 text-white/60 text-[13px]">
+              <div className="mt-5 grid grid-cols-1 sm:grid-cols-5 gap-2">
+                {LEVELS.map((l, n) => {
+                  const spec = roundSpec(l.level);
+                  const c = LEVEL_COLORS[n];
+                  const b = bestBy[String(l.level)];
+                  return (
+                    <button
+                      key={l.level}
+                      onClick={() => start(l.level)}
+                      aria-label={`Level ${l.level}: ${l.name}`}
+                      className="text-left rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] p-3 transition-colors border-t-4"
+                      style={{ borderTopColor: `hsl(var(--c-${c}))` }}
+                    >
+                      <div className="text-[11px] font-semibold" style={{ color: `hsl(var(--c-${c}))` }}>
+                        LEVEL {l.level}
+                      </div>
+                      <div className="font-sans text-[15px] font-bold text-white mt-0.5">{l.name}</div>
+                      <div className="font-sans text-[12px] text-white/55 mt-1 leading-snug">{l.tools}</div>
+                      <div className="text-[11px] text-white/40 mt-2">
+                        {spec.questions} q · {spec.seconds}s{b !== undefined ? ` · best ${b}` : ""}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+              <ul className="mt-5 space-y-1.5 text-white/60 text-[13px]">
                 <li><span className="text-[hsl(158_72%_60%)]">+2</span> solved on your own · <span className="text-[hsl(158_72%_60%)]">+1</span> with one hint · 0 with two</li>
                 <li>wrong attempts cost nothing but time, and tell you what was off</li>
                 <li>type <span className="text-white">hint</span> or <span className="text-white">skip</span> any time · ↑ recalls your last attempt</li>
-                <li><span className="text-white">k</span> works for kubectl, flag order does not matter</li>
+                <li><span className="text-white">k</span> works for kubectl, <span className="text-white">tf</span> for terraform, flag order does not matter</li>
               </ul>
-              <button onClick={start} className={cn(btn, "mt-6 bg-[hsl(158_72%_52%)] text-[hsl(226_45%_7%)] hover:bg-[hsl(158_72%_60%)]")}>
-                Start the clock
-              </button>
             </div>
           )}
 
@@ -535,7 +325,7 @@ const CommandRush = () => {
             <div>
               <div className="flex items-center justify-between text-white/40 text-[12px]">
                 <span>
-                  # {i + 1}/{deck.length} · {TOOL_HINT[current.tool]}
+                  <span style={{ color: `hsl(var(--c-${LEVEL_COLORS[level - 1]}))` }}>L{level}</span> · # {i + 1}/{deck.length} · {TOOL_HINT[current.tool]}
                 </span>
                 {phase === "ask" && hintsUsed > 0 && <span className="text-[hsl(258_90%_80%)]">hints {hintsUsed}/2</span>}
               </div>
@@ -635,9 +425,19 @@ const CommandRush = () => {
                   </li>
                 ))}
               </ul>
-              <button onClick={start} className={cn(btn, "mt-6 bg-[hsl(158_72%_52%)] text-[hsl(226_45%_7%)] hover:bg-[hsl(158_72%_60%)]")}>
-                Play again
-              </button>
+              <div className="mt-6 flex flex-wrap gap-2">
+                <button onClick={() => start(level)} className={cn(btn, "bg-white/10 text-white hover:bg-white/15")}>
+                  Same level, new situations
+                </button>
+                {level < 5 && (
+                  <button onClick={() => start(level + 1)} className={cn(btn, "bg-[hsl(158_72%_52%)] text-[hsl(226_45%_7%)] hover:bg-[hsl(158_72%_60%)]")}>
+                    Level {level + 1}: {LEVELS[level].name}
+                  </button>
+                )}
+                <button onClick={() => setPhase("idle")} className={cn(btn, "bg-white/5 text-white/70 hover:bg-white/10")}>
+                  All levels
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -647,4 +447,3 @@ const CommandRush = () => {
 };
 
 export default CommandRush;
-export { PROMPTS, normalise };
