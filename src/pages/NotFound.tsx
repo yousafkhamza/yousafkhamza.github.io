@@ -9,7 +9,7 @@ const NotFound = () => {
   }, []);
 
   return (
-    <ThemeProvider defaultTheme="dark">
+    <ThemeProvider defaultTheme="light">
       <div className="min-h-screen bg-background text-foreground flex items-center">
         <div className="wrap max-w-[640px]">
           <pre className="panel p-6 font-mono text-[13.5px] leading-[1.8] overflow-x-auto">
