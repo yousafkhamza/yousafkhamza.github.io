@@ -5,6 +5,8 @@ import { profile, yearsOfExperience } from "@/data/profile";
 import { experiences } from "@/data/experience";
 import { certifications } from "@/data/certifications";
 import PodField from "@/components/home/PodField";
+import { useOfficeStatus } from "@/hooks/useOfficeStatus";
+import { cn } from "@/lib/utils";
 
 const coreCerts = certifications.filter((c) => c.core && c.id !== "genai").map((c) => c.short);
 
@@ -95,6 +97,22 @@ const Squiggle = () => (
   </svg>
 );
 
+/** live pill: online during Dubai office hours, otherwise when I'm back */
+const LivePill = () => {
+  const { online, back } = useOfficeStatus(profile.timezone);
+  return (
+    <div
+      className={cn(
+        "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-[12px]",
+        online ? "border-c-green/40 bg-c-green/10 text-c-green" : "border-border bg-secondary/60 text-muted-foreground"
+      )}
+    >
+      <span className={cn("dot", !online && "bg-muted-foreground/50 shadow-none")} />
+      {online ? "Online now · Dubai" : `Offline · back ${back} Dubai`}
+    </div>
+  );
+};
+
 const Hero = () => (
   <div className="relative overflow-hidden">
     {/* backdrop: dot grid and two soft signal-colour lights */}
@@ -105,9 +123,7 @@ const Hero = () => (
     <div className="wrap relative pt-12 sm:pt-16 pb-16 sm:pb-24">
       <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-14 items-start">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-c-green/40 bg-c-green/10 px-3 py-1.5 font-mono text-[12px] text-c-green">
-            <span className="dot" /> AWS · Kubernetes · DevSecOps
-          </div>
+          <LivePill />
           <h1 className="mt-6 font-mono text-[13px] text-muted-foreground">
             {profile.name} <span className="text-c-violet">/</span> Senior DevOps &amp; Platform Engineer, Dubai
           </h1>
