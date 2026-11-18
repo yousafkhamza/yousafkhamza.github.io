@@ -106,7 +106,7 @@ const Hero = () => (
       <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-14 items-start">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-c-green/40 bg-c-green/10 px-3 py-1.5 font-mono text-[12px] text-c-green">
-            <span className="dot" /> Open to Senior DevOps · Platform · SRE roles
+            <span className="dot" /> Fintech &amp; payments since 2018
           </div>
           <h1 className="mt-6 font-mono text-[13px] text-muted-foreground">
             {profile.name} <span className="text-c-violet">/</span> Senior DevOps &amp; Platform Engineer, Dubai
@@ -122,8 +122,8 @@ const Hero = () => (
           <p className="mt-8 text-[18px] sm:text-[19px] leading-relaxed text-muted-foreground max-w-[54ch]">
             {yearsOfExperience()}+ years running <span className="text-foreground font-semibold">AWS</span> and{" "}
             <span className="text-foreground font-semibold">Kubernetes</span> platforms for fintech and regulated
-            enterprises. I migrate workloads without drama, automate the infrastructure with Terraform and GitOps, and
-            build the security controls into the pipeline instead of bolting them on for the audit.
+            enterprises. I move workloads to EKS, automate infrastructure with Terraform and GitOps, and build security
+            checks into the pipeline.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link to="/projects" className="btn-primary">

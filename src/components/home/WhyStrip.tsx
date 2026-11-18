@@ -12,7 +12,7 @@ const ITEMS = [
     icon: ShieldCheck,
     color: "violet",
     title: "Audits that pass",
-    body: "PCI DSS, SOC 2 and ISO 27001 controls built into the pipeline, not bolted on before the auditor arrives.",
+    body: "PCI DSS, SOC 2 and ISO 27001 checks run in every pipeline, so audits stop being a scramble.",
   },
   {
     icon: TrendingDown,
@@ -23,7 +23,7 @@ const ITEMS = [
   {
     icon: Sparkles,
     color: "pink",
-    title: "AI where it actually helps",
+    title: "AI for incidents and code review",
     body: "Agents that diagnose broken pods, RAG over internal docs, and AI code review in CI.",
   },
 ];

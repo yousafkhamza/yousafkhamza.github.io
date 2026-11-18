@@ -52,7 +52,7 @@ const Home = () => {
         color="cyan"
         label="Career"
         title="Release history"
-        intro="Five roles, one direction: from looking after servers to owning the platform. Pick a release to read its notes."
+        intro="Five roles since 2018, from TechOps to running the platform. Pick one to see what I did there."
       >
         <Reveal>
           <ReleaseHistory />
@@ -76,7 +76,7 @@ const Home = () => {
         color="pink"
         label="DevOps × AI"
         title="AI that takes the first look, before you do"
-        intro="Where DevOps is heading: an agent that triages broken pods, a scanner that reviews CI pipelines for attacks, and retrieval over your own runbooks. All open source and live."
+        intro="Three AI projects I run myself: one triages broken pods, one checks CI pipelines for attacks, one answers from internal runbooks. All open source."
       >
         <AiSection />
       </Section>
@@ -85,7 +85,7 @@ const Home = () => {
         id="work"
         color="violet"
         label="Open source"
-        title="More tools I built because I needed them"
+        title="More open-source tools"
         intro="Each one started as a problem at work. All open source and documented, and most run in a browser with nothing to install."
         aside={
           <Link to="/projects" className="btn-link">
