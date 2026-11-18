@@ -75,8 +75,8 @@ const Home = () => {
         id="ai"
         color="pink"
         label="DevOps × AI"
-        title="AI that takes the first look at an incident"
-        intro="Where DevOps is heading: agents that do first-line triage and retrieval over your own runbooks. Both are open source, self-hostable and live."
+        title="AI that takes the first look, before you do"
+        intro="Where DevOps is heading: an agent that triages broken pods, a scanner that reviews CI pipelines for attacks, and retrieval over your own runbooks. All open source and live."
       >
         <AiSection />
       </Section>

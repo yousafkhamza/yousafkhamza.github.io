@@ -16,6 +16,28 @@ export interface Project {
 
 export const projects: Project[] = [
 {
+  id: "pipelineguard",
+  title: "PipelineGuard",
+  description:
+    "Paste a GitHub Actions workflow and see the exact line an attacker would use, how bad it is and how to fix it. 36 rules cover pwn requests, script injection, unpinned or hijacked actions, leaked secrets, self-hosted runners on PRs and broad GITHUB_TOKEN permissions, and the workflow gets a 0-100 grade and a job map. The scan runs entirely in the browser; Claude or OpenAI, with your own key, can draft the corrected YAML. The same engine ships as a Node CLI and a GitHub Action with SARIF output for code scanning.",
+  tags: [
+    "JavaScript",
+    "AI",
+    "LLM",
+    "Claude",
+    "DevSecOps",
+    "GitHub Actions",
+    "Supply Chain",
+    "SARIF",
+    "CLI",
+    "Open-Source",
+  ],
+  images: ["/project-pipelineguard.png"],
+  categories: ["AI", "Security"],
+  github: "https://github.com/yousafkhamza/pipelineguard",
+  demo: "https://yousafkhamza.github.io/pipelineguard/",
+},
+{
   id: "k8s-incident-copilot",
   title: "K8s Incident Copilot",
   description:

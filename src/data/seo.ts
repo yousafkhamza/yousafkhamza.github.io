@@ -31,7 +31,7 @@ export const routeMeta = (): RouteMeta[] => {
     {
       path: "/projects",
       title: `Open-source DevOps projects · ${profile.name}`,
-      description: `Open-source DevOps, Kubernetes, AWS security and AI tools built by ${profile.name} (${profile.handle}): K8s Incident Copilot, IAM Policy Visualizer, PodGauge, Universal Helm Chart and more.`,
+      description: `Open-source DevOps, Kubernetes, AWS security and AI tools built by ${profile.name} (${profile.handle}): PipelineGuard, K8s Incident Copilot, IAM Policy Visualizer, PodGauge, Universal Helm Chart and more.`,
       priority: 0.9,
     },
     {

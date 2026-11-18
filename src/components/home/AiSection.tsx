@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Bot, BookOpenText, Github } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Bot, BookOpenText, Github, ShieldAlert } from "lucide-react";
 import { projects } from "@/data/projects";
 
-/** The AI projects, each with a live demo: agentic triage and RAG, both self-hostable */
+/** The AI projects, each with a live demo. Shown three to a row on wide screens; add new ones here. */
 const META: Record<string, { icon: typeof Bot; color: string; kicker: string; headline: string; body: string }> = {
+  pipelineguard: {
+    icon: ShieldAlert,
+    color: "amber",
+    kicker: "AI DevSecOps",
+    headline: "Catches CI attacks before they land",
+    body: "Scans GitHub Actions workflows against 36 attack patterns, points at the exact line and grades the pipeline. Claude or OpenAI drafts the fixed YAML. Runs in the browser, as a CLI, or as an Action with SARIF.",
+  },
   "k8s-incident-copilot": {
     icon: Bot,
     color: "pink",
@@ -24,17 +31,17 @@ const AiSection = () => {
   const items = projects.filter((p) => META[p.id]);
   return (
     <div>
-      <div className="grid md:grid-cols-2 gap-5">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {items.map((p) => {
           const m = META[p.id];
           const Icon = m.icon;
           return (
             <article
               key={p.id}
-              className="panel overflow-hidden flex flex-col group transition-transform hover:-translate-y-1"
+              className="panel overflow-hidden flex flex-col group transition-transform hover:-translate-y-1 md:max-lg:last:odd:col-span-2 md:max-lg:last:odd:flex-row"
               style={{ ["--c" as string]: `var(--c-${m.color})` }}
             >
-              <a href={p.demo ?? p.github} target="_blank" rel="noopener noreferrer" className="block aspect-video overflow-hidden border-b border-border" tabIndex={-1} aria-hidden>
+              <a href={p.demo ?? p.github} target="_blank" rel="noopener noreferrer" className="block aspect-video overflow-hidden border-b border-border md:max-lg:group-last:group-odd:w-1/2 md:max-lg:group-last:group-odd:shrink-0 md:max-lg:group-last:group-odd:self-center md:max-lg:group-last:group-odd:border-b-0 md:max-lg:group-last:group-odd:border-r" tabIndex={-1} aria-hidden>
                 <img src={p.images[0]} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
               </a>
               <div className="p-6 flex flex-col flex-1">
@@ -45,7 +52,7 @@ const AiSection = () => {
                   <span className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.08em] tint">{m.kicker}</span>
                   <span className="ml-auto font-mono text-[11.5px] text-muted-foreground">{p.title}</span>
                 </div>
-                <h3 className="mt-4 font-display text-[23px] font-bold leading-tight">{m.headline}</h3>
+                <h3 className="mt-4 font-display text-[22px] font-bold leading-tight">{m.headline}</h3>
                 <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">{m.body}</p>
                 <div className="mt-auto pt-5 flex items-center gap-5 text-[14px] font-semibold">
                   {p.demo && (
