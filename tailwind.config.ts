@@ -19,6 +19,7 @@ export default {
     },
     extend: {
       colors: {
+        term: "hsl(var(--t-fg) / <alpha-value>)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

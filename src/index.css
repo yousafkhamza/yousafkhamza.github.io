@@ -27,6 +27,11 @@
 @layer base {
   :root {
     --background: 220 33% 98%;
+    /* Command Rush terminal */
+    --t-bg: 0 0% 100%;
+    --t-fg: 224 45% 12%;
+    --t-red: 350 72% 46%;
+    --t-on: 0 0% 100%;
     --foreground: 224 45% 9%;
     --card: 0 0% 100%;
     --card-foreground: 224 45% 9%;
@@ -61,6 +66,10 @@
 
   .dark {
     --background: 226 45% 7%;
+    --t-bg: 226 45% 6%;
+    --t-fg: 0 0% 100%;
+    --t-red: 350 85% 70%;
+    --t-on: 226 45% 7%;
     --foreground: 220 40% 94%;
     --card: 226 40% 10%;
     --card-foreground: 220 40% 94%;

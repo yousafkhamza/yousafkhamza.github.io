@@ -227,7 +227,7 @@ const CommandRush = () => {
     if (current.tool !== "linux" && answerVerb === typedVerb) {
       say({ kind: "err", text: "Close: right command, but the arguments or flags are off. Check the names in the output above." });
     } else {
-      say({ kind: "err", text: `Not that ${TOOL_HINT[current.tool]} command. Type hint if you are stuck.` });
+      say({ kind: "err", text: "Right tool, wrong command. Type hint if you are stuck." });
     }
   };
 
@@ -248,35 +248,35 @@ const CommandRush = () => {
 
   const lastResult = results[results.length - 1];
   const lineColor: Record<Line["kind"], string> = {
-    in: "text-white",
-    err: "text-[hsl(350_85%_72%)]",
-    warn: "text-[hsl(42_96%_65%)]",
-    hint: "text-[hsl(258_90%_80%)]",
-    ok: "text-[hsl(158_72%_60%)]",
-    info: "text-white/50",
+    in: "text-term",
+    err: "text-[hsl(var(--t-red))]",
+    warn: "text-[hsl(var(--c-amber))]",
+    hint: "text-[hsl(var(--c-violet))]",
+    ok: "text-[hsl(var(--c-green))]",
+    info: "text-term/50",
   };
 
   const btn = "h-9 px-4 rounded-md font-sans text-[13.5px] font-semibold transition-colors";
 
   return (
     <div className="max-w-[720px] mx-auto">
-      <div className="rounded-xl overflow-hidden border border-white/10 bg-[hsl(226_45%_6%)] text-[hsl(220_30%_88%)] shadow-[0_30px_80px_-30px_hsl(var(--c-green)/0.45)]">
+      <div className="rounded-xl overflow-hidden border border-term/10 bg-[hsl(var(--t-bg))] text-term/90 shadow-[0_30px_80px_-30px_hsl(var(--c-green)/0.45)]">
         {/* title bar */}
-        <div className="flex items-center justify-between gap-3 px-4 h-10 border-b border-white/10 font-mono text-[12px] text-white/55">
+        <div className="flex items-center justify-between gap-3 px-4 h-10 border-b border-term/10 font-mono text-[12px] text-term/55">
           <span className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-[hsl(350_85%_65%)]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[hsl(42_96%_60%)]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[hsl(158_72%_52%)]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[hsl(var(--c-amber))]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[hsl(var(--c-green))]" />
             <span className="ml-2">oncall@prod:~</span>
           </span>
           <span>
-            pts <span className="text-[hsl(158_72%_60%)] font-semibold">{score}</span> · best {best} ·{" "}
-            <span className={cn("font-semibold", left <= 15 && phase === "ask" ? "text-[hsl(350_85%_70%)]" : "text-white/80")}>{left}s</span>
+            pts <span className="text-[hsl(var(--c-green))] font-semibold">{score}</span> · best {best} ·{" "}
+            <span className={cn("font-semibold", left <= 15 && phase === "ask" ? "text-[hsl(var(--t-red))]" : "text-term/80")}>{left}s</span>
           </span>
         </div>
-        <div className="h-1 bg-white/10">
+        <div className="h-1 bg-term/10">
           <div
-            className="h-full bg-[hsl(158_72%_52%)] transition-[width] duration-1000 ease-linear"
+            className="h-full bg-[hsl(var(--c-green))] transition-[width] duration-1000 ease-linear"
             style={{ width: `${(left / total) * 100}%` }}
           />
         </div>
@@ -284,7 +284,7 @@ const CommandRush = () => {
         <div className="p-4 sm:p-6 font-mono text-[13px] sm:text-[13.5px] min-h-[340px]">
           {phase === "idle" && (
             <div>
-              <p className="font-sans text-[16px] text-white leading-relaxed">
+              <p className="font-sans text-[16px] text-term leading-relaxed">
                 {COMMANDS.length} real on-call situations across 5 levels. Pick one, then type the command that handles each situation.
               </p>
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-5 gap-2">
@@ -297,44 +297,44 @@ const CommandRush = () => {
                       key={l.level}
                       onClick={() => start(l.level)}
                       aria-label={`Level ${l.level}: ${l.name}`}
-                      className="text-left rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] p-3 transition-colors border-t-4"
+                      className="text-left rounded-lg border border-term/10 bg-term/[0.03] hover:bg-term/[0.07] p-3 transition-colors border-t-4"
                       style={{ borderTopColor: `hsl(var(--c-${c}))` }}
                     >
                       <div className="text-[11px] font-semibold" style={{ color: `hsl(var(--c-${c}))` }}>
                         LEVEL {l.level}
                       </div>
-                      <div className="font-sans text-[15px] font-bold text-white mt-0.5">{l.name}</div>
-                      <div className="font-sans text-[12px] text-white/55 mt-1 leading-snug">{l.tools}</div>
-                      <div className="text-[11px] text-white/40 mt-2">
+                      <div className="font-sans text-[15px] font-bold text-term mt-0.5">{l.name}</div>
+                      <div className="font-sans text-[12px] text-term/55 mt-1 leading-snug">{l.tools}</div>
+                      <div className="text-[11px] text-term/40 mt-2">
                         {spec.questions} q · {spec.seconds}s{b !== undefined ? ` · best ${b}` : ""}
                       </div>
                     </button>
                   );
                 })}
               </div>
-              <ul className="mt-5 space-y-1.5 text-white/60 text-[13px]">
-                <li><span className="text-[hsl(158_72%_60%)]">+2</span> solved on your own · <span className="text-[hsl(158_72%_60%)]">+1</span> with one hint · 0 with two</li>
+              <ul className="mt-5 space-y-1.5 text-term/60 text-[13px]">
+                <li><span className="text-[hsl(var(--c-green))]">+2</span> solved on your own · <span className="text-[hsl(var(--c-green))]">+1</span> with one hint · 0 with two</li>
                 <li>wrong attempts cost nothing but time, and tell you what was off</li>
-                <li>type <span className="text-white">hint</span> or <span className="text-white">skip</span> any time · ↑ recalls your last attempt</li>
-                <li><span className="text-white">k</span> works for kubectl, <span className="text-white">tf</span> for terraform, flag order does not matter</li>
+                <li>type <span className="text-term">hint</span> or <span className="text-term">skip</span> any time · ↑ recalls your last attempt</li>
+                <li><span className="text-term">k</span> works for kubectl, <span className="text-term">tf</span> for terraform, flag order does not matter</li>
               </ul>
             </div>
           )}
 
           {(phase === "ask" || phase === "reveal") && current && (
             <div>
-              <div className="flex items-center justify-between text-white/40 text-[12px]">
+              <div className="flex items-center justify-between text-term/40 text-[12px]">
                 <span>
                   <span style={{ color: `hsl(var(--c-${LEVEL_COLORS[level - 1]}))` }}>L{level}</span> · # {i + 1}/{deck.length} · {TOOL_HINT[current.tool]}
                 </span>
-                {phase === "ask" && hintsUsed > 0 && <span className="text-[hsl(258_90%_80%)]">hints {hintsUsed}/2</span>}
+                {phase === "ask" && hintsUsed > 0 && <span className="text-[hsl(var(--c-violet))]">hints {hintsUsed}/2</span>}
               </div>
-              <p className="mt-1.5 font-sans text-[16px] leading-relaxed text-white">{current.ask}</p>
+              <p className="mt-1.5 font-sans text-[16px] leading-relaxed text-term">{current.ask}</p>
 
               {current.context && (
-                <div className="mt-4 rounded-md bg-white/[0.04] border border-white/5 px-3 py-2 overflow-x-auto text-[12.5px]">
+                <div className="mt-4 rounded-md bg-term/[0.04] border border-term/5 px-3 py-2 overflow-x-auto text-[12.5px]">
                   {current.context.map((l, n) => (
-                    <div key={n} className={cn("whitespace-pre", n === 0 ? "text-white/75" : "text-white/50")}>
+                    <div key={n} className={cn("whitespace-pre", n === 0 ? "text-term/75" : "text-term/50")}>
                       {l}
                     </div>
                   ))}
@@ -343,7 +343,7 @@ const CommandRush = () => {
               <div ref={screenRef} className="mt-3 max-h-[200px] overflow-y-auto pr-1 space-y-0.5">
                 {lines.map((l, n) => (
                   <div key={n} className={cn("whitespace-pre-wrap break-words", lineColor[l.kind])}>
-                    {l.kind === "in" ? <><span className="text-[hsl(158_72%_60%)]">$ </span>{l.text}</> : l.text}
+                    {l.kind === "in" ? <><span className="text-[hsl(var(--c-green))]">$ </span>{l.text}</> : l.text}
                   </div>
                 ))}
               </div>
@@ -351,13 +351,13 @@ const CommandRush = () => {
               {phase === "ask" && (
                 <form onSubmit={submit} className={cn("mt-2", shake && "animate-[shake_.35s]")}>
                   <label className="flex items-center gap-2">
-                    <span className="text-[hsl(158_72%_60%)]">$</span>
+                    <span className="text-[hsl(var(--c-green))]">$</span>
                     <input
                       ref={inputRef}
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyDown={onKey}
-                      className="flex-1 min-w-0 bg-transparent outline-none caret-[hsl(42_96%_60%)] text-white placeholder:text-white/25"
+                      className="flex-1 min-w-0 bg-transparent outline-none caret-[hsl(var(--c-amber))] text-term placeholder:text-term/25"
                       placeholder="type the command and press Enter"
                       spellCheck={false}
                       autoCapitalize="off"
@@ -367,18 +367,18 @@ const CommandRush = () => {
                     />
                   </label>
                   <div className="mt-5 flex flex-wrap gap-2">
-                    <button type="submit" className={cn(btn, "bg-[hsl(158_72%_52%)] text-[hsl(226_45%_7%)] hover:bg-[hsl(158_72%_60%)]")}>
+                    <button type="submit" className={cn(btn, "bg-[hsl(var(--c-green))] text-[hsl(var(--t-on))] hover:bg-[hsl(var(--c-green)/0.85)]")}>
                       Run ⏎
                     </button>
                     <button
                       type="button"
                       onClick={giveHint}
                       disabled={hintsUsed >= 2}
-                      className={cn(btn, "bg-[hsl(258_90%_74%/0.15)] text-[hsl(258_90%_82%)] hover:bg-[hsl(258_90%_74%/0.25)] disabled:opacity-40 disabled:cursor-not-allowed")}
+                      className={cn(btn, "bg-[hsl(var(--c-violet)/0.15)] text-[hsl(var(--c-violet))] hover:bg-[hsl(var(--c-violet)/0.25)] disabled:opacity-40 disabled:cursor-not-allowed")}
                     >
                       Hint {hintsUsed < 2 ? `(${2 - hintsUsed} left)` : "(none left)"}
                     </button>
-                    <button type="button" onClick={skip} className={cn(btn, "bg-white/5 text-white/70 hover:bg-white/10")}>
+                    <button type="button" onClick={skip} className={cn(btn, "bg-term/5 text-term/70 hover:bg-term/10")}>
                       Skip & show answer
                     </button>
                   </div>
@@ -386,18 +386,18 @@ const CommandRush = () => {
               )}
 
               {phase === "reveal" && lastResult && (
-                <div className="mt-4 rounded-lg border border-white/10 bg-white/[0.03] p-4 animate-fade-in">
-                  <div className={cn("text-[12px] font-semibold", lastResult.outcome === "solved" ? "text-[hsl(158_72%_60%)]" : "text-[hsl(42_96%_65%)]")}>
+                <div className="mt-4 rounded-lg border border-term/10 bg-term/[0.03] p-4 animate-fade-in">
+                  <div className={cn("text-[12px] font-semibold", lastResult.outcome === "solved" ? "text-[hsl(var(--c-green))]" : "text-[hsl(var(--c-amber))]")}>
                     {lastResult.outcome === "solved"
                       ? `solved${lastResult.hints ? ` with ${lastResult.hints} hint${lastResult.hints > 1 ? "s" : ""}` : ""} · +${lastResult.points}`
                       : "skipped · the answer"}
                   </div>
-                  <div className="mt-2 text-white break-words">
-                    <span className="text-[hsl(158_72%_60%)]">$ </span>
+                  <div className="mt-2 text-term break-words">
+                    <span className="text-[hsl(var(--c-green))]">$ </span>
                     {current.answer}
                   </div>
-                  <p className="mt-2 font-sans text-[14px] leading-relaxed text-white/65">{current.why.replace(/`/g, "")}</p>
-                  <button ref={nextRef} onClick={next} className={cn(btn, "mt-4 bg-[hsl(158_72%_52%)] text-[hsl(226_45%_7%)] hover:bg-[hsl(158_72%_60%)]")}>
+                  <p className="mt-2 font-sans text-[14px] leading-relaxed text-term/65">{current.why.replace(/`/g, "")}</p>
+                  <button ref={nextRef} onClick={next} className={cn(btn, "mt-4 bg-[hsl(var(--c-green))] text-[hsl(var(--t-on))] hover:bg-[hsl(var(--c-green)/0.85)]")}>
                     {i + 1 >= deck.length || left <= 0 ? "See results" : "Next situation ⏎"}
                   </button>
                 </div>
@@ -407,34 +407,34 @@ const CommandRush = () => {
 
           {phase === "done" && (
             <div>
-              <div className="font-sans text-[22px] font-bold text-white">
-                {score} points <span className="text-white/45 text-[15px] font-normal">· best {best}</span>
+              <div className="font-sans text-[22px] font-bold text-term">
+                {score} points <span className="text-term/45 text-[15px] font-normal">· best {best}</span>
               </div>
-              <div className="mt-1 text-white/55 text-[12.5px]">
+              <div className="mt-1 text-term/55 text-[12.5px]">
                 {results.filter((r) => r.outcome === "solved").length} solved · {results.filter((r) => r.outcome === "skipped").length} skipped ·{" "}
                 {left <= 0 ? "time ran out" : "all done"}
               </div>
               <ul className="mt-5 space-y-3 max-h-[300px] overflow-y-auto pr-2">
                 {results.map((r, n) => (
                   <li key={n} className="text-[13px]">
-                    <span className={r.outcome === "solved" ? "text-[hsl(158_72%_60%)]" : "text-[hsl(350_85%_70%)]"}>
+                    <span className={r.outcome === "solved" ? "text-[hsl(var(--c-green))]" : "text-[hsl(var(--t-red))]"}>
                       {r.outcome === "solved" ? `✔ +${r.points}` : "✘ skip"}
                     </span>{" "}
-                    <span className="font-sans text-white/75">{r.prompt.ask}</span>
-                    <div className="pl-4 mt-0.5 text-white/45 break-words">$ {r.prompt.answer}</div>
+                    <span className="font-sans text-term/75">{r.prompt.ask}</span>
+                    <div className="pl-4 mt-0.5 text-term/45 break-words">$ {r.prompt.answer}</div>
                   </li>
                 ))}
               </ul>
               <div className="mt-6 flex flex-wrap gap-2">
-                <button onClick={() => start(level)} className={cn(btn, "bg-white/10 text-white hover:bg-white/15")}>
+                <button onClick={() => start(level)} className={cn(btn, "bg-term/10 text-term hover:bg-term/15")}>
                   Same level, new situations
                 </button>
                 {level < 5 && (
-                  <button onClick={() => start(level + 1)} className={cn(btn, "bg-[hsl(158_72%_52%)] text-[hsl(226_45%_7%)] hover:bg-[hsl(158_72%_60%)]")}>
+                  <button onClick={() => start(level + 1)} className={cn(btn, "bg-[hsl(var(--c-green))] text-[hsl(var(--t-on))] hover:bg-[hsl(var(--c-green)/0.85)]")}>
                     Level {level + 1}: {LEVELS[level].name}
                   </button>
                 )}
-                <button onClick={() => setPhase("idle")} className={cn(btn, "bg-white/5 text-white/70 hover:bg-white/10")}>
+                <button onClick={() => setPhase("idle")} className={cn(btn, "bg-term/5 text-term/70 hover:bg-term/10")}>
                   All levels
                 </button>
               </div>
