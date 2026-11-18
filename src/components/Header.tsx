@@ -24,7 +24,7 @@ const StatusStrip = () => {
           <span className="dot shrink-0" />
           <span className="truncate">
             <span className="text-foreground">Open to new roles</span>
-            <span className="hidden sm:inline"> · Senior DevOps, Platform, SRE</span>
+            <span className="hidden sm:inline"> · Senior DevOps, DevSecOps, Platform, SRE</span>
           </span>
         </span>
         <span className="flex items-center gap-3 shrink-0">

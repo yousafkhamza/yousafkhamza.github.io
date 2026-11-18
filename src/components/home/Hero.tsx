@@ -106,7 +106,7 @@ const Hero = () => (
       <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-14 items-start">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-c-green/40 bg-c-green/10 px-3 py-1.5 font-mono text-[12px] text-c-green">
-            <span className="dot" /> Fintech &amp; payments since 2018
+            <span className="dot" /> AWS · Kubernetes · DevSecOps
           </div>
           <h1 className="mt-6 font-mono text-[13px] text-muted-foreground">
             {profile.name} <span className="text-c-violet">/</span> Senior DevOps &amp; Platform Engineer, Dubai

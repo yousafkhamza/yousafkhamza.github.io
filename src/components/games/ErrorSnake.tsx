@@ -3,7 +3,8 @@ import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Pause, Play, RotateCcw } fro
 import { cn } from "@/lib/utils";
 
 // "Error Snake": classic snake, but the food is production errors. Eat one and
-// you see the fix. Arrow keys / WASD on a keyboard, swipe or the pad on a phone.
+// you see the fix. Walls wrap around like the old Nokia snake; only your tail
+// and the rm tile end the game. Arrow keys / WASD, or swipe / the pad on a phone.
 // Every so often an `rm -rf /` tile shows up for a few seconds: don't touch it.
 
 const COLS = 18;
@@ -211,9 +212,8 @@ const ErrorSnake = () => {
     const nextDir = s.queue.shift();
     if (nextDir && nextDir !== OPPOSITE[s.dir]) s.dir = nextDir;
     const d = DELTA[s.dir];
-    const head = { x: s.snake[0].x + d.x, y: s.snake[0].y + d.y };
-
-    if (head.x < 0 || head.y < 0 || head.x >= COLS || head.y >= ROWS) return end("Hit the edge of the cluster.");
+    // walls wrap around: leave on the right, come back on the left
+    const head = { x: (s.snake[0].x + d.x + COLS) % COLS, y: (s.snake[0].y + d.y + ROWS) % ROWS };
     const eating = same(head, s.food);
     const body = eating ? s.snake : s.snake.slice(0, -1);
     if (body.some((p) => same(p, head))) return end("Ran into your own tail. Classic dependency loop.");
@@ -401,7 +401,7 @@ const ErrorSnake = () => {
                   <>
                     <div className="font-display text-[28px] font-extrabold">Error Snake</div>
                     <p className="mt-1 text-[15px] text-muted-foreground">
-                      Eat the errors before they pile up. Avoid the walls, your tail and the{" "}
+                      Eat the errors before they pile up. Walls wrap around; just avoid your own tail and the{" "}
                       <span className="font-mono text-c-amber">rm</span> tile.
                     </p>
                   </>
@@ -459,6 +459,7 @@ const ErrorSnake = () => {
         <div className="mt-6 label">How it works</div>
         <ul className="mt-2 space-y-1.5 text-[14.5px] text-muted-foreground">
           <li>Each pink tile is a real production error. Eat it to fix it.</li>
+          <li>The walls are open: go off one side and you come back on the other.</li>
           <li>Every 5 fixes the snake gets faster.</li>
           <li>
             After a few fixes an amber <span className="font-mono text-c-amber">rm</span> tile appears for a few
