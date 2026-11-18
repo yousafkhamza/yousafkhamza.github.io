@@ -4,6 +4,10 @@
  * The bad line is marked with a leading "!" here and stripped when loaded.
  * Levels: 1 obvious · 2 common · 3 needs experience · 4 subtle · 5 expert.
  */
+import { MORE_A } from "./misconfigs-more-a";
+import { MORE_B } from "./misconfigs-more-b";
+import { MORE_C } from "./misconfigs-more-c";
+
 export interface MisconfigRound {
   id: string;
   level: 1 | 2 | 3 | 4 | 5;
@@ -13,7 +17,7 @@ export interface MisconfigRound {
   why: string;
 }
 
-type Raw = [id: string, level: 1 | 2 | 3 | 4 | 5, file: string, lines: string[], why: string];
+export type Raw = [id: string, level: 1 | 2 | 3 | 4 | 5, file: string, lines: string[], why: string];
 
 const RAW: Raw[] = [
   // ───────────── level 1: obvious once you have seen it ─────────────
@@ -798,7 +802,7 @@ const RAW: Raw[] = [
   ], "X-Forwarded-For is set by the client, so anyone can claim an allowed IP. Trust only the address your own load balancer appends (trust proxy)."],
 ];
 
-export const MISCONFIGS: MisconfigRound[] = RAW.map(([id, level, file, raw, why]) => {
+export const MISCONFIGS: MisconfigRound[] = [...RAW, ...MORE_A, ...MORE_B, ...MORE_C].map(([id, level, file, raw, why]) => {
   const bad = raw.findIndex((l) => l.startsWith("!"));
   if (bad < 0 || raw.filter((l) => l.startsWith("!")).length !== 1) throw new Error(`misconfig ${id} must mark exactly one bad line`);
   return { id, level, file, lines: raw.map((l) => (l.startsWith("!") ? l.slice(1) : l)), bad, why };

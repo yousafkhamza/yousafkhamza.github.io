@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 const GAMES = [
   { id: "incident", title: "Incident Response", blurb: "Whack the incidents before they page you", Component: IncidentResponse },
   { id: "rush", title: "Command Rush", blurb: "220+ situations, 5 levels, type the fix", Component: CommandRush },
-  { id: "misconfig", title: "Spot the Misconfig", blurb: "100+ files, 5 levels, find the line that breaks prod", Component: Misconfig },
+  { id: "misconfig", title: "Spot the Misconfig", blurb: "300+ files, 5 levels, find the line that breaks prod", Component: Misconfig },
 ] as const;
 
 const PlayPage = () => {
