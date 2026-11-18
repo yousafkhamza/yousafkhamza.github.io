@@ -3,12 +3,14 @@ import PageHero from "@/components/layout/PageHero";
 import IncidentResponse from "@/components/games/IncidentResponse";
 import CommandRush from "@/components/games/CommandRush";
 import Misconfig from "@/components/games/Misconfig";
+import ErrorSnake from "@/components/games/ErrorSnake";
 import { cn } from "@/lib/utils";
 
 const GAMES = [
   { id: "incident", title: "Incident Response", blurb: "Whack the incidents before they page you", Component: IncidentResponse },
   { id: "rush", title: "Command Rush", blurb: "220+ situations, 5 levels, type the fix", Component: CommandRush },
   { id: "misconfig", title: "Spot the Misconfig", blurb: "300+ files, 5 levels, find the line that breaks prod", Component: Misconfig },
+  { id: "snake", title: "Error Snake", blurb: "Classic snake, but you eat production errors", Component: ErrorSnake },
 ] as const;
 
 const PlayPage = () => {
@@ -21,11 +23,11 @@ const PlayPage = () => {
       <PageHero
         path="play"
         title="On-call, but fun."
-        description="Three small games about the job. Everything runs in your browser and your best scores stay on this device."
+        description="Four small games about the job. Everything runs in your browser and your best scores stay on this device."
       />
       <section className="rule-t">
         <div className="wrap py-10 sm:py-14">
-          <div className="grid sm:grid-cols-3 gap-3 mb-10" role="tablist" aria-label="Games">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-10" role="tablist" aria-label="Games">
             {GAMES.map((g, i) => (
               <button
                 key={g.id}

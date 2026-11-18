@@ -49,7 +49,7 @@ export const routeMeta = (): RouteMeta[] => {
     {
       path: "/play",
       title: `On-call games · ${profile.name}`,
-      description: "Three browser games about life in DevOps: incident response, Command Rush with 220+ situations across Linux, AWS, Terraform, Docker and Kubernetes, and Spot the Misconfig with 300+ real config files across five levels.",
+      description: "Four browser games about life in DevOps: incident response, Command Rush with 220+ situations across Linux, AWS, Terraform, Docker and Kubernetes, Spot the Misconfig with 300+ real config files, and Error Snake, where you eat production errors.",
       priority: 0.3,
     },
   ];
