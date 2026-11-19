@@ -368,7 +368,7 @@ const ErrorSnake = () => {
   return (
     <div className="grid lg:grid-cols-[minmax(0,540px)_1fr] gap-8 items-start">
       <div>
-        <div className="flex items-center justify-between mb-3 font-mono text-[13px]">
+        <div className="flex items-center justify-between mb-3 font-code text-[13px]">
           <span>
             errors fixed <b className="text-c-green text-[15px]">{score}</b>
           </span>
@@ -389,20 +389,20 @@ const ErrorSnake = () => {
               <div className="max-w-[330px]">
                 {phase === "over" ? (
                   <>
-                    <div className="font-display text-[28px] font-extrabold">Postmortem</div>
+                    <div className="font-display text-[28px] font-bold">Postmortem</div>
                     <p className="mt-1 text-[15px] text-muted-foreground">{cause}</p>
-                    <p className="mt-3 font-mono text-[14px]">
+                    <p className="mt-3 font-code text-[14px]">
                       {score} error{score === 1 ? "" : "s"} fixed{score > 0 && score >= best ? " · new best" : ""}
                     </p>
                   </>
                 ) : phase === "paused" ? (
-                  <div className="font-display text-[28px] font-extrabold">Paused</div>
+                  <div className="font-display text-[28px] font-bold">Paused</div>
                 ) : (
                   <>
-                    <div className="font-display text-[28px] font-extrabold">Error Snake</div>
+                    <div className="font-display text-[28px] font-bold">Error Snake</div>
                     <p className="mt-1 text-[15px] text-muted-foreground">
                       Eat the errors before they pile up. Walls wrap around; just avoid your own tail and the{" "}
-                      <span className="font-mono text-c-amber">rm</span> tile.
+                      <span className="font-code text-c-amber">rm</span> tile.
                     </p>
                   </>
                 )}
@@ -414,10 +414,10 @@ const ErrorSnake = () => {
                   {phase === "paused" ? <Play className="w-4 h-4" /> : phase === "over" ? <RotateCcw className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                   {phase === "paused" ? "Resume" : phase === "over" ? "Play again" : "Start"}
                 </button>
-                <p className="mt-3 font-mono text-[12px] text-muted-foreground hidden sm:block">
+                <p className="mt-3 font-code text-[12px] text-muted-foreground hidden sm:block">
                   arrows or WASD to move · space to pause
                 </p>
-                <p className="mt-3 font-mono text-[12px] text-muted-foreground sm:hidden">swipe on the board or use the pad</p>
+                <p className="mt-3 font-code text-[12px] text-muted-foreground sm:hidden">swipe on the board or use the pad</p>
               </div>
             </div>
           )}
@@ -450,7 +450,7 @@ const ErrorSnake = () => {
         <div className="label">Last fix</div>
         {lastFix ? (
           <div key={lastFix.name + score} className="mt-2 animate-fade-in">
-            <div className="font-mono text-[14px] text-c-pink">{lastFix.name}</div>
+            <div className="font-code text-[14px] text-c-pink">{lastFix.name}</div>
             <p className="mt-1 text-[15px]">{lastFix.fix}</p>
           </div>
         ) : (
@@ -462,7 +462,7 @@ const ErrorSnake = () => {
           <li>The walls are open: go off one side and you come back on the other.</li>
           <li>Every 5 fixes the snake gets faster.</li>
           <li>
-            After a few fixes an amber <span className="font-mono text-c-amber">rm</span> tile appears for a few
+            After a few fixes an amber <span className="font-code text-c-amber">rm</span> tile appears for a few
             seconds. Touch it and it is over.
           </li>
         </ul>

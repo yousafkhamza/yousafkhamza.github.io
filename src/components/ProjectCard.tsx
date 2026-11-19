@@ -18,14 +18,14 @@ const ProjectCard = ({ project, index, compact = false }: { project: Project; in
 
   return (
     <article
-      className="panel flex flex-col h-full overflow-hidden group transition-all duration-300 hover:-translate-y-1 hover:border-[hsl(var(--c)/0.6)] hover:shadow-[0_24px_60px_-28px_hsl(var(--c)/0.7)]"
+      className="panel flex flex-col h-full overflow-hidden group transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_hsl(var(--foreground))]"
       style={{ ["--c" as string]: `var(--c-${CATEGORY_COLOR[project.categories[0]] ?? "green"})` }}
     >
       <a
         href={project.demo ?? project.github}
         target="_blank"
         rel="noopener noreferrer"
-        className="block relative aspect-video overflow-hidden border-b border-border bg-secondary"
+        className="block relative aspect-video overflow-hidden border-b-2 border-foreground/85 bg-secondary"
         tabIndex={-1}
         aria-hidden
       >
@@ -39,19 +39,19 @@ const ProjectCard = ({ project, index, compact = false }: { project: Project; in
         )}
       </a>
       <div className="p-5 sm:p-6 flex flex-col flex-1">
-        <div className="flex flex-wrap items-center gap-1.5 font-mono text-[11.5px] text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-1.5 font-mono text-[13.5px] text-muted-foreground">
           {index !== undefined && <span className="mr-1">{String(index + 1).padStart(2, "0")}</span>}
           {project.categories.map((c) => (
             <span
               key={c}
-              className="px-2 py-0.5 rounded-full font-semibold"
+              className="px-2 py-0.5 rounded-[2px] font-bold uppercase text-[13px] tracking-[0.04em]"
               style={{ background: `hsl(var(--c-${CATEGORY_COLOR[c]}) / 0.14)`, color: `hsl(var(--c-${CATEGORY_COLOR[c]}))` }}
             >
-              {c.toLowerCase()}
+              {c}
             </span>
           ))}
         </div>
-        <h3 className="mt-3 font-display text-[22px] font-bold tracking-[-0.01em] group-hover:text-[hsl(var(--c))] transition-colors">{project.title}</h3>
+        <h3 className="mt-3 font-display text-[28px] font-bold uppercase leading-none">{project.title}</h3>
         <p
           className={cn(
             "mt-2 text-[14.5px] leading-relaxed text-muted-foreground",
@@ -63,7 +63,7 @@ const ProjectCard = ({ project, index, compact = false }: { project: Project; in
         {!compact && (
           <button
             onClick={() => setExpanded((v) => !v)}
-            className="self-start mt-1.5 font-mono text-[12px] tint hover:underline"
+            className="self-start mt-1.5 text-[14px] font-semibold underline decoration-2 decoration-[hsl(var(--sign))] underline-offset-4"
             aria-expanded={expanded}
           >
             {expanded ? "− less" : "+ read more"}
@@ -81,7 +81,7 @@ const ProjectCard = ({ project, index, compact = false }: { project: Project; in
         )}
         <div className="mt-auto pt-5 flex items-center gap-5 text-[14px] font-medium">
           {project.demo && (
-            <a href={project.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 tint">
+            <a href={project.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary text-primary-foreground rounded-[2px] font-semibold">
               Live <ArrowUpRight className="w-4 h-4" />
             </a>
           )}

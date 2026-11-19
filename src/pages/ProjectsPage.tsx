@@ -44,7 +44,7 @@ const ProjectsPage = () => {
                 onClick={() => setFilter(f)}
                 style={{ ["--c" as string]: f === "All" ? "var(--primary)" : `var(--c-${CATEGORY_COLOR[f]})` }}
                 className={cn(
-                  "h-9 px-4 rounded-full border font-mono text-[12.5px] font-semibold transition-colors",
+                  "h-9 px-4 rounded-full border font-mono text-[14.5px] font-semibold transition-colors",
                   filter === f ? "bg-[hsl(var(--c))] text-background border-transparent" : "border-border bg-card tint"
                 )}
               >

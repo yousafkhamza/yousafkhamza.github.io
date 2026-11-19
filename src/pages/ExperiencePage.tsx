@@ -48,7 +48,7 @@ const ExperiencePage = () => {
                 <div className="flex items-center gap-2">
                   <span className="tag tint-bg border-transparent font-semibold">{e.version}</span>
                   {!e.end && (
-                    <span className="font-mono text-[11.5px] text-ok flex items-center gap-1.5">
+                    <span className="font-mono text-[13.5px] text-ok flex items-center gap-1.5">
                       <span className="dot" /> current
                     </span>
                   )}
@@ -58,7 +58,7 @@ const ExperiencePage = () => {
                   <img src={e.logo} alt="" className="w-6 h-6 rounded-[4px] object-contain bg-white border border-border" />
                   <span className="text-[15px] font-bold tint">{e.company}</span>
                 </div>
-                <div className="mt-2 font-mono text-[12px] text-muted-foreground leading-relaxed">
+                <div className="mt-2 font-mono text-[14px] text-muted-foreground leading-relaxed">
                   {e.period}
                   <br />
                   {e.location}
@@ -91,7 +91,7 @@ const ExperiencePage = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border rounded-[var(--radius)] overflow-hidden">
           {certifications.map((c) => (
             <div key={c.id} className="bg-card p-5">
-              <div className="flex items-center justify-between font-mono text-[11.5px] text-muted-foreground">
+              <div className="flex items-center justify-between font-mono text-[13.5px] text-muted-foreground">
                 <span>{c.organization}</span>
                 <span>{c.date}</span>
               </div>
@@ -109,7 +109,7 @@ const ExperiencePage = () => {
               <div>
                 <div className="text-[17px] font-semibold">{e.degree}</div>
                 <div className="text-[14.5px] text-muted-foreground">{e.school}</div>
-                <div className="font-mono text-[12px] text-muted-foreground mt-1">{e.period}</div>
+                <div className="font-mono text-[14px] text-muted-foreground mt-1">{e.period}</div>
               </div>
             </div>
           ))}

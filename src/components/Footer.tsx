@@ -2,31 +2,31 @@ import { Link } from "react-router-dom";
 import { profile } from "@/data/profile";
 
 const Footer = () => (
-  <footer className="rule-t mt-8">
-    <div className="wrap py-10 grid gap-8 sm:grid-cols-[1.4fr_1fr_1fr] text-[14px]">
+  <footer className="mt-8 bg-board text-board-dim">
+    <div className="wrap py-10 grid gap-8 sm:grid-cols-[1.4fr_1fr_1fr] text-[15px]">
       <div>
-        <div className="font-semibold text-[16px]">
-          {profile.name} <span className="font-normal text-muted-foreground">({profile.altName})</span>
+        <div className="font-display text-[22px] font-bold uppercase text-white">
+          {profile.name} <span className="font-normal normal-case text-[16px] text-board-dim">({profile.altName})</span>
         </div>
-        <p className="text-muted-foreground mt-1 max-w-[42ch]">
+        <p className="mt-1 max-w-[42ch]">
           {profile.role}. Based in {profile.location}.
         </p>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="label mb-1">Elsewhere</span>
-        <a className="hover:text-yousaf" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a className="hover:text-yousaf" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a className="hover:text-yousaf" href={profile.medium} target="_blank" rel="noopener noreferrer">Medium</a>
-        <a className="hover:text-yousaf" href={`mailto:${profile.email}`} title={profile.email}>Email</a>
+        <span className="label mb-1 text-board-fg">Elsewhere</span>
+        <a className="hover:text-board-fg" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a className="hover:text-board-fg" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a className="hover:text-board-fg" href={profile.medium} target="_blank" rel="noopener noreferrer">Medium</a>
+        <a className="hover:text-board-fg" href={`mailto:${profile.email}`} title={profile.email}>Email</a>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="label mb-1">On this site</span>
-        <Link className="hover:text-yousaf" to="/projects">Projects</Link>
-        <Link className="hover:text-yousaf" to="/services">Career guidance</Link>
-        <Link className="hover:text-yousaf" to="/play">On-call games <span className="font-mono text-[12px] text-muted-foreground">sudo play</span></Link>
+        <span className="label mb-1 text-board-fg">On this site</span>
+        <Link className="hover:text-board-fg" to="/projects">Projects</Link>
+        <Link className="hover:text-board-fg" to="/services">Career guidance</Link>
+        <Link className="hover:text-board-fg" to="/play">On-call games <span className="font-code text-[14px] opacity-70">sudo play</span></Link>
       </div>
     </div>
-    <div className="wrap pb-8 font-mono text-[11.5px] text-muted-foreground flex flex-wrap justify-between gap-2">
+    <div className="wrap pb-8 font-mono text-[14px] uppercase tracking-[0.05em] flex flex-wrap justify-between gap-2">
       <span>© {new Date().getFullYear()} {profile.name}</span>
       <span>static site · built with GitHub Actions · served by GitHub Pages</span>
     </div>

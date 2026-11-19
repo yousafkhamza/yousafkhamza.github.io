@@ -64,6 +64,14 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         ink: "hsl(var(--foreground))",
+        board: {
+          DEFAULT: "hsl(var(--board) / <alpha-value>)",
+          fg: "hsl(var(--board-fg) / <alpha-value>)",
+          flap: "hsl(var(--flap) / <alpha-value>)",
+          ok: "hsl(var(--board-ok) / <alpha-value>)",
+          dim: "hsl(var(--board-dim) / <alpha-value>)",
+        },
+        sign: "hsl(var(--sign) / <alpha-value>)",
         ok: "hsl(var(--ok) / <alpha-value>)",
         warn: "hsl(var(--warn) / <alpha-value>)",
         bad: "hsl(var(--bad) / <alpha-value>)",
@@ -76,8 +84,8 @@ export default {
           pink: "hsl(var(--c-pink) / <alpha-value>)",
         },
         yousaf: {
-          light: "hsl(var(--primary) / 0.75)",
-          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
+          light: "hsl(var(--accent-ink) / 0.75)",
+          DEFAULT: "hsl(var(--accent-ink) / <alpha-value>)",
           dark: "hsl(var(--primary-strong))",
         },
       },
@@ -87,9 +95,12 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["Manrope", "system-ui", "sans-serif"],
-        display: ["Bricolage Grotesque", "Manrope", "sans-serif"],
-        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
+        sans: ["Barlow", "system-ui", "sans-serif"],
+        display: ["Barlow Condensed", "Barlow", "sans-serif"],
+        /* small UI labels, dates and tags: condensed signage type, not a code font */
+        mono: ["Barlow Condensed", "Barlow", "sans-serif"],
+        /* real code and terminals (games, stack.yaml, 404) */
+        code: ["JetBrains Mono", "ui-monospace", "monospace"],
         "great-vibes": ["Great Vibes", "cursive"],
         whisper: ["Whisper", "cursive"],
         angel: ["Angel", "cursive"],

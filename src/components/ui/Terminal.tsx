@@ -869,13 +869,13 @@ Did you mean one of these?
           <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
           <div className="w-3 h-3 rounded-full bg-green-500"></div>
         </div>
-        <div className="terminal-title text-sm font-mono">
+        <div className="terminal-title text-sm font-code">
           {interactive ? `${getPrompt()} - Interactive Mode` : title}
         </div>
       </div>
       <div
         ref={terminalRef}
-        className={`terminal-content p-4 font-mono text-sm overflow-y-auto ${bgColor} ${textColor} cursor-text`}
+        className={`terminal-content p-4 font-code text-sm overflow-y-auto ${bgColor} ${textColor} cursor-text`}
         style={{
           height: height,
           maxHeight: height,
@@ -894,7 +894,7 @@ Did you mean one of these?
                   value={userInput}
                   onChange={(e) => setUserInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="bg-transparent outline-none border-none text-green-400 font-mono w-full"
+                  className="bg-transparent outline-none border-none text-green-400 font-code w-full"
                   style={{ caretColor: "transparent" }}
                   autoComplete="off"
                   spellCheck="false"

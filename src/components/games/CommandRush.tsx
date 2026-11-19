@@ -260,9 +260,9 @@ const CommandRush = () => {
 
   return (
     <div className="max-w-[720px] mx-auto">
-      <div className="rounded-xl overflow-hidden border border-term/10 bg-[hsl(var(--t-bg))] text-term/90 shadow-[0_30px_80px_-30px_hsl(var(--c-green)/0.45)]">
+      <div className="rounded-xl overflow-hidden border border-term/10 bg-[hsl(var(--t-bg))] text-term/90">
         {/* title bar */}
-        <div className="flex items-center justify-between gap-3 px-4 h-10 border-b border-term/10 font-mono text-[12px] text-term/55">
+        <div className="flex items-center justify-between gap-3 px-4 h-10 border-b border-term/10 font-code text-[12px] text-term/55">
           <span className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-[hsl(350_85%_65%)]" />
             <span className="w-2.5 h-2.5 rounded-full bg-[hsl(var(--c-amber))]" />
@@ -281,7 +281,7 @@ const CommandRush = () => {
           />
         </div>
 
-        <div className="p-4 sm:p-6 font-mono text-[13px] sm:text-[13.5px] min-h-[340px]">
+        <div className="p-4 sm:p-6 font-code text-[13px] sm:text-[13.5px] min-h-[340px]">
           {phase === "idle" && (
             <div>
               <p className="font-sans text-[16px] text-term leading-relaxed">

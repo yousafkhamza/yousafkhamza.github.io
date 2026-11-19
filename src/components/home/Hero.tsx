@@ -4,13 +4,13 @@ import { ArrowRight, Check, Copy, FileDown } from "lucide-react";
 import { profile, yearsOfExperience } from "@/data/profile";
 import { experiences } from "@/data/experience";
 import { certifications } from "@/data/certifications";
-import PodField from "@/components/home/PodField";
+import DepartureBoard from "@/components/home/DepartureBoard";
 import { useOfficeStatus } from "@/hooks/useOfficeStatus";
 import { cn } from "@/lib/utils";
 
 const coreCerts = certifications.filter((c) => c.core && c.id !== "genai").map((c) => c.short);
 
-/** the recruiter view: everything needed to decide "call or not" in one block */
+/** the recruiter view, as a boarding pass: everything needed to decide "call or not" */
 const QuickRead = () => {
   const [copied, setCopied] = useState(false);
   const years = yearsOfExperience();
@@ -47,34 +47,36 @@ const QuickRead = () => {
 
   return (
     <aside className="panel overflow-hidden" aria-label="Profile summary">
-      <div className="flex items-center justify-between px-5 h-11 border-b border-border">
-        <span className="font-mono text-[12px] text-muted-foreground">
-          <span className="text-c-green">$</span> <span className="text-c-cyan">describe</span> engineer yousaf
-        </span>
-        <span className="flex items-center gap-1.5 font-mono text-[11.5px] text-c-green bg-c-green/10 px-2 py-0.5 rounded-full">
-          <span className="dot" /> Available
+      <div className="flex items-center justify-between gap-3 px-5 h-12 bg-board text-board-fg">
+        <span className="font-display text-[17px] font-bold uppercase tracking-[0.08em]">Boarding pass</span>
+        <span className="flex items-center gap-1.5 font-display text-[15px] font-bold uppercase tracking-[0.06em] text-board-ok">
+          <span className="w-2 h-2 rounded-full bg-board-ok" /> Available
         </span>
       </div>
-      <dl className="px-5 py-4 grid grid-cols-[96px_1fr] gap-x-4 gap-y-2.5 text-[14px]">
+      <div className="px-5 pt-4 pb-1 border-b-2 border-dashed border-border">
+        <div className="label">Passenger</div>
+        <div className="font-display text-[26px] font-bold uppercase leading-tight">{profile.name}</div>
+      </div>
+      <dl className="px-5 py-4 grid grid-cols-[96px_1fr] gap-x-4 gap-y-2.5 text-[15px]">
         {rows.map(([k, v]) => (
           <div key={k} className="contents">
-            <dt className="font-mono text-[12px] text-c-violet pt-[2px]">{k}</dt>
-            <dd className="leading-snug">{v}</dd>
+            <dt className="label pt-[2px]">{k}</dt>
+            <dd className="leading-snug font-medium">{v}</dd>
           </div>
         ))}
       </dl>
-      <div className="flex border-t border-border">
+      <div className="flex border-t-2 border-foreground/85">
         <a
           href={profile.resume}
           target="_blank"
           rel="noopener"
-          className="flex-1 inline-flex items-center justify-center gap-2 h-11 text-[14px] font-semibold text-c-green hover:bg-c-green/10 transition-colors"
+          className="flex-1 inline-flex items-center justify-center gap-2 h-12 text-[15px] font-semibold bg-primary text-primary-foreground hover:bg-[hsl(var(--primary-strong))] transition-colors"
         >
           <FileDown className="w-4 h-4" /> Resume PDF
         </a>
         <button
           onClick={copy}
-          className="flex-1 inline-flex items-center justify-center gap-2 h-11 text-[14px] font-semibold border-l border-border text-c-cyan hover:bg-c-cyan/10 transition-colors"
+          className="flex-1 inline-flex items-center justify-center gap-2 h-12 text-[15px] font-semibold border-l-2 border-foreground/85 hover:bg-secondary transition-colors"
         >
           {copied ? <Check className="w-4 h-4 text-ok" /> : <Copy className="w-4 h-4" />}
           {copied ? "Copied" : "Copy summary"}
@@ -84,64 +86,42 @@ const QuickRead = () => {
   );
 };
 
-const Squiggle = () => (
-  <svg className="absolute left-0 right-0 -bottom-3 sm:-bottom-4 w-full h-4 sm:h-5" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden>
-    <path
-      d="M2 14 C 25 4, 45 4, 66 12 S 108 20, 130 10 S 172 2, 198 10"
-      fill="none"
-      stroke="hsl(var(--c-amber))"
-      strokeWidth="5"
-      strokeLinecap="round"
-      className="[stroke-dasharray:260] [stroke-dashoffset:260] animate-[draw_1.2s_ease-out_.4s_forwards]"
-    />
-  </svg>
-);
-
 /** live pill: online during Dubai office hours, otherwise when I'm back */
 const LivePill = () => {
   const { online, back } = useOfficeStatus(profile.timezone);
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-[12px]",
-        online ? "border-c-green/40 bg-c-green/10 text-c-green" : "border-border bg-secondary/60 text-muted-foreground"
+        "inline-flex items-center gap-2 px-3 py-1.5 font-display text-[15px] font-bold uppercase tracking-[0.05em] rounded-[3px]",
+        online ? "bg-board text-board-ok" : "bg-board text-board-dim"
       )}
     >
-      <span className={cn("dot", !online && "bg-muted-foreground/50 shadow-none")} />
+      <span className={cn("w-2 h-2 rounded-full", online ? "bg-board-ok blink" : "bg-board-dim")} />
       {online ? "Online now · Dubai, UAE" : `Offline · back ${back} · Dubai, UAE`}
     </div>
   );
 };
 
 const Hero = () => (
-  <div className="relative overflow-hidden">
-    {/* backdrop: dot grid and two soft signal-colour lights */}
-    <div className="absolute inset-0 bg-grid [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" aria-hidden />
-    <div className="absolute -top-48 -left-40 w-[640px] h-[640px] rounded-full" style={{ background: "radial-gradient(closest-side, hsl(var(--c-green) / var(--glow)), transparent)" }} aria-hidden />
-    <div className="absolute top-0 -right-48 w-[700px] h-[700px] rounded-full" style={{ background: "radial-gradient(closest-side, hsl(var(--c-violet) / var(--glow)), transparent)" }} aria-hidden />
-
-    <div className="wrap relative pt-12 sm:pt-16 pb-16 sm:pb-24">
-      <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-14 items-start">
+  <div className="relative">
+    <div className="wrap relative pt-10 sm:pt-14 pb-14 sm:pb-20">
+      <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-start">
         <div>
           <LivePill />
-          <h1 className="mt-6 font-mono text-[13px] text-muted-foreground">
-            {profile.name} <span className="text-c-violet">/</span> Senior DevOps &amp; Platform Engineer
+          <h1 className="mt-6 font-display text-[17px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+            {profile.name} <span className="text-foreground">/</span> Senior DevOps &amp; Platform Engineer
           </h1>
-          <p className="mt-4 font-display text-[50px] sm:text-[72px] lg:text-[84px] font-extrabold tracking-[-0.035em] leading-[0.95] text-foreground">
+          <p className="mt-3 font-display text-[64px] sm:text-[92px] lg:text-[108px] font-bold uppercase tracking-[-0.01em] leading-[0.86] text-foreground">
             I keep production{" "}
-            <span className="relative inline-block text-c-green">
-              boring
-              <Squiggle />
-            </span>
-            .
+            <span className="relative inline-block px-2 -mx-1 bg-sign text-[hsl(0_0%_7%)]">boring</span>.
           </p>
-          <p className="mt-8 text-[18px] sm:text-[19px] leading-relaxed text-muted-foreground max-w-[54ch]">
+          <p className="mt-8 text-[19px] sm:text-[20px] leading-relaxed text-muted-foreground max-w-[54ch]">
             {yearsOfExperience()}+ years running <span className="text-foreground font-semibold">AWS</span> and{" "}
             <span className="text-foreground font-semibold">Kubernetes</span> platforms for fintech and regulated
             enterprises. I move workloads to EKS, automate infrastructure with Terraform and GitOps, and build security
             checks into the pipeline.
           </p>
-          <div className="mt-9 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-3">
             <Link to="/projects" className="btn-primary">
               See the work <ArrowRight className="w-4 h-4" />
             </Link>
@@ -149,25 +129,28 @@ const Hero = () => (
               Get in touch
             </Link>
           </div>
-          <div className="mt-12">
+          <div className="mt-10">
             <div className="label mb-3">Where I have worked</div>
             <div className="flex flex-wrap gap-2">
               {experiences.map((e) => (
                 <span
                   key={e.id}
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-[14px] font-semibold"
+                  className="inline-flex items-center gap-2 border-2 border-foreground/85 bg-card px-3 py-1 font-display text-[17px] font-bold uppercase tracking-[0.03em] rounded-[3px]"
                 >
-                  <span className="w-2 h-2 rounded-full" style={{ background: `hsl(var(--c-${e.color}))` }} />
+                  {!e.end && <span className="w-2 h-2 rounded-full bg-ok" aria-label="current" />}
                   {e.company.replace(" UAE", "").replace(" IS", "")}
                 </span>
               ))}
             </div>
           </div>
         </div>
-        <div className="space-y-5 lg:pt-4">
-          <PodField />
+        <div className="lg:pt-2">
           <QuickRead />
         </div>
+      </div>
+
+      <div className="mt-12 sm:mt-16">
+        <DepartureBoard />
       </div>
     </div>
   </div>

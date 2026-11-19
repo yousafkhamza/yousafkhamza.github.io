@@ -203,7 +203,7 @@ const IncidentResponse = () => {
                       />
                     </svg>
                     <Icon className={`w-6 h-6 sm:w-7 sm:h-7 ${incident.type.color}`} />
-                    <span className={`text-[9px] font-mono font-semibold ${incident.type.color}`}>
+                    <span className={`text-[9px] font-code font-semibold ${incident.type.color}`}>
                       {incident.type.label}
                     </span>
                   </div>
@@ -217,14 +217,14 @@ const IncidentResponse = () => {
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/90 backdrop-blur-sm rounded-[var(--radius)] px-6">
             {gameOver ? (
               <div className="text-center mb-4">
-                <p className="font-mono text-sm text-bad font-semibold">Postmortem time</p>
+                <p className="font-code text-sm text-bad font-semibold">Postmortem time</p>
                 <p className="text-xs text-muted-foreground mt-1">
                   {score} incident{score === 1 ? "" : "s"} resolved
                 </p>
               </div>
             ) : (
               <div className="text-center mb-5 max-w-[240px]">
-                <p className="text-xs font-mono uppercase tracking-widest text-yousaf mb-2">
+                <p className="text-xs font-code uppercase tracking-widest text-yousaf mb-2">
                   How to play
                 </p>
                 <ul className="text-xs text-muted-foreground space-y-1.5 text-left">
@@ -245,7 +245,7 @@ const IncidentResponse = () => {
         )}
       </div>
 
-      <div className="flex items-center gap-8 mt-6 font-mono text-sm">
+      <div className="flex items-center gap-8 mt-6 font-code text-sm">
         <div>
           <span className="text-muted-foreground">resolved </span>
           <span className="text-yousaf font-bold">{score}</span>

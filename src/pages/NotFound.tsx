@@ -12,7 +12,7 @@ const NotFound = () => {
     <ThemeProvider defaultTheme="light">
       <div className="min-h-screen bg-background text-foreground flex items-center">
         <div className="wrap max-w-[640px]">
-          <pre className="panel p-6 font-mono text-[13.5px] leading-[1.8] overflow-x-auto">
+          <pre className="panel p-6 font-code text-[13.5px] leading-[1.8] overflow-x-auto">
             <span className="text-muted-foreground">$ curl -I https://yousafkhamza.github.io{pathname}</span>
             {"\n"}HTTP/2 <span className="text-bad">404</span>
             {"\n"}x-reason: no such route

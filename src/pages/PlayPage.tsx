@@ -39,7 +39,7 @@ const PlayPage = () => {
                   g.id === active.id ? "border-foreground bg-foreground text-background" : "hover:border-foreground/40"
                 )}
               >
-                <div className={cn("font-mono text-[11.5px]", g.id === active.id ? "text-background/60" : "text-muted-foreground")}>
+                <div className={cn("font-mono text-[13.5px]", g.id === active.id ? "text-background/60" : "text-muted-foreground")}>
                   game {i + 1}
                 </div>
                 <div className="text-[16px] font-semibold mt-0.5">{g.title}</div>

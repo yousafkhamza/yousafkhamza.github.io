@@ -49,8 +49,8 @@ const AiSection = () => {
                   <span className="inline-grid place-items-center w-9 h-9 rounded-lg tint-bg">
                     <Icon className="w-[18px] h-[18px]" />
                   </span>
-                  <span className="font-mono text-[11.5px] font-semibold uppercase tracking-[0.08em] tint">{m.kicker}</span>
-                  <span className="ml-auto font-mono text-[11.5px] text-muted-foreground">{p.title}</span>
+                  <span className="font-mono text-[13.5px] font-semibold uppercase tracking-[0.08em] tint">{m.kicker}</span>
+                  <span className="ml-auto font-mono text-[13.5px] text-muted-foreground">{p.title}</span>
                 </div>
                 <h3 className="mt-4 font-display text-[22px] font-bold leading-tight">{m.headline}</h3>
                 <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">{m.body}</p>

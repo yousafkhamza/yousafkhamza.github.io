@@ -18,19 +18,19 @@ const navLinks = [
 const StatusStrip = () => {
   const time = useClock(profile.timezone);
   return (
-    <div className="border-b border-border bg-secondary/60">
-      <div className="wrap h-8 flex items-center justify-between gap-4 font-mono text-[11.5px] text-muted-foreground">
+    <div className="bg-board text-board-dim">
+      <div className="wrap h-9 flex items-center justify-between gap-4 font-display text-[14px] font-semibold uppercase tracking-[0.06em]">
         <span className="flex items-center gap-2 min-w-0">
-          <span className="dot shrink-0" />
+          <span className="w-2 h-2 rounded-full bg-board-ok shrink-0" />
           <span className="truncate">
-            <span className="text-foreground">Open to new roles</span>
+            <span className="text-board-ok">Open to new roles</span>
             <span className="hidden sm:inline"> · Senior DevOps, DevSecOps, Platform, SRE</span>
           </span>
         </span>
         <span className="flex items-center gap-3 shrink-0">
           <span className="hidden md:inline">{profile.residency}</span>
-          <span className="hidden md:inline text-border">|</span>
-          <span>
+          <span className="hidden md:inline opacity-40">|</span>
+          <span className="text-board-fg">
             Dubai {time} <span className="hidden sm:inline">GMT+4</span>
           </span>
         </span>
@@ -62,20 +62,17 @@ const Header = () => {
       <StatusStrip />
       <div
         className={cn(
-          "bg-background/95 backdrop-blur-sm border-b transition-colors",
-          scrolled ? "border-border" : "border-transparent"
+          "bg-sign text-[hsl(0_0%_7%)] border-b-[3px] border-[hsl(0_0%_7%)] transition-shadow",
+          scrolled && "shadow-[0_2px_0_hsl(0_0%_0%/0.15)]"
         )}
       >
         <div className="wrap h-16 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2.5 group" aria-label="Home">
-            <span
-              className="w-8 h-8 rounded-lg grid place-items-center font-display font-extrabold text-[14px] text-[hsl(226_45%_7%)]"
-              style={{ background: "linear-gradient(135deg, hsl(var(--c-green)), hsl(var(--c-cyan)))" }}
-            >
+            <span className="w-10 h-10 grid place-items-center bg-[hsl(0_0%_7%)] text-[hsl(48_100%_50%)] font-display font-bold text-[19px] rounded-[2px]">
               YH
             </span>
-            <span className="font-display text-[18px] font-bold tracking-[-0.01em]">{profile.name}</span>
-            <span className="hidden lg:inline font-mono text-[12px] text-muted-foreground group-hover:text-yousaf transition-colors">
+            <span className="font-display text-[23px] font-bold uppercase tracking-[0.02em] leading-none">{profile.name}</span>
+            <span className="hidden lg:inline font-display text-[15px] font-semibold uppercase tracking-[0.05em] opacity-70 group-hover:opacity-100 transition-opacity">
               devops / platform
             </span>
           </Link>
@@ -87,8 +84,8 @@ const Header = () => {
                 to={l.to}
                 className={({ isActive }) =>
                   cn(
-                    "px-3 py-2 text-[14.5px] rounded-[4px] transition-colors",
-                    isActive ? "text-c-green bg-c-green/10 font-semibold" : "text-muted-foreground hover:text-foreground"
+                    "px-3 py-2 font-display text-[18px] font-bold uppercase tracking-[0.04em] rounded-[2px] transition-colors",
+                    isActive ? "bg-[hsl(0_0%_7%)] text-[hsl(48_100%_50%)]" : "hover:bg-[hsl(0_0%_7%/0.1)]"
                   )
                 }
               >
@@ -100,32 +97,32 @@ const Header = () => {
           <div className="flex items-center gap-1.5">
             <button
               onClick={openCommandMenu}
-              className="hidden lg:inline-flex items-center gap-2 h-9 pl-3 pr-2 rounded-[4px] border border-border bg-card text-[13px] text-muted-foreground hover:text-foreground hover:border-foreground/40 transition-colors"
+              className="hidden lg:inline-flex items-center gap-2 h-10 pl-3 pr-2 rounded-[2px] border-2 border-[hsl(0_0%_7%)] text-[14px] font-semibold hover:bg-[hsl(0_0%_7%/0.1)] transition-colors"
               aria-label="Search the site"
             >
               <Search className="w-3.5 h-3.5" /> Search
-              <kbd className="font-mono text-[11px] px-1.5 py-0.5 rounded-[3px] bg-secondary border border-border">Ctrl K</kbd>
+              <kbd className="font-display text-[13px] font-bold px-1.5 py-0.5 rounded-[2px] bg-[hsl(0_0%_7%)] text-[hsl(48_100%_50%)]">Ctrl K</kbd>
             </button>
             <button
               onClick={openCommandMenu}
-              className="lg:hidden w-9 h-9 inline-flex items-center justify-center rounded-[4px] hover:bg-secondary"
+              className="lg:hidden w-10 h-10 inline-flex items-center justify-center rounded-[2px] hover:bg-[hsl(0_0%_7%/0.1)]"
               aria-label="Search the site"
             >
               <Search className="w-4 h-4" />
             </button>
-            <a href={profile.resume} target="_blank" rel="noopener" className="hidden sm:inline-flex btn-primary h-9 px-4 text-[14px]">
+            <a href={profile.resume} target="_blank" rel="noopener" className="hidden sm:inline-flex btn h-10 px-4 text-[15px] bg-[hsl(0_0%_7%)] text-[hsl(48_100%_50%)] hover:bg-[hsl(0_0%_20%)]">
               <FileDown className="w-4 h-4" /> Resume
             </a>
             <button
               onClick={() => setTheme(isDark ? "light" : "dark")}
-              className="w-9 h-9 inline-flex items-center justify-center rounded-[4px] hover:bg-secondary transition-colors"
+              className="w-10 h-10 inline-flex items-center justify-center rounded-[2px] hover:bg-[hsl(0_0%_7%/0.1)] transition-colors"
               aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
             >
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
             <button
               onClick={() => setOpen((v) => !v)}
-              className="md:hidden w-9 h-9 inline-flex items-center justify-center rounded-[4px] hover:bg-secondary"
+              className="md:hidden w-10 h-10 inline-flex items-center justify-center rounded-[2px] hover:bg-[hsl(0_0%_7%/0.1)]"
               aria-label="Menu"
               aria-expanded={open}
             >
@@ -135,7 +132,7 @@ const Header = () => {
         </div>
 
         {open && (
-          <nav className="md:hidden border-t border-border bg-background" aria-label="Mobile">
+          <nav className="md:hidden border-t-2 border-[hsl(0_0%_7%)] bg-background text-foreground" aria-label="Mobile">
             <div className="wrap py-3 flex flex-col">
               {[{ label: "Home", to: "/" }, ...navLinks].map((l) => (
                 <NavLink
@@ -143,7 +140,7 @@ const Header = () => {
                   to={l.to}
                   end
                   className={({ isActive }) =>
-                    cn("py-3 text-[16px] border-b border-border/60", isActive ? "text-yousaf" : "text-foreground")
+                    cn("py-3 font-display text-[22px] font-bold uppercase border-b border-border", isActive ? "text-yousaf" : "text-foreground")
                   }
                 >
                   {l.label}

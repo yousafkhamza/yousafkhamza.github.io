@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Link } from "react-router-dom";
 
 interface PageHeroProps {
   path: string;
@@ -7,20 +8,22 @@ interface PageHeroProps {
   children?: ReactNode;
 }
 
-/** top of every inner page: a breadcrumb that reads like a shell path */
+/** top of every inner page: a wayfinding sign that says where you are */
 const PageHero = ({ path, title, description, children }: PageHeroProps) => (
-  <div className="relative overflow-hidden">
-  <div className="absolute inset-0 bg-grid [mask-image:linear-gradient(to_bottom,black,transparent_90%)]" aria-hidden />
-  <div className="absolute -top-24 right-[-120px] w-[460px] h-[300px] rounded-full" style={{ background: "radial-gradient(closest-side, hsl(var(--c-cyan) / var(--glow)), transparent)" }} aria-hidden />
-  <div className="absolute top-10 right-[22%] w-[360px] h-[260px] rounded-full" style={{ background: "radial-gradient(closest-side, hsl(var(--c-violet) / calc(var(--glow) * 0.7)), transparent)" }} aria-hidden />
-  <div className="wrap relative pt-12 sm:pt-16 pb-10 sm:pb-14">
-    <div className="font-mono text-[13px] text-muted-foreground mb-5">
-      <span className="text-c-green">yousaf@portfolio</span>:<span className="text-c-cyan">~/{path}</span>$
+  <div className="relative">
+    <div className="wrap relative pt-10 sm:pt-14 pb-10 sm:pb-14">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-0 mb-6 font-display text-[16px] font-bold uppercase tracking-[0.06em]">
+        <Link to="/" className="px-2.5 py-1 bg-board text-board-fg hover:text-white rounded-l-[2px]">
+          Home
+        </Link>
+        <span className="px-2.5 py-1 bg-sign text-[hsl(0_0%_7%)] rounded-r-[2px]" aria-current="page">
+          → {path}
+        </span>
+      </nav>
+      <h1 className="font-display text-[52px] sm:text-[84px] font-bold uppercase tracking-[-0.005em] leading-[0.9] max-w-[18ch]">{title}</h1>
+      {description && <p className="lede mt-5">{description}</p>}
+      {children}
     </div>
-    <h1 className="font-display text-[40px] sm:text-[60px] font-extrabold tracking-[-0.03em] leading-[1.02] max-w-[18ch]">{title}</h1>
-    {description && <p className="lede mt-5">{description}</p>}
-    {children}
-  </div>
   </div>
 );
 

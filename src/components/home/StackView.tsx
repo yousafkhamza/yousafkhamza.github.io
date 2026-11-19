@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 type View = "list" | "yaml";
 
 const Yaml = () => (
-  <pre className="panel bg-[hsl(210_14%_9%)] dark:bg-[hsl(210_14%_5%)] text-[hsl(40_16%_88%)] border-transparent p-5 sm:p-6 overflow-x-auto font-mono text-[13px] leading-[1.75]">
+  <pre className="board p-5 sm:p-6 overflow-x-auto font-code text-[13px] leading-[1.75]">
     <code>
       <span className="text-[hsl(210_8%_55%)]"># stack.yaml — daily: in production now · also: shipped with before</span>
       {"\n"}
@@ -41,8 +41,8 @@ const List = () => (
         style={{ ["--c" as string]: `var(--c-${GROUP_COLORS[i]})`, borderTopColor: `hsl(var(--c-${GROUP_COLORS[i]}))` }}
       >
         <div className="flex items-center justify-between mb-3">
-          <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.08em] tint">{g.label}</span>
-          <span className="font-mono text-[11px] text-muted-foreground">{g.daily.length + g.also.length}</span>
+          <span className="font-mono text-[14px] font-semibold uppercase tracking-[0.08em] tint">{g.label}</span>
+          <span className="font-mono text-[13px] text-muted-foreground">{g.daily.length + g.also.length}</span>
         </div>
         <div className="flex flex-wrap gap-1.5 text-[13.5px] font-semibold">
           {g.daily.map((s) => (
@@ -53,8 +53,8 @@ const List = () => (
         </div>
         {g.also.length > 0 && (
           <div className="mt-auto pt-4">
-            <div className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-muted-foreground mb-1.5">also</div>
-            <div className="flex flex-wrap gap-1.5 text-[12.5px]">
+            <div className="font-mono text-[13px] uppercase tracking-[0.08em] text-muted-foreground mb-1.5">also</div>
+            <div className="flex flex-wrap gap-1.5 text-[14.5px]">
               {g.also.map((s) => (
                 <span key={s} className="px-2 py-0.5 rounded-md border border-border text-muted-foreground">
                   {s}
@@ -72,7 +72,7 @@ const StackView = () => {
   const [view, setView] = useState<View>("list");
   return (
     <div>
-      <div className="inline-flex panel p-0.5 mb-5 font-mono text-[12.5px]" role="tablist" aria-label="Stack view">
+      <div className="inline-flex panel p-0.5 mb-5 font-mono text-[14.5px]" role="tablist" aria-label="Stack view">
         {(["list", "yaml"] as View[]).map((v) => (
           <button
             key={v}
@@ -81,7 +81,7 @@ const StackView = () => {
             onClick={() => setView(v)}
             className={cn(
               "px-3.5 h-8 rounded-[4px] transition-colors",
-              view === v ? "bg-yousaf text-primary-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
+              view === v ? "bg-primary text-primary-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
             )}
           >
             {v === "list" ? "Plain list" : "stack.yaml"}

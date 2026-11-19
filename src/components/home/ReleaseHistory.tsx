@@ -40,7 +40,7 @@ const ReleaseHistory = () => {
     <div>
       {/* the track */}
       <div className="relative" role="tablist" aria-label="Career releases" onKeyDown={onKey}>
-        <div className="relative h-14 sm:h-16 rounded-[var(--radius)] bg-secondary/60 border border-border overflow-hidden">
+        <div className="relative h-14 sm:h-16 rounded-[var(--radius)] bg-board border-2 border-[hsl(0_0%_7%)] overflow-hidden">
           {chronological.map((e) => {
             const s = toMonths(e.start) - start;
             const len = (e.end ? toMonths(e.end) : end) - toMonths(e.start);
@@ -52,21 +52,21 @@ const ReleaseHistory = () => {
                 aria-selected={on}
                 tabIndex={on ? 0 : -1}
                 onClick={() => setActive(e.id)}
-                className="absolute top-0 bottom-0 border-r-2 border-background text-left px-2 sm:px-3 transition-all group"
+                className="absolute top-0 bottom-0 border-r-2 border-[hsl(0_0%_0%)] text-left px-2 sm:px-3 transition-all group"
                 style={{
                   left: `${(s / span) * 100}%`,
                   width: `${(len / span) * 100}%`,
-                  background: on ? `hsl(var(--c-${e.color}))` : `hsl(var(--c-${e.color}) / 0.14)`,
-                  color: on ? "hsl(var(--background))" : `hsl(var(--c-${e.color}))`,
+                  background: on ? "hsl(var(--sign))" : "hsl(var(--flap))",
+                  color: on ? "hsl(0 0% 7%)" : "hsl(var(--board-fg))",
                 }}
               >
-                <span className="block font-mono text-[11px] sm:text-[12px] opacity-80">
+                <span className="block font-mono text-[13px] sm:text-[14px] opacity-80">
                   {e.version}
                   {!e.end && (
                     <span className="ml-1.5 inline-block w-1.5 h-1.5 rounded-full align-middle animate-pulse bg-current" />
                   )}
                 </span>
-                <span className="hidden sm:block text-[14px] font-bold truncate">
+                <span className="hidden sm:block font-display text-[18px] font-bold uppercase tracking-[0.03em] truncate">
                   {e.company.replace(" UAE", "").replace(" IS", "")}
                 </span>
               </button>
@@ -81,7 +81,7 @@ const ReleaseHistory = () => {
             return (
               <span
                 key={y}
-                className="absolute -translate-x-1/2 font-mono text-[10.5px] text-muted-foreground"
+                className="absolute -translate-x-1/2 font-mono text-[13px] text-muted-foreground"
                 style={{ left: `${left}%` }}
               >
                 <span className="block w-px h-1.5 bg-border mx-auto mb-0.5" />
@@ -100,13 +100,13 @@ const ReleaseHistory = () => {
         role="tabpanel"
       >
         <div>
-          <div className="flex items-center gap-2 font-mono text-[12px] text-muted-foreground">
+          <div className="flex items-center gap-2 font-mono text-[14px] text-muted-foreground">
             <span className="tag tint-bg border-transparent font-semibold">{current.version}</span>
             {current.end ? "released" : <span className="tint">live</span>}
           </div>
           <h3 className="mt-3 font-display text-[24px] font-bold leading-tight">{current.title}</h3>
           <div className="mt-1 text-[15px] font-semibold tint">{current.company}</div>
-          <div className="mt-1 font-mono text-[12px] text-muted-foreground">
+          <div className="mt-1 font-mono text-[14px] text-muted-foreground">
             {current.period} · {current.location}
           </div>
           <div className="mt-4 flex flex-wrap gap-1.5">

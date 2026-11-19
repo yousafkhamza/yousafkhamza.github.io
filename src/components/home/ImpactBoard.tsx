@@ -40,14 +40,13 @@ const WorkBoard = ({ inView }: { inView: boolean }) => (
       >
         <span className="text-[15px] font-medium">{row.metric}</span>
         <span className="md:hidden font-mono text-[18px] font-bold tint text-right">{row.display}</span>
-        <div className="col-span-2 md:col-span-1 h-2.5 rounded-full bg-secondary overflow-hidden">
+        <div className="col-span-2 md:col-span-1 h-3 bg-secondary border border-border overflow-hidden">
           <div
-            className="h-full rounded-full transition-[width] duration-[1100ms] ease-out"
+            className="h-full transition-[width] duration-[1100ms] ease-out"
             style={{
               width: inView ? `${row.value}%` : "0%",
               transitionDelay: `${i * 90}ms`,
-              background: "linear-gradient(90deg, hsl(var(--c) / 0.55), hsl(var(--c)))",
-              boxShadow: "0 0 16px hsl(var(--c) / 0.5)",
+              background: "hsl(var(--foreground))",
             }}
           />
         </div>
@@ -55,7 +54,7 @@ const WorkBoard = ({ inView }: { inView: boolean }) => (
         <span className="col-span-2 md:col-span-1 text-[14px] text-muted-foreground">{row.how}</span>
       </div>
     ))}
-    <div className="px-5 md:px-6 py-3 bg-secondary/60 font-mono text-[11.5px] text-muted-foreground flex flex-wrap gap-x-6 gap-y-1">
+    <div className="px-5 md:px-6 py-3 bg-secondary/60 font-mono text-[13.5px] text-muted-foreground flex flex-wrap gap-x-6 gap-y-1">
       <span>
         <span className="text-c-green font-semibold">99.9%</span> availability across 30+ microservices
       </span>
@@ -80,7 +79,7 @@ const OssBoard = ({ inView }: { inView: boolean }) => (
       >
         <div
           className={cn(
-            "font-display text-[44px] sm:text-[52px] font-extrabold leading-none tracking-tight tint transition-all duration-700",
+            "font-display text-[44px] sm:text-[52px] font-bold leading-none tracking-tight tint transition-all duration-700",
             inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
           )}
           style={{ transitionDelay: `${i * 80}ms` }}
@@ -102,7 +101,7 @@ const ImpactBoard = () => {
   return (
     <div ref={ref} className="panel overflow-hidden">
       <div className="flex items-center justify-between gap-4 px-3 sm:px-4 h-12 border-b border-border bg-secondary/40">
-        <div className="flex gap-1 font-mono text-[12.5px]" role="tablist" aria-label="Impact view">
+        <div className="flex gap-1 font-mono text-[14.5px]" role="tablist" aria-label="Impact view">
           {(
             [
               ["work", "At work"],
@@ -116,14 +115,14 @@ const ImpactBoard = () => {
               onClick={() => setTab(id)}
               className={cn(
                 "h-8 px-3 rounded-[4px] transition-colors",
-                tab === id ? "bg-yousaf text-primary-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
+                tab === id ? "bg-primary text-primary-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
               )}
             >
               {label}
             </button>
           ))}
         </div>
-        <span className="hidden sm:inline font-mono text-[11.5px] text-muted-foreground">
+        <span className="hidden sm:inline font-mono text-[13.5px] text-muted-foreground">
           {tab === "work" ? "production platforms" : "github.com/yousafkhamza"}
         </span>
       </div>

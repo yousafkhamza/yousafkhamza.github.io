@@ -30,7 +30,7 @@ const ContactPage = () => {
             <dl className="panel divide-y divide-border">
               {rows.map(([k, v]) => (
                 <div key={k} className="grid grid-cols-[110px_1fr] gap-4 px-5 py-3.5 text-[14.5px]">
-                  <dt className="font-mono text-[12px] text-muted-foreground pt-0.5">{k}</dt>
+                  <dt className="font-mono text-[14px] text-muted-foreground pt-0.5">{k}</dt>
                   <dd>{v}</dd>
                 </div>
               ))}

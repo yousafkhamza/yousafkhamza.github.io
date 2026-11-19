@@ -40,8 +40,8 @@ const ServicesPage = () => {
               className="panel p-6 sm:p-7 flex flex-col border-t-4"
               style={{ ["--c" as string]: `var(--c-${["green", "cyan", "violet", "amber"][i % 4]})`, borderTopColor: "hsl(var(--c))" }}
             >
-              <div className="flex items-center justify-between font-mono text-[12px] text-muted-foreground">
-                <span className="font-display text-[22px] font-extrabold tint">{String(i + 1).padStart(2, "0")}</span>
+              <div className="flex items-center justify-between font-mono text-[14px] text-muted-foreground">
+                <span className="font-display text-[22px] font-bold tint">{String(i + 1).padStart(2, "0")}</span>
                 <span>{s.format}</span>
               </div>
               <h2 className="mt-3 font-display text-[24px] font-bold tracking-[-0.01em]">{s.title}</h2>
@@ -63,7 +63,7 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      <div className="wrap -mt-6 mb-4 font-mono text-[12px] text-muted-foreground">
+      <div className="wrap -mt-6 mb-4 font-mono text-[14px] text-muted-foreground">
         Prices in USD. AED shown {live ? "at today's live rate" : "at the fixed USD peg (3.6725)"}. Payment details are shared by email when we confirm the session.
       </div>
 
@@ -71,7 +71,7 @@ const ServicesPage = () => {
         <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border rounded-[var(--radius)] overflow-hidden">
           {steps.map(([t, d], i) => (
             <li key={t} className="bg-card p-6">
-              <div className="font-mono text-[12px] font-semibold" style={{ color: `hsl(var(--c-${["green", "cyan", "violet", "amber"][i % 4]}))` }}>step {i + 1}</div>
+              <div className="font-mono text-[14px] font-semibold" style={{ color: `hsl(var(--c-${["green", "cyan", "violet", "amber"][i % 4]}))` }}>step {i + 1}</div>
               <div className="mt-2 text-[17px] font-semibold">{t}</div>
               <p className="mt-2 text-[14.5px] text-muted-foreground leading-relaxed">{d}</p>
             </li>

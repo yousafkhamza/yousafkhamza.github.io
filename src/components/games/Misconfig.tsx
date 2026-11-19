@@ -108,10 +108,10 @@ const Misconfig = () => {
               className="panel p-4 text-left border-t-4 hover:-translate-y-0.5 transition-transform"
               aria-label={`Level ${l.level}: ${l.name}`}
             >
-              <div className="font-mono text-[11px] tint font-semibold">LEVEL {l.level}</div>
+              <div className="font-code text-[11px] tint font-semibold">LEVEL {l.level}</div>
               <div className="font-display text-[19px] font-bold mt-1">{l.name}</div>
               <div className="text-[12.5px] text-muted-foreground mt-1 leading-snug">{l.blurb}</div>
-              <div className="font-mono text-[11.5px] text-muted-foreground mt-3">
+              <div className="font-code text-[11.5px] text-muted-foreground mt-3">
                 {roundsForLevel(l.level)} files
                 {best[String(l.level)] !== undefined && (
                   <span className="tint"> · best {best[String(l.level)]}/{roundsForLevel(l.level)}</span>
@@ -130,10 +130,10 @@ const Misconfig = () => {
     const perfect = score === total;
     return (
       <div className="max-w-[640px] mx-auto panel p-8 text-center border-t-4" style={{ ["--c" as string]: `var(--c-${color})`, borderTopColor: "hsl(var(--c))" }}>
-        <div className="font-mono text-[12px] tint font-semibold">
+        <div className="font-code text-[12px] tint font-semibold">
           LEVEL {level} · {LEVELS[level - 1].name.toUpperCase()} · REVIEW FINISHED
         </div>
-        <div className="mt-2 font-display text-[52px] font-extrabold">
+        <div className="mt-2 font-display text-[52px] font-bold">
           {score}/{total}
         </div>
         <p className="mt-1 text-muted-foreground">
@@ -143,7 +143,7 @@ const Misconfig = () => {
             ? "Good eye. A couple would have made it to production."
             : "Production would have found these for you. Try this level again."}
         </p>
-        <div className="mt-1 font-mono text-[12px] text-muted-foreground">
+        <div className="mt-1 font-code text-[12px] text-muted-foreground">
           best {best[String(level)] ?? score}/{total}
         </div>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -170,7 +170,7 @@ const Misconfig = () => {
   // ── a round ──
   return (
     <div className="max-w-[680px] mx-auto" style={{ ["--c" as string]: `var(--c-${color})` }}>
-      <div className="flex items-center justify-between gap-3 font-mono text-[12px] text-muted-foreground mb-2">
+      <div className="flex items-center justify-between gap-3 font-code text-[12px] text-muted-foreground mb-2">
         <button onClick={() => setLevel(null)} className="hover:text-foreground">
           ← levels
         </button>
@@ -182,11 +182,11 @@ const Misconfig = () => {
         <div className="h-full bg-[hsl(var(--c))] transition-[width] duration-500" style={{ width: `${(n / rounds.length) * 100}%` }} />
       </div>
       <div className="panel overflow-hidden">
-        <div className="px-4 h-10 flex items-center justify-between border-b border-border font-mono text-[12.5px] bg-secondary/50">
+        <div className="px-4 h-10 flex items-center justify-between border-b border-border font-code text-[12.5px] bg-secondary/50">
           <span>{r.file}</span>
           {!answered && <span className="text-muted-foreground text-[11.5px]">click the line that will hurt you</span>}
         </div>
-        <ol className="font-mono text-[12.5px] sm:text-[13.5px] py-2 overflow-x-auto">
+        <ol className="font-code text-[12.5px] sm:text-[13.5px] py-2 overflow-x-auto">
           {r.lines.map((line, idx) => {
             const isBad = idx === r.bad;
             const isPicked = idx === picked;
@@ -213,7 +213,7 @@ const Misconfig = () => {
       </div>
       {answered && (
         <div className="mt-4 panel p-4 sm:p-5 animate-fade-in">
-          <div className={cn("font-mono text-[12.5px] font-semibold", correct ? "text-ok" : "text-bad")}>
+          <div className={cn("font-code text-[12.5px] font-semibold", correct ? "text-ok" : "text-bad")}>
             {correct ? "✔ caught it" : `✘ it was line ${r.bad + 1}`}
           </div>
           <p className="mt-1.5 text-[15px] leading-relaxed">{r.why.replace(/`/g, "")}</p>

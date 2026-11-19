@@ -1,10 +1,10 @@
-@import "@fontsource/manrope/400.css";
-@import "@fontsource/manrope/500.css";
-@import "@fontsource/manrope/600.css";
-@import "@fontsource/manrope/700.css";
-@import "@fontsource/bricolage-grotesque/600.css";
-@import "@fontsource/bricolage-grotesque/700.css";
-@import "@fontsource/bricolage-grotesque/800.css";
+@import "@fontsource/barlow/400.css";
+@import "@fontsource/barlow/500.css";
+@import "@fontsource/barlow/600.css";
+@import "@fontsource/barlow/700.css";
+@import "@fontsource/barlow-condensed/500.css";
+@import "@fontsource/barlow-condensed/600.css";
+@import "@fontsource/barlow-condensed/700.css";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
 @import "@fontsource/jetbrains-mono/600.css";
@@ -20,85 +20,103 @@
 }
 
 /* Design notes
-   "Control room at night": deep navy, panels like a good Grafana board, and a
-   proper colour palette instead of one accent. Green = healthy, and every section
-   gets its own signal colour (cyan, violet, amber, pink) so the page has rhythm.
-   Light mode keeps the same palette on a cool white. */
+   "Departures": the site reads like airport wayfinding. Signage yellow on black for
+   anything you act on, a black split-flap board for the live parts, and a plain
+   concourse grey everywhere else. Flat panels with ink borders, no glows or washes.
+   Dark mode turns the concourse off and keeps the board and the yellow. */
 @layer base {
   :root {
-    --background: 220 33% 98%;
+    --background: 44 10% 90%;
+    --foreground: 0 0% 7%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 7%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 7%;
+    /* signage yellow: backgrounds only, always with ink on top */
+    --primary: 48 100% 48%;
+    --primary-strong: 46 100% 42%;
+    --primary-foreground: 0 0% 7%;
+    /* accent used as text on light surfaces (yellow is unreadable on white) */
+    --accent-ink: 36 100% 27%;
+    --secondary: 44 12% 94%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 44 12% 94%;
+    --muted-foreground: 0 0% 30%;
+    --accent: 48 100% 90%;
+    --accent-foreground: 0 0% 7%;
+    --destructive: 354 78% 42%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 6% 76%;
+    --input: 40 6% 66%;
+    --ring: 0 0% 7%;
+    --ok: 145 63% 28%;
+    --warn: 36 100% 30%;
+    --warn-wash: 48 100% 80%;
+    --bad: 354 78% 42%;
+    /* status colours, kept few and readable on white */
+    --c-green: 145 63% 28%;
+    --c-cyan: 210 85% 36%;
+    --c-violet: 220 14% 30%;
+    --c-amber: 36 100% 28%;
+    --c-pink: 354 78% 42%;
+    /* the board */
+    --board: 0 0% 5%;
+    --board-fg: 48 100% 50%;
+    --flap: 0 0% 11%;
+    --board-ok: 130 62% 66%;
+    --board-dim: 0 0% 74%;
+    --sign: 48 100% 48%;
     /* Command Rush terminal */
     --t-bg: 0 0% 100%;
-    --t-fg: 224 45% 12%;
-    --t-red: 350 72% 46%;
+    --t-fg: 0 0% 9%;
+    --t-red: 354 78% 42%;
     --t-on: 0 0% 100%;
-    --foreground: 224 45% 9%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 45% 9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 45% 9%;
-    --primary: 160 84% 32%;
-    --primary-strong: 160 84% 26%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 222 35% 95%;
-    --secondary-foreground: 224 45% 12%;
-    --muted: 222 35% 95%;
-    --muted-foreground: 222 16% 40%;
-    --accent: 160 60% 93%;
-    --accent-foreground: 160 84% 20%;
-    --destructive: 350 75% 50%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 222 30% 89%;
-    --input: 222 30% 84%;
-    --ring: 189 90% 42%;
-    --ok: 160 84% 32%;
-    --warn: 35 92% 45%;
-    --warn-wash: 46 100% 85%;
-    --bad: 350 75% 52%;
-    --c-green: 160 84% 36%;
-    --c-cyan: 189 90% 38%;
-    --c-violet: 262 70% 58%;
-    --c-amber: 35 92% 46%;
-    --c-pink: 330 75% 52%;
-    --glow: 0.10;
-    --radius: 12px;
+    --glow: 0;
+    --radius: 4px;
   }
 
   .dark {
-    --background: 226 45% 7%;
-    --t-bg: 226 45% 6%;
+    --background: 0 0% 6%;
+    --foreground: 40 10% 93%;
+    --card: 0 0% 10%;
+    --card-foreground: 40 10% 93%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 40 10% 93%;
+    --primary: 48 100% 50%;
+    --primary-strong: 48 100% 60%;
+    --primary-foreground: 0 0% 7%;
+    --accent-ink: 48 100% 55%;
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 40 10% 93%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 72%;
+    --accent: 48 60% 16%;
+    --accent-foreground: 48 100% 70%;
+    --destructive: 355 85% 66%;
+    --destructive-foreground: 0 0% 7%;
+    --border: 0 0% 22%;
+    --input: 0 0% 30%;
+    --ring: 48 100% 55%;
+    --ok: 130 62% 66%;
+    --warn: 48 100% 55%;
+    --warn-wash: 48 60% 22%;
+    --bad: 355 85% 66%;
+    --c-green: 130 62% 66%;
+    --c-cyan: 205 85% 68%;
+    --c-violet: 220 10% 78%;
+    --c-amber: 48 100% 55%;
+    --c-pink: 355 85% 68%;
+    --board: 0 0% 3%;
+    --board-fg: 48 100% 52%;
+    --flap: 0 0% 9%;
+    --board-ok: 130 62% 66%;
+    --board-dim: 0 0% 72%;
+    --sign: 48 100% 50%;
+    --t-bg: 0 0% 4%;
     --t-fg: 0 0% 100%;
-    --t-red: 350 85% 70%;
-    --t-on: 226 45% 7%;
-    --foreground: 220 40% 94%;
-    --card: 226 40% 10%;
-    --card-foreground: 220 40% 94%;
-    --popover: 226 40% 11%;
-    --popover-foreground: 220 40% 94%;
-    --primary: 158 72% 52%;
-    --primary-strong: 158 72% 62%;
-    --primary-foreground: 226 45% 7%;
-    --secondary: 226 34% 14%;
-    --secondary-foreground: 220 40% 94%;
-    --muted: 226 34% 14%;
-    --muted-foreground: 222 22% 68%;
-    --accent: 160 40% 14%;
-    --accent-foreground: 158 72% 70%;
-    --destructive: 350 85% 65%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 226 30% 18%;
-    --input: 226 30% 24%;
-    --ring: 189 90% 55%;
-    --ok: 158 72% 52%;
-    --warn: 42 96% 60%;
-    --warn-wash: 42 60% 22%;
-    --bad: 350 85% 65%;
-    --c-green: 158 72% 52%;
-    --c-cyan: 189 92% 56%;
-    --c-violet: 258 90% 74%;
-    --c-amber: 42 96% 60%;
-    --c-pink: 330 85% 70%;
-    --glow: 0.22;
+    --t-red: 355 85% 70%;
+    --t-on: 0 0% 4%;
+    --glow: 0;
   }
 
   * { @apply border-border; }
@@ -106,60 +124,74 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     text-rendering: optimizeLegibility;
+    font-variant-numeric: tabular-nums;
   }
-  ::selection { background: hsl(var(--warn-wash)); color: hsl(var(--foreground)); }
-  :focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; border-radius: 3px; }
+  ::selection { background: hsl(var(--sign)); color: hsl(0 0% 7%); }
+  :focus-visible { outline: 3px solid hsl(var(--ring)); outline-offset: 2px; border-radius: 2px; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
   ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 10px; border: 2px solid hsl(var(--background)); }
+  ::-webkit-scrollbar-thumb { background: hsl(var(--input)); border-radius: 0; border: 2px solid hsl(var(--background)); }
 }
 
 @layer components {
-  .wrap { @apply mx-auto w-full max-w-[1120px] px-5 sm:px-8; }
+  .wrap { @apply mx-auto w-full max-w-[1180px] px-5 sm:px-8; }
 
-  /* small mono label, used above headings and as table headers */
-  .label { @apply font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground; }
-  .eyebrow { @apply inline-flex items-center gap-2 mb-4 font-mono text-[12px] font-medium tracking-[0.08em] uppercase; color: hsl(var(--sec, var(--c-green))); }
-  .eyebrow::before { content: ""; @apply w-6 h-[3px] rounded-full; background: hsl(var(--sec, var(--c-green))); }
+  /* small condensed label, used above headings and as table headers */
+  .label { @apply font-display text-[13px] font-semibold uppercase tracking-[0.08em] text-muted-foreground; }
+  /* section sign: a yellow plate with a black arrow, like a gate sign */
+  .eyebrow { @apply inline-flex items-center gap-2 mb-4 px-2.5 py-1 font-display text-[15px] font-bold uppercase tracking-[0.06em] bg-sign text-[hsl(0_0%_7%)]; }
+  .eyebrow::before { content: "→"; @apply font-bold; }
 
-  .h-section { @apply font-display text-[32px] sm:text-[44px] font-bold tracking-[-0.02em] leading-[1.05]; }
-  .lede { @apply text-[17px] leading-relaxed text-muted-foreground max-w-[60ch]; }
+  .h-section { @apply font-display text-[38px] sm:text-[54px] font-bold uppercase tracking-[-0.005em] leading-[0.95]; }
+  .lede { @apply text-[18px] leading-relaxed text-muted-foreground max-w-[60ch]; }
 
-  .panel { @apply bg-card border border-border rounded-[var(--radius)]; box-shadow: 0 1px 0 hsl(var(--foreground) / 0.03), 0 18px 40px -30px hsl(222 60% 10% / 0.45); }
-  .rule-t { @apply border-t border-border; }
+  .panel { @apply bg-card border-2 border-foreground/85 rounded-[var(--radius)]; }
+  .rule-t { @apply border-t-2 border-foreground/85; }
 
-  .btn { @apply inline-flex items-center justify-center gap-2 h-11 px-5 rounded-[var(--radius)] text-[15px] font-medium transition-colors whitespace-nowrap; }
-  .btn-primary { @apply btn bg-yousaf text-primary-foreground font-semibold hover:-translate-y-px; box-shadow: 0 10px 30px -10px hsl(var(--primary) / 0.65); }
-  .btn-ghost { @apply btn border border-border bg-card hover:border-[hsl(var(--c-cyan))] hover:text-[hsl(var(--c-cyan))]; }
-  .btn-link { @apply inline-flex items-center gap-1.5 text-[15px] font-medium underline decoration-border underline-offset-4 hover:decoration-foreground; }
+  .btn { @apply inline-flex items-center justify-center gap-2 h-12 px-5 rounded-[var(--radius)] text-[16px] font-semibold transition-colors whitespace-nowrap; }
+  .btn-primary { @apply btn bg-primary text-primary-foreground border-2 border-[hsl(0_0%_7%)] hover:bg-[hsl(var(--primary-strong))]; }
+  .btn-ghost { @apply btn border-2 border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background; }
+  .btn-link { @apply inline-flex items-center gap-1.5 text-[16px] font-semibold underline decoration-2 decoration-[hsl(var(--sign))] underline-offset-4 hover:decoration-foreground; }
 
-  .tag { @apply inline-flex items-center h-6 px-2 rounded-[6px] font-mono text-[11.5px] bg-secondary text-secondary-foreground border border-border/70; }
+  .tag { @apply inline-flex items-center h-7 px-2 rounded-[2px] font-display text-[14px] font-semibold uppercase tracking-[0.03em] bg-secondary text-secondary-foreground border border-border; }
   /* colour helpers: set --c on an element, then use these */
   .tint { color: hsl(var(--c)); }
   .tint-bg { background: hsl(var(--c) / 0.12); color: hsl(var(--c)); }
   .tint-border { border-color: hsl(var(--c) / 0.45); }
-  .glow { box-shadow: 0 20px 60px -25px hsl(var(--c, var(--primary)) / 0.6); }
-  .bg-grid {
-    background-image: radial-gradient(hsl(var(--foreground) / 0.08) 1px, transparent 1px);
-    background-size: 22px 22px;
-  }
+  .glow { box-shadow: none; }
+  .bg-grid { background-image: none; }
   .chip { @apply tag; }
 
   .hl { color: hsl(var(--c-green)); }
 
-  .dot { @apply inline-block w-2 h-2 rounded-full bg-ok; box-shadow: 0 0 0 3px hsl(var(--ok) / 0.18); }
+  .dot { @apply inline-block w-2 h-2 rounded-full bg-ok; }
+
+  /* the split-flap board */
+  .board { @apply bg-board text-board-fg rounded-[6px]; }
+  .flap {
+    @apply bg-board-flap rounded-[3px];
+    background-image: linear-gradient(180deg, transparent calc(50% - 0.5px), hsl(0 0% 0% / 0.75) calc(50% - 0.5px), hsl(0 0% 0% / 0.75) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+  }
+  .flip-in { animation: flip-in .5s cubic-bezier(.2,.7,.3,1) both; transform-origin: 50% 0; }
+  .blink { animation: blink 1.2s ease-in-out infinite; }
 
   /* legacy names still used by the game page */
   .section-title { @apply h-section mb-3; }
   .section-subtitle { @apply lede; }
   .glass-card { @apply panel; }
-  .terminal-cursor { @apply inline-block w-[0.55em] h-[1em] bg-yousaf align-middle animate-pulse-slow; }
+  .terminal-cursor { @apply inline-block w-[0.55em] h-[1em] bg-primary align-middle animate-pulse-slow; }
 }
 
 @layer utilities {
   .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
   .reveal.in { opacity: 1; transform: none; }
 }
+
+@keyframes flip-in {
+  from { transform: perspective(600px) rotateX(-88deg); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes blink { 50% { opacity: 0.25; } }

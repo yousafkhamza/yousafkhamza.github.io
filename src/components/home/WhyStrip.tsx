@@ -31,7 +31,7 @@ const ITEMS = [
 const WhyStrip = () => (
   <section className="rule-t" aria-label="Why teams hire me">
     <div className="wrap py-10 sm:py-14">
-      <div className="font-mono text-[12px] font-semibold uppercase tracking-[0.08em] text-muted-foreground mb-5">
+      <div className="font-mono text-[14px] font-semibold uppercase tracking-[0.08em] text-muted-foreground mb-5">
         Why teams bring me in
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
