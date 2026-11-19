@@ -88,37 +88,17 @@ const QuickRead = () => {
 const Hero = () => (
   <div className="relative">
     <div className="wrap relative pt-7 sm:pt-10 pb-14 sm:pb-20">
-      {/* one plain line first, so a recruiter has the answer before the board starts flipping */}
-      <div className="mb-5 sm:mb-6 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
-        <div className="min-w-0">
-          <h1 className="font-display text-[30px] sm:text-[38px] font-bold leading-[1.05] tracking-[-0.01em]">
-            {profile.name}
-            <span className="text-muted-foreground font-semibold"> · Senior DevOps &amp; Platform Engineer</span>
-          </h1>
-          <p className="mt-2 flex items-start gap-2 text-[16px] text-muted-foreground">
-            <span className="mt-[7px] w-2 h-2 shrink-0 rounded-full bg-ok" aria-hidden />
-            <span>
-              Open to {profile.openTo.join(", ")} roles · Based in Dubai · {profile.residency}
-            </span>
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2.5">
-          <a href={profile.resume} target="_blank" rel="noopener" className="btn-primary h-11">
-            <FileDown className="w-4 h-4" /> Resume
-          </a>
-          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn-ghost h-11">
-            LinkedIn
-          </a>
-        </div>
-      </div>
-
       <DepartureBoard />
 
       <div className="mt-14 sm:mt-20 grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-start">
         <div>
-          <p className="font-display text-[56px] sm:text-[80px] lg:text-[92px] font-bold tracking-[-0.02em] leading-[0.92] text-foreground">
-            I keep production{" "}
-            <span className="relative inline-block px-3 -mx-1 rounded-2xl bg-sign text-[hsl(0_0%_7%)]">boring</span>.
+          <h1 className="font-display text-[17px] font-semibold tracking-[0.02em] text-muted-foreground">
+            {profile.name} <span className="text-foreground">/</span> Senior DevOps &amp; Platform Engineer
+          </h1>
+          <p className="mt-3 font-display text-[56px] sm:text-[80px] lg:text-[92px] font-bold tracking-[-0.02em] leading-[1] text-foreground">
+            {/* the first line paints above the highlight, so the p of "production" keeps its tail */}
+            <span className="relative z-[1]">I keep production</span>{" "}
+            <span className="relative z-0 inline-block px-3 -mx-1 rounded-2xl bg-sign text-[hsl(0_0%_7%)] leading-[0.9] pb-[0.06em]">boring</span>.
           </p>
           <p className="mt-8 text-[19px] sm:text-[20px] leading-relaxed text-muted-foreground max-w-[54ch]">
             {yearsOfExperience()}+ years running <span className="text-foreground font-semibold">AWS</span> and{" "}

@@ -33,9 +33,9 @@ interface Row {
 }
 
 const TABS: { id: Tab; label: string; short: string; what: string; head: [string, string, string] }[] = [
-  { id: "departures", label: "Departures", short: "Career", what: "Career", head: ["Year", "Company", "Role"] },
-  { id: "arrivals", label: "Arrivals", short: "Projects", what: "Projects I have shipped", head: ["Flight", "Project", "Type"] },
-  { id: "connections", label: "Connections", short: "Certifications", what: "Certifications", head: ["Year", "Certificate", "Issuer"] },
+  { id: "departures", label: "Departures", short: "Career", what: "Career · where I have worked", head: ["Year", "Company", "Role"] },
+  { id: "arrivals", label: "Arrivals", short: "Projects", what: "Projects · what I have built", head: ["Flight", "Project", "Type"] },
+  { id: "connections", label: "Connections", short: "Certifications", what: "Certifications · what I have earned", head: ["Year", "Certificate", "Issuer"] },
 ];
 
 const SHOW = 8;
@@ -308,7 +308,7 @@ const DepartureBoard = () => {
                 {meta.label}
               </h2>
               <p className="mt-1.5 font-display text-[15px] sm:text-[17px] font-semibold uppercase tracking-[0.08em] text-board-dim">
-                {meta.what} · Dubai DXB
+                {meta.what}
               </p>
             </div>
           </div>

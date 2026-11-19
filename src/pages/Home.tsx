@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Copy } from "lucide-react";
 import Hero from "@/components/home/Hero";
+import GateStrip from "@/components/home/GateStrip";
 import ReleaseHistory from "@/components/home/ReleaseHistory";
 import ImpactBoard from "@/components/home/ImpactBoard";
 import StackView from "@/components/home/StackView";
@@ -46,6 +47,7 @@ const Home = () => {
   return (
     <div>
       <Hero />
+      <GateStrip />
 
       <Section
         id="ai"
