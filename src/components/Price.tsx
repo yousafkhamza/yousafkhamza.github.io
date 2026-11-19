@@ -3,6 +3,12 @@ import { useAedRate } from "@/hooks/useAedRate";
 import { displayCurrency, formatMoney } from "@/lib/visitor";
 import { cn } from "@/lib/utils";
 
+/** converted prices read as round numbers: AED 129 → 130, ₹2,940 → 2,950, £28 → 30 */
+export const roundNice = (n: number) => {
+  const step = n < 100 ? 5 : n < 1000 ? 10 : n < 10000 ? 50 : 100;
+  return Math.max(step, Math.round(n / step) * step);
+};
+
 /**
  * One price, in the visitor's own currency: AED in the UAE, ₹ in India, PKR in
  * Pakistan, € in the euro area, £ in the UK, $ in the US. Prices are set in USD;
@@ -13,10 +19,10 @@ export const usePrice = (usd: number) => {
   const { rate, rates, live } = useAedRate();
   const cur = useMemo(() => displayCurrency(), []);
   if (cur === "USD") return { text: formatMoney(usd, "USD"), cur: "USD", converted: false, live };
-  if (cur === "AED") return { text: `AED ${Math.round(usd * rate)}`, cur, converted: true, live };
+  if (cur === "AED") return { text: `AED ${roundNice(usd * rate).toLocaleString("en")}`, cur, converted: true, live };
   const r = rates?.[cur];
   if (!r) return { text: formatMoney(usd, "USD"), cur: "USD", converted: false, live };
-  return { text: formatMoney(usd * r, cur), cur, converted: true, live };
+  return { text: formatMoney(roundNice(usd * r), cur), cur, converted: true, live };
 };
 
 const Price = ({ usd, unit, className, compact = false }: { usd: number; unit: string; className?: string; compact?: boolean }) => {
