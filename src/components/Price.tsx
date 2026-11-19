@@ -15,14 +15,19 @@ export const roundNice = (n: number) => {
  * AED uses the fixed peg until the live rate arrives, other currencies show $
  * until then rather than guess.
  */
-export const usePrice = (usd: number) => {
-  const { rate, rates, live } = useAedRate();
-  const cur = useMemo(() => displayCurrency(), []);
+/** the price text a visitor sees, as a plain function (the contact form reuses it) */
+export const priceFor = (usd: number, cur: string, aedRate: number, rates: Record<string, number> | undefined, live: boolean) => {
   if (cur === "USD") return { text: formatMoney(usd, "USD"), cur: "USD", converted: false, live };
-  if (cur === "AED") return { text: `AED ${roundNice(usd * rate).toLocaleString("en")}`, cur, converted: true, live };
+  if (cur === "AED") return { text: `AED ${roundNice(usd * aedRate).toLocaleString("en")}`, cur, converted: true, live };
   const r = rates?.[cur];
   if (!r) return { text: formatMoney(usd, "USD"), cur: "USD", converted: false, live };
   return { text: formatMoney(roundNice(usd * r), cur), cur, converted: true, live };
+};
+
+export const usePrice = (usd: number) => {
+  const { rate, rates, live } = useAedRate();
+  const cur = useMemo(() => displayCurrency(), []);
+  return priceFor(usd, cur, rate, rates, live);
 };
 
 const Price = ({ usd, unit, className, compact = false }: { usd: number; unit: string; className?: string; compact?: boolean }) => {

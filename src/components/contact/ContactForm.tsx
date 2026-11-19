@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Check, Send, AlertCircle } from "lucide-react";
 import { profile, services } from "@/data/profile";
+import { useAedRate } from "@/hooks/useAedRate";
+import { priceFor } from "@/components/Price";
+import { browserRegion, displayCurrency, placeName, visitorLocalTime, visitorTz } from "@/lib/visitor";
 
 // FormSubmit.co forwards submissions straight to this inbox: free, no API key,
 // no signup. The very first message triggers a one-time "Activate Form" email.
@@ -21,6 +24,25 @@ const ContactForm = () => {
   const initialTopic = topics.some((t) => t.id === params.get("topic")) ? params.get("topic")! : "hiring";
   const [form, setForm] = useState({ name: "", email: "", company: "", topic: initialTopic, message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const fx = useAedRate();
+
+  /**
+   * Sent with the message, never shown on the form: where the visitor is writing
+   * from and the price the site showed them, so the reply can quote the right amount.
+   */
+  const context = () => {
+    const tz = visitorTz();
+    const region = browserRegion();
+    const cur = displayCurrency(tz);
+    const svc = services.find((s) => s.id === form.topic);
+    const seen = priceFor(svc?.priceUsd ?? 1, cur, fx.rate, fx.rates, fx.live);
+    return {
+      "Visitor location": `${placeName(tz)} (${tz})${region ? ` · browser region ${region}` : ""}`,
+      "Visitor local time": visitorLocalTime(tz),
+      "Currency shown on site": seen.cur,
+      ...(svc ? { "Price they saw": `${seen.text} ${svc.unit}${seen.cur === "USD" ? "" : ` (set at $${svc.priceUsd})`}` } : {}),
+    };
+  };
 
   useEffect(() => {
     const t = params.get("topic");
@@ -44,6 +66,7 @@ const ContactForm = () => {
           company: form.company,
           topic: topicLabel,
           message: form.message,
+          ...context(),
           _subject: `[${topicLabel}] ${form.name} via portfolio`,
           _template: "table",
           _captcha: "false",

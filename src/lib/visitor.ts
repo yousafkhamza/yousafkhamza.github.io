@@ -137,3 +137,35 @@ export const formatMoney = (amount: number, currency: string) => {
     return `${currency} ${Math.round(amount).toLocaleString("en")}`;
   }
 };
+
+/** the browser's region setting (en-IN → "India"), or "" when it has none */
+export const browserRegion = (): string => {
+  try {
+    const lang = navigator.languages?.[0] || navigator.language || "";
+    const region = new Intl.Locale(lang).maximize().region;
+    if (!region) return "";
+    return new Intl.DisplayNames(["en"], { type: "region" }).of(region) ?? region;
+  } catch {
+    return "";
+  }
+};
+
+/** the visitor's own clock, e.g. "Fri 20 Nov, 10:30 pm (GMT+5:30)" */
+export const visitorLocalTime = (tz = visitorTz(), at = new Date()) => {
+  try {
+    const when = new Intl.DateTimeFormat("en-GB", {
+      timeZone: tz,
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    }).format(at);
+    const off = offsetMinutes(tz, at);
+    const a = Math.abs(off);
+    return `${when} (GMT${off >= 0 ? "+" : "-"}${Math.floor(a / 60)}${a % 60 ? `:${String(a % 60).padStart(2, "0")}` : ""})`;
+  } catch {
+    return at.toString();
+  }
+};
