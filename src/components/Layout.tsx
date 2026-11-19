@@ -21,7 +21,7 @@ const Layout = () => {
     const alreadyHinted = sessionStorage.getItem("game-hint-shown");
     if (!alreadyHinted && pathname !== "/play" && window.innerWidth >= 768) {
       const hintTimer = setTimeout(() => {
-        toast("Three on-call games are hidden on this site", {
+        toast("Four on-call games are hidden on this site", {
           description: "Type “sudo play” anywhere, or click Play.",
           duration: 9000,
           action: {

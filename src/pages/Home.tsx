@@ -11,11 +11,10 @@ import Section from "@/components/layout/Section";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
 import { projects } from "@/data/projects";
-import { certifications } from "@/data/certifications";
-import { education } from "@/data/education";
 import { profile, services } from "@/data/profile";
 import Price from "@/components/Price";
 import Pass from "@/components/Pass";
+import { CertPasses, EducationPasses } from "@/components/Credentials";
 import RunwayGame from "@/components/home/RunwayGame";
 
 const CopyEmail = () => {
@@ -154,27 +153,9 @@ const Home = () => {
       </Section>
 
       <Section id="credentials" color="cyan" label="Credentials" title="Certified and qualified">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border rounded-[var(--radius)] overflow-hidden">
-          {certifications.map((c) => (
-            <div key={c.id} className="bg-card px-5 py-4 flex items-start justify-between gap-4">
-              <div>
-                {c.core && <div className="font-mono text-[13px] font-semibold uppercase tracking-wider tint mb-1">core</div>}
-                <div className={c.core ? "text-[15px] font-bold" : "text-[14.5px]"}>{c.title}</div>
-                <div className="text-[13px] text-muted-foreground mt-0.5">{c.organization}</div>
-              </div>
-              <span className="font-mono text-[14px] text-muted-foreground shrink-0">{c.date}</span>
-            </div>
-          ))}
-        </div>
-        <div className="mt-10 grid sm:grid-cols-2 gap-6">
-          {education.map((e) => (
-            <div key={e.degree} className="border-l-4 pl-4" style={{ borderColor: "hsl(var(--c-violet))" }}>
-              <div className="label mb-1">Education</div>
-              <div className="text-[16px] font-semibold">{e.degree}</div>
-              <div className="text-[14px] text-muted-foreground">{e.school}</div>
-              <div className="font-mono text-[14px] text-muted-foreground mt-1">{e.period}</div>
-            </div>
-          ))}
+        <CertPasses />
+        <div className="mt-8">
+          <EducationPasses />
         </div>
       </Section>
 

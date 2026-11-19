@@ -1,3 +1,4 @@
+import Pass from "@/components/Pass";
 import { ArrowLeftRight, ShieldCheck, TrendingDown, Sparkles } from "lucide-react";
 
 /** four proof points a hiring manager can scan in five seconds */
@@ -31,18 +32,22 @@ const ITEMS = [
 const WhyStrip = () => (
   <section className="rule-t" aria-label="Why teams hire me">
     <div className="wrap py-10 sm:py-14">
-      <div className="font-mono text-[14px] font-semibold uppercase tracking-[0.08em] text-muted-foreground mb-5">
-        Why teams bring me in
-      </div>
+      <div className="eyebrow">Why teams bring me in</div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {ITEMS.map(({ icon: Icon, color, title, body }) => (
-          <div key={title} className="panel p-5" style={{ ["--c" as string]: `var(--c-${color})` }}>
-            <span className="inline-grid place-items-center w-10 h-10 rounded-lg tint-bg">
-              <Icon className="w-5 h-5" />
-            </span>
-            <div className="mt-4 font-display text-[19px] font-bold leading-tight">{title}</div>
-            <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">{body}</p>
-          </div>
+        {ITEMS.map(({ icon: Icon, title, body }, i) => (
+          <Pass
+            key={title}
+            as="div"
+            tone="plain"
+            label={`Checked in · 0${i + 1}`}
+            code={<Icon className="w-4 h-4" aria-hidden />}
+            main={
+              <div className="p-5">
+                <div className="font-display text-[22px] font-bold uppercase leading-[1.05]">{title}</div>
+                <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{body}</p>
+              </div>
+            }
+          />
         ))}
       </div>
     </div>

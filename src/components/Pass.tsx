@@ -9,14 +9,15 @@ import { cn } from "@/lib/utils";
 interface PassProps {
   label: ReactNode;
   code?: ReactNode;
-  tone?: "board" | "sign";
+  tone?: "board" | "sign" | "plain";
   /** screen width from which the stub moves beside the main part */
   row?: "md" | "lg";
   stubFirst?: boolean;
   /** stub width once it sits beside the main part */
   stubWidth?: string;
   main: ReactNode;
-  stub: ReactNode;
+  /** leave out for a pass with no tear-off */
+  stub?: ReactNode;
   className?: string;
   style?: CSSProperties;
   id?: string;
@@ -51,8 +52,12 @@ const Pass = ({
     </div>
     <div className="pass-body">
       <div className="pass-main">{main}</div>
-      <div className="pass-tear" aria-hidden />
-      <div className="pass-stub">{stub}</div>
+      {stub !== undefined && (
+        <>
+          <div className="pass-tear" aria-hidden />
+          <div className="pass-stub">{stub}</div>
+        </>
+      )}
     </div>
   </Tag>
 );

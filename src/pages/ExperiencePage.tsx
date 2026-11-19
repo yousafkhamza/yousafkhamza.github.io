@@ -4,10 +4,9 @@ import { FileDown } from "lucide-react";
 import PageHero from "@/components/layout/PageHero";
 import Section from "@/components/layout/Section";
 import { experiences } from "@/data/experience";
-import { education } from "@/data/education";
-import { certifications } from "@/data/certifications";
 import { profile, yearsOfExperience } from "@/data/profile";
 import Pass, { PassField } from "@/components/Pass";
+import { CertPasses, EducationPasses } from "@/components/Credentials";
 
 const ExperiencePage = () => {
   const { hash } = useLocation();
@@ -92,32 +91,11 @@ const ExperiencePage = () => {
       </section>
 
       <Section label="Credentials" title="Certifications">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border rounded-[var(--radius)] overflow-hidden">
-          {certifications.map((c) => (
-            <div key={c.id} className="bg-card p-5">
-              <div className="flex items-center justify-between font-mono text-[13.5px] text-muted-foreground">
-                <span>{c.organization}</span>
-                <span>{c.date}</span>
-              </div>
-              <div className={c.core ? "mt-2 text-[16px] font-semibold" : "mt-2 text-[15px]"}>{c.title}</div>
-            </div>
-          ))}
-        </div>
+        <CertPasses />
       </Section>
 
       <Section label="Education" title="Where it started">
-        <div className="grid sm:grid-cols-2 gap-5">
-          {education.map((e) => (
-            <div key={e.degree} className="panel p-6 flex items-start gap-4">
-              <img src={e.logo} alt="" className="w-11 h-11 rounded-[4px] object-contain bg-white border border-border" />
-              <div>
-                <div className="text-[17px] font-semibold">{e.degree}</div>
-                <div className="text-[14.5px] text-muted-foreground">{e.school}</div>
-                <div className="font-mono text-[14px] text-muted-foreground mt-1">{e.period}</div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <EducationPasses />
       </Section>
     </div>
   );

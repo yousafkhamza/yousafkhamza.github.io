@@ -99,8 +99,8 @@ const RunwayGame = () => {
       </div>
 
       {/* the runway */}
-      <div className="relative mt-4 h-[150px] rounded-2xl bg-board overflow-hidden" aria-hidden>
-        <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 border-t-2 border-dashed border-white/25" />
+      <div className="relative mt-4 h-[150px] rounded-2xl bg-board border border-border overflow-hidden" aria-hidden>
+        <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 border-t-2 border-dashed border-board-text/25" />
         <div className="absolute inset-x-4 bottom-3 grid grid-cols-4 gap-2">
           {GATES.map((g, i) => {
             const Icon = g.icon;
@@ -111,7 +111,7 @@ const RunwayGame = () => {
                 key={g.id}
                 className={cn(
                   "flex items-center justify-center gap-1.5 h-8 rounded-lg font-display text-[13px] font-bold uppercase tracking-[0.05em] transition-colors",
-                  held ? "bg-[hsl(355_85%_62%)] text-white" : done ? "bg-board-ok/20 text-board-ok" : "bg-white/5 text-board-dim"
+                  held ? "bg-[hsl(355_85%_62%)] text-white" : done ? "bg-board-ok/15 text-board-ok" : "bg-board-text/[0.06] text-board-dim"
                 )}
               >
                 <Icon className="w-3.5 h-3.5" /> {g.label}

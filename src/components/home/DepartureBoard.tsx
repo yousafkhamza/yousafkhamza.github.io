@@ -300,11 +300,11 @@ const DepartureBoard = () => {
         {/* the sign above the board */}
         <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
           <div className="flex items-center gap-4 min-w-0">
-            <span className="grid place-items-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-board-fg text-[hsl(0_0%_7%)] shrink-0">
+            <span className="grid place-items-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-sign text-ink shrink-0">
               <Plane className={cn("w-6 h-6 sm:w-7 sm:h-7 transition-transform", tab === "arrivals" ? "rotate-[135deg]" : "-rotate-45")} strokeWidth={2.2} />
             </span>
             <div className="min-w-0">
-              <h2 className="font-display text-[40px] sm:text-[64px] font-bold uppercase leading-[0.85] tracking-[0.01em] text-board-fg">
+              <h2 className="font-display text-[40px] sm:text-[64px] font-bold uppercase leading-[0.85] tracking-[0.01em] text-board-title">
                 {meta.label}
               </h2>
               <p className="mt-1.5 font-display text-[15px] sm:text-[17px] font-semibold uppercase tracking-[0.08em] text-board-dim">
@@ -318,7 +318,7 @@ const DepartureBoard = () => {
                 <span className={cn("w-2 h-2 rounded-full", online ? "bg-board-ok blink" : "bg-board-dim")} />
                 {online ? "Online now" : `Offline · back ${back}`}
               </div>
-              <div className="mt-1 text-[32px] sm:text-[40px] font-bold text-white tabular-nums" aria-label={`Dubai time ${clock}`}>
+              <div className="mt-1 text-[32px] sm:text-[40px] font-bold text-board-text tabular-nums" aria-label={`Dubai time ${clock}`}>
                 {clock}
               </div>
             </div>
@@ -330,7 +330,7 @@ const DepartureBoard = () => {
               title={sound ? "Board sound on" : "Board sound off"}
               className={cn(
                 "mb-1 w-11 h-11 grid place-items-center rounded-xl border transition-colors",
-                sound ? "border-board-fg/60 text-board-fg" : "border-white/15 text-board-dim hover:text-board-fg"
+                sound ? "border-board-fg/60 text-board-fg" : "border-board-text/15 text-board-dim hover:text-board-fg"
               )}
             >
               {sound ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
@@ -351,7 +351,7 @@ const DepartureBoard = () => {
               onClick={() => pickTab(t.id)}
               className={cn(
                 "min-h-11 px-2 sm:px-4 rounded-xl font-display text-[15px] sm:text-[19px] font-bold uppercase tracking-[0.03em] sm:tracking-[0.05em] transition-colors",
-                tab === t.id ? "bg-board-fg text-[hsl(0_0%_7%)]" : "bg-white/5 text-board-fg hover:bg-white/10"
+                tab === t.id ? "bg-sign text-ink" : "bg-board-text/[0.06] text-board-fg hover:bg-board-text/10"
               )}
             >
               {t.label}
@@ -382,11 +382,11 @@ const DepartureBoard = () => {
                   style={fitVars}
                   className={cn(
                     "flap-size flex gap-[var(--col-gap)] items-center w-full text-left px-2 py-1.5 rounded-xl font-display font-semibold transition-colors",
-                    on ? "bg-white/[0.08] ring-2 ring-board-fg" : "hover:bg-white/[0.04]"
+                    on ? "bg-board-text/[0.06] ring-2 ring-board-fg" : "hover:bg-board-text/[0.04]"
                   )}
                 >
                   {L.code > 0 && <SplitFlap text={r.code} len={L.code} delay={d} className="text-board-fg" />}
-                  <SplitFlap text={r.name} len={L.name} delay={d + 40} className="text-white" />
+                  <SplitFlap text={r.name} len={L.name} delay={d + 40} className="text-board-text" />
                   {L.detail > 0 && <SplitFlap text={r.detail} len={L.detail} delay={d + 80} className="text-board-fg" />}
                   <span className={cn(r.live && "blink")}>
                     <SplitFlap text={r.status} len={L.status} delay={d + 120} className={r.good ? "text-board-ok" : "text-board-dim"} />

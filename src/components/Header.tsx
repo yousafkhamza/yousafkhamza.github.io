@@ -18,19 +18,19 @@ const navLinks = [
 const StatusStrip = () => {
   const time = useClock(profile.timezone);
   return (
-    <div className="bg-board text-board-dim">
+    <div className="bg-strip text-strip-dim">
       <div className="wrap h-9 flex items-center justify-between gap-4 font-display text-[14px] font-semibold uppercase tracking-[0.06em]">
         <span className="flex items-center gap-2 min-w-0">
-          <span className="w-2 h-2 rounded-full bg-board-ok shrink-0" />
+          <span className="w-2 h-2 rounded-full bg-strip-ok shrink-0" />
           <span className="truncate">
-            <span className="text-board-ok">Open to new roles</span>
+            <span className="text-strip-ok">Open to new roles</span>
             <span className="hidden sm:inline"> · Senior DevOps, DevSecOps, Platform, SRE</span>
           </span>
         </span>
         <span className="flex items-center gap-3 shrink-0">
           <span className="hidden md:inline">{profile.residency}</span>
           <span className="hidden md:inline opacity-40">|</span>
-          <span className="text-board-fg">
+          <span className="text-strip-fg">
             Dubai {time} <span className="hidden sm:inline">GMT+4</span>
           </span>
         </span>

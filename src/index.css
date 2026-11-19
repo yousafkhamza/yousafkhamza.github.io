@@ -59,12 +59,22 @@
     --c-violet: 220 14% 30%;
     --c-amber: 36 100% 28%;
     --c-pink: 354 78% 42%;
-    /* the board */
-    --board: 0 0% 5%;
-    --board-fg: 48 100% 50%;
-    --flap: 0 0% 11%;
-    --board-ok: 130 62% 66%;
-    --board-dim: 0 0% 74%;
+    /* the board, daylight version: a pale aluminium board with white flaps */
+    --board: 40 14% 97%;
+    --board-fg: 36 100% 27%;
+    --board-text: 0 0% 9%;
+    --board-title: 0 0% 7%;
+    --flap: 40 8% 89%;
+    --flap-top: 40 10% 95%;
+    --flap-line: 0 0% 0% / 0.16;
+    --flap-edge: 0 0% 0% / 0.1;
+    --board-ok: 145 63% 26%;
+    --board-dim: 0 0% 36%;
+    /* strips stay dark in both themes */
+    --strip: 0 0% 7%;
+    --strip-fg: 48 100% 50%;
+    --strip-dim: 0 0% 74%;
+    --strip-ok: 130 62% 66%;
     --sign: 48 100% 48%;
     /* Command Rush terminal */
     --t-bg: 0 0% 100%;
@@ -108,9 +118,18 @@
     --c-pink: 355 85% 68%;
     --board: 0 0% 8%;
     --board-fg: 48 100% 52%;
+    --board-text: 0 0% 100%;
+    --board-title: 48 100% 52%;
     --flap: 0 0% 9%;
+    --flap-top: 0 0% 15%;
+    --flap-line: 0 0% 0% / 0.8;
+    --flap-edge: 0 0% 0% / 0.6;
     --board-ok: 130 62% 66%;
     --board-dim: 0 0% 72%;
+    --strip: 0 0% 4%;
+    --strip-fg: 48 100% 52%;
+    --strip-dim: 0 0% 72%;
+    --strip-ok: 130 62% 66%;
     --sign: 48 100% 50%;
     --t-bg: 0 0% 4%;
     --t-fg: 0 0% 100%;
@@ -174,6 +193,16 @@
 
   .dot { @apply inline-block w-2 h-2 rounded-full bg-ok; }
 
+  /* segmented control: the selected pill sits inside the track with matching, smaller radii */
+  .seg { @apply inline-flex items-center gap-1 p-1 rounded-xl bg-card border border-border; }
+  .seg-btn { @apply h-9 px-4 rounded-lg font-display text-[15px] font-bold uppercase tracking-[0.04em] text-muted-foreground transition-colors hover:text-foreground; }
+  .seg-btn[aria-selected="true"] { @apply bg-sign text-ink hover:text-ink; }
+
+  /* tool chips: solid for what I run today, outline for what I have shipped with */
+  .tool { @apply inline-flex items-center h-8 px-3 rounded-lg text-[14.5px] font-medium border border-border text-muted-foreground bg-card; }
+  .tool-on { @apply inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-[14.5px] font-semibold text-foreground bg-sign/25 border border-sign/60; }
+  .dark .tool-on { @apply bg-sign/10 border-sign/40 text-[hsl(48_100%_70%)]; }
+
   /* a top accent that follows rounded corners (a border-top cannot) */
   .accent-top { box-shadow: inset 0 4px 0 hsl(var(--c)), 0 1px 2px hsl(0 0% 0% / 0.04); }
 
@@ -186,8 +215,9 @@
   .pass-head {
     @apply relative z-[1] flex flex-wrap items-center justify-between gap-x-3 gap-y-0.5 px-5 py-2.5 min-h-11 font-display text-[15px] font-bold uppercase tracking-[0.08em];
   }
-  .pass-head.tone-board { @apply bg-board text-board-fg; }
+  .pass-head.tone-board { @apply bg-strip text-strip-fg; }
   .pass-head.tone-sign { @apply bg-sign text-[hsl(0_0%_7%)]; }
+  .pass-head.tone-plain { @apply bg-secondary text-muted-foreground border-b border-border; }
   .pass-body { @apply flex flex-col flex-1; }
   .pass-main { @apply flex-1 min-w-0; }
   .pass-stub { @apply shrink-0 bg-secondary/60; }
@@ -219,8 +249,8 @@
 
   /* the split-flap board */
   .board {
-    @apply bg-board text-board-fg rounded-[22px];
-    box-shadow: 0 1px 0 hsl(0 0% 100% / 0.06) inset, 0 24px 60px -30px hsl(0 0% 0% / 0.55);
+    @apply bg-board text-board-fg rounded-[22px] border border-border;
+    box-shadow: 0 1px 2px hsl(0 0% 0% / 0.05), 0 22px 50px -30px hsl(0 0% 0% / 0.35);
   }
   .flap {
     @apply bg-board-flap rounded-md;
@@ -235,14 +265,14 @@
     position: relative; display: grid; place-items: center;
     width: var(--cell-w); height: 1.45em; line-height: 1;
     border-radius: 3px; overflow: hidden;
-    background: linear-gradient(180deg, hsl(0 0% 15%) 0 50%, hsl(var(--flap)) 50% 100%);
-    box-shadow: 0 1px 0 hsl(0 0% 0% / 0.6);
+    background: linear-gradient(180deg, hsl(var(--flap-top)) 0 50%, hsl(var(--flap)) 50% 100%);
+    box-shadow: 0 1px 0 hsl(var(--flap-edge));
   }
   .flap-cell::after {
     content: ""; position: absolute; left: 0; right: 0; top: calc(50% - 0.5px); height: 1px;
-    background: hsl(0 0% 0% / 0.8);
+    background: hsl(var(--flap-line));
   }
-  .dark .board { box-shadow: 0 0 0 1px hsl(0 0% 100% / 0.09), 0 24px 60px -30px hsl(0 0% 0% / 0.9); }
+  .dark .board { border-color: hsl(0 0% 100% / 0.09); box-shadow: 0 24px 60px -30px hsl(0 0% 0% / 0.9); }
   .flap-char { display: block; font-weight: 700; animation: flap-drop 80ms ease-out; transform-origin: 50% 50%; }
   .blink { animation: blink 1.2s ease-in-out infinite; }
 

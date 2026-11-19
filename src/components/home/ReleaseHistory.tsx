@@ -41,7 +41,7 @@ const ReleaseHistory = () => {
     <div>
       {/* the track */}
       <div className="relative" role="tablist" aria-label="Career releases" onKeyDown={onKey}>
-        <div className="relative h-14 sm:h-16 rounded-[var(--radius)] bg-board overflow-hidden">
+        <div className="relative h-14 sm:h-16 rounded-[var(--radius)] bg-board border border-border overflow-hidden">
           {chronological.map((e) => {
             const s = toMonths(e.start) - start;
             const len = (e.end ? toMonths(e.end) : end) - toMonths(e.start);
@@ -53,12 +53,12 @@ const ReleaseHistory = () => {
                 aria-selected={on}
                 tabIndex={on ? 0 : -1}
                 onClick={() => setActive(e.id)}
-                className="absolute top-0 bottom-0 border-r-2 last:border-r-0 border-[hsl(0_0%_0%)] text-left px-2 sm:px-3 transition-all group"
+                className="absolute top-0 bottom-0 border-r last:border-r-0 border-board text-left px-2 sm:px-3 transition-all group"
                 style={{
                   left: `${(s / span) * 100}%`,
                   width: `${(len / span) * 100}%`,
                   background: on ? "hsl(var(--sign))" : "hsl(var(--flap))",
-                  color: on ? "hsl(0 0% 7%)" : "hsl(var(--board-fg))",
+                  color: on ? "hsl(0 0% 7%)" : "hsl(var(--board-text))",
                 }}
               >
                 <span className="block font-mono text-[13px] sm:text-[14px] opacity-80">

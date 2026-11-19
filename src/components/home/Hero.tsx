@@ -47,8 +47,8 @@ const QuickRead = () => {
     <aside className="pass" aria-label="Profile summary">
       <div className="pass-head tone-board">
         <span>Boarding pass</span>
-        <span className="flex items-center gap-1.5 text-board-ok">
-          <span className="w-2 h-2 rounded-full bg-board-ok" /> Available
+        <span className="flex items-center gap-1.5 text-strip-ok">
+          <span className="w-2 h-2 rounded-full bg-strip-ok" /> Available
         </span>
       </div>
       <div className="px-5 pt-4 pb-1 border-b-2 border-dashed border-border">

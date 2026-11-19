@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { FileDown } from "lucide-react";
 import PageHero from "@/components/layout/PageHero";
 import ContactForm from "@/components/contact/ContactForm";
+import Pass from "@/components/Pass";
 import { profile } from "@/data/profile";
 
 const ContactPage = () => {
@@ -24,21 +25,42 @@ const ContactPage = () => {
         description="Hiring for a DevOps, platform or SRE role, or want a session? The form lands straight in my inbox."
       />
       <section className="rule-t">
-        <div className="wrap py-12 sm:py-16 grid lg:grid-cols-[1.4fr_1fr] gap-12">
-          <ContactForm />
-          <aside>
-            <dl className="panel divide-y divide-border">
-              {rows.map(([k, v]) => (
-                <div key={k} className="grid grid-cols-[110px_1fr] gap-4 px-5 py-3.5 text-[14.5px]">
-                  <dt className="font-mono text-[14px] text-muted-foreground pt-0.5">{k}</dt>
-                  <dd>{v}</dd>
-                </div>
-              ))}
-            </dl>
-            <a href={profile.resume} target="_blank" rel="noopener" className="btn-ghost mt-5 w-full">
-              <FileDown className="w-4 h-4" /> Download resume (PDF)
-            </a>
-          </aside>
+        <div className="wrap py-12 sm:py-16 grid lg:grid-cols-[1.4fr_1fr] gap-6 lg:gap-8">
+          <Pass
+            as="div"
+            tone="sign"
+            label="Check-in · send a message"
+            code="Lands in my inbox"
+            className="self-start"
+            main={
+              <div className="p-5 sm:p-7">
+                <ContactForm />
+              </div>
+            }
+          />
+          <Pass
+            as="aside"
+            className="self-start"
+            label="Ground crew · contact"
+            code="GMT+4"
+            main={
+              <dl className="divide-y divide-border">
+                {rows.map(([k, v]) => (
+                  <div key={k} className="grid grid-cols-[100px_1fr] gap-4 px-5 py-3.5 text-[15px]">
+                    <dt className="label pt-0.5">{k}</dt>
+                    <dd>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            }
+            stub={
+              <div className="p-4">
+                <a href={profile.resume} target="_blank" rel="noopener" className="btn-primary w-full">
+                  <FileDown className="w-4 h-4" /> Download resume (PDF)
+                </a>
+              </div>
+            }
+          />
         </div>
       </section>
     </div>

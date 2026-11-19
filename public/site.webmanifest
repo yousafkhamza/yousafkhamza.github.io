@@ -4,8 +4,8 @@
   "description": "Senior DevOps & Platform Engineer in Dubai, UAE",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0b1120",
-  "theme_color": "#0b1120",
+  "background_color": "#e6e4de",
+  "theme_color": "#f5c400",
   "icons": [
     { "src": "/favicon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png" },

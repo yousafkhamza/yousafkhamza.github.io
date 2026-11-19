@@ -78,17 +78,26 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      <div className="wrap -mt-6 mb-4 font-mono text-[14px] text-muted-foreground">
+      <div className="wrap -mt-6 mb-4 text-[14px] text-muted-foreground">
         Prices in USD. AED shown {live ? "at today's live rate" : "at the fixed USD peg (3.6725)"}. Payment details are shared by email when we confirm the session.
       </div>
 
       <Section label="Process" title="How it works">
-        <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border rounded-[var(--radius)] overflow-hidden">
+        <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {steps.map(([t, d], i) => (
-            <li key={t} className="bg-card p-6">
-              <div className="font-mono text-[14px] font-semibold" style={{ color: `hsl(var(--c-${["green", "cyan", "violet", "amber"][i % 4]}))` }}>step {i + 1}</div>
-              <div className="mt-2 text-[17px] font-semibold">{t}</div>
-              <p className="mt-2 text-[14.5px] text-muted-foreground leading-relaxed">{d}</p>
+            <li key={t}>
+              <Pass
+                as="div"
+                tone={i === 0 ? "sign" : "plain"}
+                className="h-full"
+                label={`Step ${i + 1} · ${["Check-in", "Security", "Boarding", "Arrival"][i]}`}
+                main={
+                  <div className="p-5">
+                    <div className="font-display text-[22px] font-bold uppercase leading-[1.05]">{t}</div>
+                    <p className="mt-2 text-[15px] text-muted-foreground leading-relaxed">{d}</p>
+                  </div>
+                }
+              />
             </li>
           ))}
         </ol>
