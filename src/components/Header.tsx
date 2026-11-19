@@ -62,13 +62,13 @@ const Header = () => {
       <StatusStrip />
       <div
         className={cn(
-          "bg-sign text-[hsl(0_0%_7%)] border-b-[3px] border-[hsl(0_0%_7%)] transition-shadow",
-          scrolled && "shadow-[0_2px_0_hsl(0_0%_0%/0.15)]"
+          "bg-sign text-[hsl(0_0%_7%)] border-b border-[hsl(0_0%_0%/0.18)] transition-shadow",
+          scrolled && "shadow-[0_8px_24px_-12px_hsl(0_0%_0%/0.35)]"
         )}
       >
         <div className="wrap h-16 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2.5 group" aria-label="Home">
-            <span className="w-10 h-10 grid place-items-center bg-[hsl(0_0%_7%)] text-[hsl(48_100%_50%)] font-display font-bold text-[19px] rounded-[2px]">
+            <span className="w-10 h-10 grid place-items-center bg-[hsl(0_0%_7%)] text-[hsl(48_100%_50%)] font-display font-bold text-[19px] rounded-lg">
               YH
             </span>
             <span className="font-display text-[23px] font-bold uppercase tracking-[0.02em] leading-none">{profile.name}</span>
@@ -84,7 +84,7 @@ const Header = () => {
                 to={l.to}
                 className={({ isActive }) =>
                   cn(
-                    "px-3 py-2 font-display text-[18px] font-bold uppercase tracking-[0.04em] rounded-[2px] transition-colors",
+                    "px-3 py-2 font-display text-[18px] font-bold uppercase tracking-[0.04em] rounded-lg transition-colors",
                     isActive ? "bg-[hsl(0_0%_7%)] text-[hsl(48_100%_50%)]" : "hover:bg-[hsl(0_0%_7%/0.1)]"
                   )
                 }
@@ -97,15 +97,15 @@ const Header = () => {
           <div className="flex items-center gap-1.5">
             <button
               onClick={openCommandMenu}
-              className="hidden lg:inline-flex items-center gap-2 h-10 pl-3 pr-2 rounded-[2px] border-2 border-[hsl(0_0%_7%)] text-[14px] font-semibold hover:bg-[hsl(0_0%_7%/0.1)] transition-colors"
+              className="hidden lg:inline-flex items-center gap-2 h-10 pl-3 pr-2 rounded-lg border-[1.5px] border-[hsl(0_0%_7%/0.7)] text-[14px] font-semibold hover:bg-[hsl(0_0%_7%/0.1)] transition-colors"
               aria-label="Search the site"
             >
               <Search className="w-3.5 h-3.5" /> Search
-              <kbd className="font-display text-[13px] font-bold px-1.5 py-0.5 rounded-[2px] bg-[hsl(0_0%_7%)] text-[hsl(48_100%_50%)]">Ctrl K</kbd>
+              <kbd className="font-display text-[13px] font-bold px-1.5 py-0.5 rounded-lg bg-[hsl(0_0%_7%)] text-[hsl(48_100%_50%)]">Ctrl K</kbd>
             </button>
             <button
               onClick={openCommandMenu}
-              className="lg:hidden w-10 h-10 inline-flex items-center justify-center rounded-[2px] hover:bg-[hsl(0_0%_7%/0.1)]"
+              className="lg:hidden w-10 h-10 inline-flex items-center justify-center rounded-lg hover:bg-[hsl(0_0%_7%/0.1)]"
               aria-label="Search the site"
             >
               <Search className="w-4 h-4" />
@@ -115,14 +115,14 @@ const Header = () => {
             </a>
             <button
               onClick={() => setTheme(isDark ? "light" : "dark")}
-              className="w-10 h-10 inline-flex items-center justify-center rounded-[2px] hover:bg-[hsl(0_0%_7%/0.1)] transition-colors"
+              className="w-10 h-10 inline-flex items-center justify-center rounded-lg hover:bg-[hsl(0_0%_7%/0.1)] transition-colors"
               aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
             >
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
             <button
               onClick={() => setOpen((v) => !v)}
-              className="md:hidden w-10 h-10 inline-flex items-center justify-center rounded-[2px] hover:bg-[hsl(0_0%_7%/0.1)]"
+              className="md:hidden w-10 h-10 inline-flex items-center justify-center rounded-lg hover:bg-[hsl(0_0%_7%/0.1)]"
               aria-label="Menu"
               aria-expanded={open}
             >

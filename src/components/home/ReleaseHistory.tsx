@@ -40,7 +40,7 @@ const ReleaseHistory = () => {
     <div>
       {/* the track */}
       <div className="relative" role="tablist" aria-label="Career releases" onKeyDown={onKey}>
-        <div className="relative h-14 sm:h-16 rounded-[var(--radius)] bg-board border-2 border-[hsl(0_0%_7%)] overflow-hidden">
+        <div className="relative h-14 sm:h-16 rounded-[var(--radius)] bg-board overflow-hidden">
           {chronological.map((e) => {
             const s = toMonths(e.start) - start;
             const len = (e.end ? toMonths(e.end) : end) - toMonths(e.start);

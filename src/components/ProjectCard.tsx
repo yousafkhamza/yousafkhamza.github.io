@@ -18,14 +18,14 @@ const ProjectCard = ({ project, index, compact = false }: { project: Project; in
 
   return (
     <article
-      className="panel flex flex-col h-full overflow-hidden group transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_hsl(var(--foreground))]"
+      className="panel flex flex-col h-full overflow-hidden group transition-all duration-300 hover:-translate-y-1 hover:border-foreground/40 hover:shadow-[0_22px_44px_-24px_hsl(0_0%_0%/0.35)]"
       style={{ ["--c" as string]: `var(--c-${CATEGORY_COLOR[project.categories[0]] ?? "green"})` }}
     >
       <a
         href={project.demo ?? project.github}
         target="_blank"
         rel="noopener noreferrer"
-        className="block relative aspect-video overflow-hidden border-b-2 border-foreground/85 bg-secondary"
+        className="block relative aspect-video overflow-hidden border-b border-border bg-secondary"
         tabIndex={-1}
         aria-hidden
       >
@@ -44,7 +44,7 @@ const ProjectCard = ({ project, index, compact = false }: { project: Project; in
           {project.categories.map((c) => (
             <span
               key={c}
-              className="px-2 py-0.5 rounded-[2px] font-bold uppercase text-[13px] tracking-[0.04em]"
+              className="px-2 py-0.5 rounded-lg font-bold uppercase text-[13px] tracking-[0.04em]"
               style={{ background: `hsl(var(--c-${CATEGORY_COLOR[c]}) / 0.14)`, color: `hsl(var(--c-${CATEGORY_COLOR[c]}))` }}
             >
               {c}
@@ -81,7 +81,7 @@ const ProjectCard = ({ project, index, compact = false }: { project: Project; in
         )}
         <div className="mt-auto pt-5 flex items-center gap-5 text-[14px] font-medium">
           {project.demo && (
-            <a href={project.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary text-primary-foreground rounded-[2px] font-semibold">
+            <a href={project.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary text-primary-foreground rounded-lg font-semibold">
               Live <ArrowUpRight className="w-4 h-4" />
             </a>
           )}

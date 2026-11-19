@@ -7,7 +7,6 @@ import ImpactBoard from "@/components/home/ImpactBoard";
 import StackView from "@/components/home/StackView";
 import WhyStrip from "@/components/home/WhyStrip";
 import AiSection from "@/components/home/AiSection";
-import PodField from "@/components/home/PodField";
 import Section from "@/components/layout/Section";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
@@ -138,9 +137,6 @@ const Home = () => {
 
       <Section id="stack" color="amber" label="Stack" title="What I work with" intro="The highlighted tools are what I run in production today. The rest I have shipped with before.">
         <StackView />
-        <div className="mt-8 max-w-[620px]">
-          <PodField />
-        </div>
       </Section>
 
       <Section id="credentials" color="cyan" label="Credentials" title="Certified and qualified">

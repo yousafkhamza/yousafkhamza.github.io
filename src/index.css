@@ -72,7 +72,7 @@
     --t-red: 354 78% 42%;
     --t-on: 0 0% 100%;
     --glow: 0;
-    --radius: 4px;
+    --radius: 14px;
   }
 
   .dark {
@@ -106,7 +106,7 @@
     --c-violet: 220 10% 78%;
     --c-amber: 48 100% 55%;
     --c-pink: 355 85% 68%;
-    --board: 0 0% 3%;
+    --board: 0 0% 8%;
     --board-fg: 48 100% 52%;
     --flap: 0 0% 9%;
     --board-ok: 130 62% 66%;
@@ -142,21 +142,26 @@
   /* small condensed label, used above headings and as table headers */
   .label { @apply font-display text-[13px] font-semibold uppercase tracking-[0.08em] text-muted-foreground; }
   /* section sign: a yellow plate with a black arrow, like a gate sign */
-  .eyebrow { @apply inline-flex items-center gap-2 mb-4 px-2.5 py-1 font-display text-[15px] font-bold uppercase tracking-[0.06em] bg-sign text-[hsl(0_0%_7%)]; }
+  .eyebrow { @apply inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-lg font-display text-[15px] font-bold uppercase tracking-[0.06em] bg-sign text-[hsl(0_0%_7%)]; }
   .eyebrow::before { content: "→"; @apply font-bold; }
 
   .h-section { @apply font-display text-[38px] sm:text-[54px] font-bold uppercase tracking-[-0.005em] leading-[0.95]; }
   .lede { @apply text-[18px] leading-relaxed text-muted-foreground max-w-[60ch]; }
 
-  .panel { @apply bg-card border-2 border-foreground/85 rounded-[var(--radius)]; }
-  .rule-t { @apply border-t-2 border-foreground/85; }
+  .panel {
+    @apply bg-card border border-border rounded-[var(--radius)];
+    box-shadow: 0 1px 2px hsl(0 0% 0% / 0.04), 0 12px 32px -18px hsl(0 0% 0% / 0.22);
+  }
+  .dark .panel { box-shadow: 0 1px 0 hsl(0 0% 100% / 0.03) inset; }
+  .rule-t { @apply border-t border-border; }
 
-  .btn { @apply inline-flex items-center justify-center gap-2 h-12 px-5 rounded-[var(--radius)] text-[16px] font-semibold transition-colors whitespace-nowrap; }
-  .btn-primary { @apply btn bg-primary text-primary-foreground border-2 border-[hsl(0_0%_7%)] hover:bg-[hsl(var(--primary-strong))]; }
-  .btn-ghost { @apply btn border-2 border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background; }
+  .btn { @apply inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl text-[16px] font-semibold transition-[background-color,color,border-color,transform] whitespace-nowrap active:translate-y-px; }
+  /* a physical key: yellow face, a darker lip at the bottom */
+  .btn-primary { @apply btn bg-primary text-primary-foreground hover:bg-[hsl(var(--primary-strong))]; box-shadow: inset 0 -3px 0 hsl(0 0% 0% / 0.16); }
+  .btn-ghost { @apply btn border-[1.5px] border-foreground/70 bg-card/60 text-foreground hover:border-foreground hover:bg-foreground hover:text-background; }
   .btn-link { @apply inline-flex items-center gap-1.5 text-[16px] font-semibold underline decoration-2 decoration-[hsl(var(--sign))] underline-offset-4 hover:decoration-foreground; }
 
-  .tag { @apply inline-flex items-center h-7 px-2 rounded-[2px] font-display text-[14px] font-semibold uppercase tracking-[0.03em] bg-secondary text-secondary-foreground border border-border; }
+  .tag { @apply inline-flex items-center h-7 px-2.5 rounded-md font-display text-[14px] font-semibold uppercase tracking-[0.03em] bg-secondary text-secondary-foreground border border-border; }
   /* colour helpers: set --c on an element, then use these */
   .tint { color: hsl(var(--c)); }
   .tint-bg { background: hsl(var(--c) / 0.12); color: hsl(var(--c)); }
@@ -170,12 +175,32 @@
   .dot { @apply inline-block w-2 h-2 rounded-full bg-ok; }
 
   /* the split-flap board */
-  .board { @apply bg-board text-board-fg rounded-[6px]; }
+  .board {
+    @apply bg-board text-board-fg rounded-[22px];
+    box-shadow: 0 1px 0 hsl(0 0% 100% / 0.06) inset, 0 24px 60px -30px hsl(0 0% 0% / 0.55);
+  }
   .flap {
-    @apply bg-board-flap rounded-[3px];
+    @apply bg-board-flap rounded-md;
     background-image: linear-gradient(180deg, transparent calc(50% - 0.5px), hsl(0 0% 0% / 0.75) calc(50% - 0.5px), hsl(0 0% 0% / 0.75) calc(50% + 0.5px), transparent calc(50% + 0.5px));
   }
-  .flip-in { animation: flip-in .5s cubic-bezier(.2,.7,.3,1) both; transform-origin: 50% 0; }
+  /* sizes for one row of flap cells; header labels use the same maths so columns line up */
+  .flap-size { font-size: 13px; --cell-w: 0.74em; --cell-gap: 1px; --col-gap: 6px; }
+  @media (min-width: 640px) { .flap-size { font-size: 16px; --col-gap: 10px; } }
+  @media (min-width: 1024px) { .flap-size { font-size: 19px; --cell-gap: 2px; --col-gap: 14px; } }
+  .flap-line { display: inline-flex; gap: var(--cell-gap); flex-shrink: 0; }
+  .flap-cell {
+    position: relative; display: grid; place-items: center;
+    width: var(--cell-w); height: 1.45em; line-height: 1;
+    border-radius: 3px; overflow: hidden;
+    background: linear-gradient(180deg, hsl(0 0% 15%) 0 50%, hsl(var(--flap)) 50% 100%);
+    box-shadow: 0 1px 0 hsl(0 0% 0% / 0.6);
+  }
+  .flap-cell::after {
+    content: ""; position: absolute; left: 0; right: 0; top: calc(50% - 0.5px); height: 1px;
+    background: hsl(0 0% 0% / 0.8);
+  }
+  .dark .board { box-shadow: 0 0 0 1px hsl(0 0% 100% / 0.09), 0 24px 60px -30px hsl(0 0% 0% / 0.9); }
+  .flap-char { display: block; font-weight: 700; animation: flap-drop 80ms ease-out; transform-origin: 50% 50%; }
   .blink { animation: blink 1.2s ease-in-out infinite; }
 
   /* legacy names still used by the game page */
@@ -190,8 +215,8 @@
   .reveal.in { opacity: 1; transform: none; }
 }
 
-@keyframes flip-in {
-  from { transform: perspective(600px) rotateX(-88deg); opacity: 0; }
+@keyframes flap-drop {
+  from { transform: perspective(200px) rotateX(70deg); opacity: 0.55; }
   to { transform: none; opacity: 1; }
 }
 @keyframes blink { 50% { opacity: 0.25; } }
