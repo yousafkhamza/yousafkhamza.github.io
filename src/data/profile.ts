@@ -45,7 +45,7 @@ export const impact: Impact[] = [
   { metric: "Deployment effort", value: 60, display: "−60%", direction: "down", how: "30+ apps moved ECS → EKS with Helm" },
   { metric: "Incident triage time", value: 40, display: "−40%", direction: "down", how: "Grafana, Prometheus, Loki dashboards" },
   { metric: "Release cycle", value: 25, display: "−25%", direction: "down", how: "Jenkins + Docker pipeline rework" },
-  { metric: "Monthly AWS bill", value: 25, display: "−20–25%", direction: "down", how: "rightsizing, Karpenter, HPA/VPA" },
+  { metric: "Monthly AWS bill", value: 25, display: "−25%", direction: "down", how: "rightsizing, Karpenter, HPA/VPA" },
 ];
 
 export interface Service {

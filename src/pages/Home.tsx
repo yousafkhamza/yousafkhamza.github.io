@@ -14,7 +14,7 @@ import { projects } from "@/data/projects";
 import { profile, services } from "@/data/profile";
 import Price from "@/components/Price";
 import Pass from "@/components/Pass";
-import { CertPasses, EducationPasses } from "@/components/Credentials";
+import { CertPasses, QualificationPasses } from "@/components/Credentials";
 import RunwayGame from "@/components/home/RunwayGame";
 
 const CopyEmail = () => {
@@ -155,7 +155,7 @@ const Home = () => {
       <Section id="credentials" color="cyan" label="Credentials" title="Certified and qualified">
         <CertPasses />
         <div className="mt-8">
-          <EducationPasses />
+          <QualificationPasses />
         </div>
       </Section>
 

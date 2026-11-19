@@ -19,7 +19,7 @@ const ITEMS = [
     icon: TrendingDown,
     color: "amber",
     title: "Bills that go down",
-    body: "20–25% off the monthly AWS bill with rightsizing and Karpenter, with no hit to SLAs.",
+    body: "25% off the monthly AWS bill with rightsizing and Karpenter, with no hit to SLAs.",
   },
   {
     icon: Sparkles,

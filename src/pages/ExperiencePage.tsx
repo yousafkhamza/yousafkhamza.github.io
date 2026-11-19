@@ -6,7 +6,7 @@ import Section from "@/components/layout/Section";
 import { experiences } from "@/data/experience";
 import { profile, yearsOfExperience } from "@/data/profile";
 import Pass, { PassField } from "@/components/Pass";
-import { CertPasses, EducationPasses } from "@/components/Credentials";
+import { CertPasses, QualificationPasses } from "@/components/Credentials";
 
 const ExperiencePage = () => {
   const { hash } = useLocation();
@@ -95,7 +95,7 @@ const ExperiencePage = () => {
       </Section>
 
       <Section label="Education" title="Where it started">
-        <EducationPasses />
+        <QualificationPasses />
       </Section>
     </div>
   );

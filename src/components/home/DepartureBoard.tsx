@@ -33,7 +33,7 @@ interface Row {
 }
 
 const TABS: { id: Tab; label: string; short: string; what: string; head: [string, string, string] }[] = [
-  { id: "departures", label: "Departures", short: "Career", what: "Career · newest first", head: ["Year", "Company", "Role"] },
+  { id: "departures", label: "Departures", short: "Career", what: "Career", head: ["Year", "Company", "Role"] },
   { id: "arrivals", label: "Arrivals", short: "Projects", what: "Projects I have shipped", head: ["Flight", "Project", "Type"] },
   { id: "connections", label: "Connections", short: "Certifications", what: "Certifications", head: ["Year", "Certificate", "Issuer"] },
 ];
@@ -65,8 +65,8 @@ const ROWS: Record<Tab, Row[]> = {
     code: c.date,
     name: c.short,
     detail: c.organization,
-    status: c.core ? "Core" : "Earned",
-    good: c.core,
+    status: c.kind === "recognition" ? "Verified" : c.core ? "Core" : "Earned",
+    good: c.core || c.kind === "recognition",
     label: `${c.title}, ${c.organization}, ${c.date}`,
   })),
 };

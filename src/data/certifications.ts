@@ -7,6 +7,8 @@ export interface Certification {
   date: string;
   /** the ones a recruiter filters on */
   core?: boolean;
+  /** a degree recognition rather than a certification: shown next to education */
+  kind?: "recognition";
 }
 
 export const certifications: Certification[] = [
@@ -85,5 +87,15 @@ export const certifications: Certification[] = [
     organization: "World Education Services",
     logo: "/wes.png",
     date: "2022",
+    kind: "recognition",
+  },
+  {
+    id: "mohesr",
+    title: "Academic Qualification Recognition (UAE)",
+    short: "MOHESR recognition",
+    organization: "UAE Ministry of Higher Education and Scientific Research",
+    logo: "/mohesr.png",
+    date: "2026",
+    kind: "recognition",
   },
 ];

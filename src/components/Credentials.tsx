@@ -2,10 +2,14 @@ import { certifications } from "@/data/certifications";
 import { education } from "@/data/education";
 import Pass from "@/components/Pass";
 
+const certs = certifications.filter((c) => c.kind !== "recognition");
+// newest recognition first
+const recognitions = certifications.filter((c) => c.kind === "recognition").sort((a, b) => Number(b.date) - Number(a.date));
+
 /** certifications as connection passes: the core ones a recruiter filters on get the yellow header */
 export const CertPasses = () => (
-  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {certifications.map((c) => (
+  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    {certs.map((c) => (
       <Pass
         key={c.id}
         as="div"
@@ -26,8 +30,20 @@ export const CertPasses = () => (
   </div>
 );
 
-export const EducationPasses = () => (
-  <div className="grid sm:grid-cols-2 gap-5">
+const Stub = ({ rows }: { rows: [string, string][] }) => (
+  <div className="p-5 sm:p-6 h-full flex md:flex-col justify-between md:justify-start gap-4">
+    {rows.map(([k, v]) => (
+      <div key={k}>
+        <div className="label">{k}</div>
+        <div className="font-display text-[20px] font-bold uppercase leading-tight">{v}</div>
+      </div>
+    ))}
+  </div>
+);
+
+/** degrees and the bodies that recognise them, side by side in one grid so the rows line up */
+export const QualificationPasses = () => (
+  <div className="grid md:grid-cols-2 gap-5">
     {education.map((e) => (
       <Pass
         key={e.degree}
@@ -46,16 +62,40 @@ export const EducationPasses = () => (
           </div>
         }
         stub={
-          <div className="p-5 sm:p-6 h-full flex md:flex-col justify-between gap-2">
+          <Stub
+            rows={[
+              ["From", e.period.split(" - ")[0]],
+              ["To", e.period.split(" - ")[1]],
+            ]}
+          />
+        }
+      />
+    ))}
+    {recognitions.map((c) => (
+      <Pass
+        key={c.id}
+        as="div"
+        row="md"
+        stubWidth="150px"
+        tone="sign"
+        label="Degree recognition"
+        code={c.date}
+        main={
+          <div className="p-5 sm:p-6 flex items-start gap-4">
+            <img src={c.logo} alt="" loading="lazy" className="w-12 h-12 shrink-0 rounded-lg object-contain bg-white border border-border p-1" />
             <div>
-              <div className="label">From</div>
-              <div className="font-display text-[20px] font-bold">{e.period.split(" - ")[0]}</div>
-            </div>
-            <div>
-              <div className="label">To</div>
-              <div className="font-display text-[20px] font-bold">{e.period.split(" - ")[1]}</div>
+              <div className="font-display text-[22px] font-bold uppercase leading-tight">{c.title}</div>
+              <div className="text-[15px] text-muted-foreground mt-1">{c.organization}</div>
             </div>
           </div>
+        }
+        stub={
+          <Stub
+            rows={[
+              ["Issued", c.date],
+              ["Status", "Verified"],
+            ]}
+          />
         }
       />
     ))}
