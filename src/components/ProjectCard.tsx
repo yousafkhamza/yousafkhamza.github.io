@@ -24,12 +24,11 @@ const ProjectCard = ({ project, index, compact = false }: { project: Project; in
         rel="noopener noreferrer"
         className="block relative aspect-video overflow-hidden border-b border-border bg-secondary"
         tabIndex={-1}
-        aria-hidden
       >
         {project.images[0] && (
           <img
             src={project.images[0]}
-            alt=""
+            alt={`${project.title} screenshot`}
             loading="lazy"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />

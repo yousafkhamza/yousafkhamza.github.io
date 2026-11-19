@@ -7,6 +7,7 @@ import { services, yearsOfExperience } from "@/data/profile";
 import Price from "@/components/Price";
 import Pass from "@/components/Pass";
 import { useAedRate } from "@/hooks/useAedRate";
+import { visitorCurrency } from "@/lib/visitor";
 
 const steps = [
   ["Send a request", "Use the contact form and pick the service. Add a line about where you are and what you want out of it."],
@@ -16,7 +17,8 @@ const steps = [
 ];
 
 const ServicesPage = () => {
-  const { live } = useAedRate();
+  const { live, rates } = useAedRate();
+  const localCur = visitorCurrency();
 
   return (
     <div>
@@ -79,7 +81,8 @@ const ServicesPage = () => {
       </section>
 
       <div className="wrap -mt-6 mb-4 text-[14px] text-muted-foreground">
-        Prices in USD. AED shown {live ? "at today's live rate" : "at the fixed USD peg (3.6725)"}. Payment details are shared by email when we confirm the session.
+        Prices in USD. AED shown {live ? "at today's live rate" : "at the fixed USD peg (3.6725)"}
+        {localCur && rates?.[localCur] ? `, and ${localCur} for where you are` : ""}. Payment details are shared by email when we confirm the session.
       </div>
 
       <Section label="Process" title="How it works">

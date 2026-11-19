@@ -20,6 +20,7 @@ await build({
       export { projects } from "./src/data/projects";
       export { experiences } from "./src/data/experience";
       export { certifications } from "./src/data/certifications";
+      export { education } from "./src/data/education";
       export { skillGroups } from "./src/data/skills";`,
     resolveDir: root,
     loader: "ts",
@@ -58,15 +59,19 @@ const projHtml = `<ul>${d.projects
 const skillsHtml = `<ul>${d.skillGroups
   .map((g) => `<li>${esc(g.label)}: ${esc([...g.daily, ...g.also].join(", "))}</li>`)
   .join("")}</ul>`;
-const certHtml = `<ul>${d.certifications.map((c) => `<li>${esc(c.title)} (${esc(c.organization)}, ${c.date})</li>`).join("")}</ul>`;
-const servHtml = `<ul>${d.services.map((s) => `<li><strong>${esc(s.title)}</strong>: ${esc(s.who)}</li>`).join("")}</ul>`;
+const certHtml = `<ul>${d.certifications.filter((c) => c.kind !== "recognition").map((c) => `<li>${esc(c.title)} (${esc(c.organization)}, ${c.date})</li>`).join("")}</ul>`;
+const eduHtml = `<ul>${d.education.map((e) => `<li>${esc(e.degree)}, ${esc(e.school)} (${esc(e.period)})</li>`).join("")}${d.certifications
+  .filter((c) => c.kind === "recognition")
+  .map((c) => `<li>${esc(c.title)}: ${esc(c.organization)} (${c.date})</li>`)
+  .join("")}</ul>`;
+const servHtml = `<ul>${d.services.map((s) => `<li><strong>${esc(s.title)}</strong> (${esc(s.format)}, $${s.priceUsd} ${esc(s.unit)}): ${esc(s.who)} ${esc(s.what.join("; "))}.</li>`).join("")}</ul>`;
 const contactHtml = `<p>Email: <a href="mailto:${esc(d.profile.email)}">${esc(d.profile.email)}</a> · <a href="${esc(d.profile.linkedin)}">LinkedIn</a> · <a href="${esc(d.profile.github)}">GitHub</a></p>`;
 
 const bodies = {
   "/": `<h1>${esc(d.profile.name)}: Senior DevOps Engineer in Dubai, UAE</h1>${intro}<h2>Experience</h2><ul>${d.experiences
     .map((e) => `<li>${esc(e.title)}, ${esc(e.company)} (${esc(e.period)})</li>`)
-    .join("")}</ul><h2>Skills</h2>${skillsHtml}<h2>Open-source projects</h2>${projHtml}<h2>Certifications</h2>${certHtml}${contactHtml}`,
-  "/experience": `<h1>Experience: ${esc(d.profile.name)}</h1>${intro}${expHtml}<h2>Certifications</h2>${certHtml}`,
+    .join("")}</ul><h2>Skills</h2>${skillsHtml}<h2>Open-source projects</h2>${projHtml}<h2>Certifications</h2>${certHtml}<h2>Education and degree recognition</h2>${eduHtml}${contactHtml}`,
+  "/experience": `<h1>Experience: ${esc(d.profile.name)}</h1>${intro}${expHtml}<h2>Certifications</h2>${certHtml}<h2>Education and degree recognition</h2>${eduHtml}`,
   "/projects": `<h1>Open-source projects by ${esc(d.profile.name)}</h1>${projHtml}`,
   "/services": `<h1>DevOps career guidance and reviews</h1><p>Offered by ${esc(d.profile.name)}, Senior DevOps Engineer in Dubai.</p>${servHtml}`,
   "/contact": `<h1>Contact ${esc(d.profile.name)}</h1>${intro}${contactHtml}`,
@@ -88,6 +93,20 @@ for (const m of d.routeMeta()) {
   html = setAttr(html, /(<meta name="twitter:title" content=")[^"]*(")/, m.title);
   html = setAttr(html, /(<meta\s+name="twitter:description"\s+content=")[^"]*(")/, m.description);
   html = html.replace("</head>", `    <meta name="build-id" content="${esc(buildId)}" />\n  </head>`);
+  if (m.path === "/services") {
+    const ld = {
+      "@context": "https://schema.org",
+      "@type": "OfferCatalog",
+      name: "DevOps career and infrastructure services",
+      itemListElement: d.services.map((s) => ({
+        "@type": "Offer",
+        price: s.priceUsd,
+        priceCurrency: "USD",
+        itemOffered: { "@type": "Service", name: s.title, description: s.who, provider: { "@id": `${site}/#person` }, areaServed: "Worldwide" },
+      })),
+    };
+    html = html.replace("</head>", `    <script type="application/ld+json">${JSON.stringify(ld)}</script>\n  </head>`);
+  }
   html = html.replace("<!--prerender-->", `<div class="prerender">${nav}${bodies[m.path] ?? ""}</div>`);
   const out = m.path === "/" ? join(dist, "index.html") : join(dist, m.path.slice(1), "index.html");
   mkdirSync(dirname(out), { recursive: true });

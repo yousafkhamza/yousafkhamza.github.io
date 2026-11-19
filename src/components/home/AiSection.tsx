@@ -37,8 +37,8 @@ const AiSection = () => {
           const Icon = m.icon;
           return (
             <article key={p.id} className="panel overflow-hidden flex flex-col group transition-transform duration-300 hover:-translate-y-1">
-              <a href={p.demo ?? p.github} target="_blank" rel="noopener noreferrer" className="block aspect-video overflow-hidden border-b border-border" tabIndex={-1} aria-hidden>
-                <img src={p.images[0]} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+              <a href={p.demo ?? p.github} target="_blank" rel="noopener noreferrer" className="block aspect-video overflow-hidden border-b border-border" tabIndex={-1}>
+                <img src={p.images[0]} alt={`${p.title} screenshot`} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
               </a>
               <div className="p-5 sm:p-6 flex flex-col flex-1">
                 <div className="flex items-center gap-2.5">

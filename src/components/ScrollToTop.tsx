@@ -10,11 +10,17 @@ const ScrollToTop = () => {
       window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
       return;
     }
-    // the target renders with the page, so give it a moment
-    const t = setTimeout(() => {
-      document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 80);
-    return () => clearTimeout(t);
+    // pages load on demand, so wait (up to ~3 s) for the target to appear
+    let tries = 0;
+    const id = decodeURIComponent(hash.slice(1));
+    const t = setInterval(() => {
+      const el = document.getElementById(id);
+      if (el || ++tries > 30) {
+        clearInterval(t);
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
+    return () => clearInterval(t);
   }, [pathname, hash]);
 
   return null;

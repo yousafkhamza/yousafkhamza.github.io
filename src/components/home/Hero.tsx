@@ -88,13 +88,17 @@ const QuickRead = () => {
 const Hero = () => (
   <div className="relative">
     <div className="wrap relative pt-7 sm:pt-10 pb-14 sm:pb-20">
+      {/* the page heading for search engines and screen readers; the same words are in the header bar */}
+      <h1 className="sr-only">
+        {profile.name}, Senior DevOps &amp; Platform Engineer in {profile.location}
+      </h1>
       <DepartureBoard />
 
       <div className="mt-14 sm:mt-20 grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-start">
         <div>
-          <h1 className="font-display text-[17px] font-semibold tracking-[0.02em] text-muted-foreground">
+          <p className="font-display text-[17px] font-semibold tracking-[0.02em] text-muted-foreground">
             {profile.name} <span className="text-foreground">/</span> Senior DevOps &amp; Platform Engineer
-          </h1>
+          </p>
           <p className="mt-3 font-display text-[56px] sm:text-[80px] lg:text-[92px] font-bold tracking-[-0.02em] leading-[1] text-foreground">
             {/* the first line paints above the highlight, so the p of "production" keeps its tail */}
             <span className="relative z-[1]">I keep production</span>{" "}

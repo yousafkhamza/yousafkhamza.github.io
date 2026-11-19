@@ -10,6 +10,7 @@ import SplitFlap, { armFlapSound, getFlapSound, setFlapSound } from "@/component
 import Pass, { PassField } from "@/components/Pass";
 import { cn } from "@/lib/utils";
 import { flightCode } from "@/lib/flight";
+import { diffFromHome, placeName, sameClockAsHome, visitorTz } from "@/lib/visitor";
 
 /**
  * The home page's flight board. Departures = career (where I flew from, newest
@@ -118,7 +119,7 @@ const Details = ({ tab, id, row }: { tab: Tab; id: string; row: Row }) => {
         code={`Flight ${row.code}`}
         main={
           <div className="p-5 sm:p-7">
-            <h3 className="font-display text-[32px] sm:text-[38px] font-bold leading-[1.02]">{p.title}</h3>
+            <h2 className="font-display text-[32px] sm:text-[38px] font-bold leading-[1.02]">{p.title}</h2>
             <p className="mt-3 text-[16.5px] leading-relaxed text-foreground/85 max-w-[75ch]">{p.description}</p>
             <div className="mt-4 flex flex-wrap gap-1.5">
               {p.tags.slice(0, 8).map((t) => (
@@ -161,7 +162,7 @@ const Details = ({ tab, id, row }: { tab: Tab; id: string; row: Row }) => {
         code={e.end ? "Departed" : "Now boarding"}
         main={
           <div className="p-5 sm:p-7">
-            <h3 className="font-display text-[32px] sm:text-[38px] font-bold leading-[1.02]">{e.title}</h3>
+            <h2 className="font-display text-[32px] sm:text-[38px] font-bold leading-[1.02]">{e.title}</h2>
             <div className="mt-1 text-[18px] font-semibold">{e.company}</div>
             <p className="mt-3 text-[17px] leading-relaxed font-medium max-w-[75ch]">{e.summary}</p>
             <ul className="mt-3 space-y-2 max-w-[80ch]">
@@ -197,7 +198,7 @@ const Details = ({ tab, id, row }: { tab: Tab; id: string; row: Row }) => {
       code={c.core ? "Core" : "Earned"}
       main={
         <div className="p-5 sm:p-7">
-          <h3 className="font-display text-[32px] sm:text-[38px] font-bold leading-[1.02]">{c.title}</h3>
+          <h2 className="font-display text-[32px] sm:text-[38px] font-bold leading-[1.02]">{c.title}</h2>
           <div className="mt-2 text-[18px] font-semibold">{c.organization}</div>
         </div>
       }
@@ -222,7 +223,11 @@ const DepartureBoard = () => {
   const size = useBoardSize();
   const L = LEN[size];
   const clock = useSecondsClock(profile.timezone);
-  const { online, back } = useOfficeStatus(profile.timezone);
+  const office = useOfficeStatus(profile.timezone);
+  // the visitor's own clock, only when it reads differently from Dubai
+  const [vtz] = useState(() => (sameClockAsHome() ? null : visitorTz()));
+  const localClockFull = useSecondsClock(vtz ?? profile.timezone);
+  const localClock = vtz ? localClockFull.slice(0, 5) : null;
   const panelRef = useRef<HTMLDivElement>(null);
   const detailRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -296,7 +301,7 @@ const DepartureBoard = () => {
 
   return (
     <div>
-      <div className="board p-4 sm:p-6">
+      <section className="board p-4 sm:p-6" aria-label="Flight board: career, projects and certifications">
         {/* the sign above the board */}
         <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
           <div className="flex items-center gap-4 min-w-0">
@@ -304,9 +309,9 @@ const DepartureBoard = () => {
               <Plane className={cn("w-6 h-6 sm:w-7 sm:h-7 transition-transform", tab === "arrivals" ? "rotate-[135deg]" : "-rotate-45")} strokeWidth={2.2} />
             </span>
             <div className="min-w-0">
-              <h2 className="font-display text-[40px] sm:text-[64px] font-bold uppercase leading-[0.85] tracking-[0.01em] text-board-title">
+              <p className="font-display text-[40px] sm:text-[64px] font-bold uppercase leading-[0.85] tracking-[0.01em] text-board-title" aria-hidden>
                 {meta.label}
-              </h2>
+              </p>
               <p className="mt-1.5 font-display text-[15px] sm:text-[17px] font-semibold uppercase tracking-[0.08em] text-board-dim">
                 {meta.what}
               </p>
@@ -314,12 +319,22 @@ const DepartureBoard = () => {
           </div>
           <div className="flex w-full sm:w-auto items-end justify-between sm:justify-end gap-4 sm:gap-6">
             <div className="sm:text-right font-display uppercase leading-none">
-              <div className={cn("flex items-center sm:justify-end gap-1.5 text-[13px] sm:text-[14px] font-semibold tracking-[0.08em]", online ? "text-board-ok" : "text-board-dim")}>
-                <span className={cn("w-2 h-2 rounded-full", online ? "bg-board-ok blink" : "bg-board-dim")} />
-                {online ? "Online now" : `Offline · back ${back}`}
+              <div
+                className={cn("flex items-center sm:justify-end gap-1.5 text-[13px] sm:text-[14px] font-semibold tracking-[0.08em]", office.online ? "text-board-ok" : "text-board-dim")}
+                data-testid="office-status"
+              >
+                <span className={cn("w-2 h-2 shrink-0 rounded-full", office.online ? "bg-board-ok blink" : "bg-board-dim")} />
+                <span>
+                  {office.online
+                    ? `Online now · until ${office.until}${office.untilLocal ? ` Dubai (${office.untilLocal} your time)` : ""}`
+                    : `Offline · back ${office.back}${office.backLocal ? ` Dubai (${office.backLocal} your time)` : ""}`}
+                </span>
               </div>
               <div className="mt-1 text-[32px] sm:text-[40px] font-bold text-board-text tabular-nums" aria-label={`Dubai time ${clock}`}>
                 {clock}
+              </div>
+              <div className="mt-1.5 text-[12.5px] sm:text-[13px] font-semibold tracking-[0.08em] text-board-dim" data-testid="your-time">
+                {localClock ? `Dubai · your time ${localClock} (${placeName()}, ${diffFromHome()})` : "Dubai time"}
               </div>
             </div>
             <button
@@ -405,7 +420,7 @@ const DepartureBoard = () => {
             </button>
           )}
         </div>
-      </div>
+      </section>
 
       <div ref={detailRef} className="mt-5 scroll-mt-28" aria-live="polite">
         <Details tab={tab} id={selRow.id} row={selRow} />
