@@ -73,10 +73,10 @@ const ContactForm = () => {
     setSlow(false);
     const topicLabel = topics.find((t) => t.id === form.topic)?.label ?? form.topic;
     const ctx = context();
-    // FormSubmit can take a while; say so after a few seconds, give up after 30
+    // FormSubmit can take a while (emails often arrive a minute later); say so after a few seconds, give up after 2 minutes
     const slowTimer = setTimeout(() => setSlow(true), 5000);
     const ctrl = new AbortController();
-    const abortTimer = setTimeout(() => ctrl.abort(), 30_000);
+    const abortTimer = setTimeout(() => ctrl.abort(), 120_000);
     try {
       const res = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
         method: "POST",
@@ -187,7 +187,7 @@ const ContactForm = () => {
         </button>
         {status === "sending" && slow && (
           <span className="text-[14px] text-muted-foreground" aria-live="polite">
-            Still sending, the mail service can take up to half a minute. Please keep this page open.
+            Still sending, the mail service can take up to two minutes. Please keep this page open.
           </span>
         )}
       </div>
