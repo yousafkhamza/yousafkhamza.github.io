@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { experiences } from "@/data/experience";
 import { cn } from "@/lib/utils";
+import Pass, { PassField } from "@/components/Pass";
 
 const toMonths = (iso: string) => {
   const [y, m] = iso.split("-").map(Number);
@@ -52,7 +53,7 @@ const ReleaseHistory = () => {
                 aria-selected={on}
                 tabIndex={on ? 0 : -1}
                 onClick={() => setActive(e.id)}
-                className="absolute top-0 bottom-0 border-r-2 border-[hsl(0_0%_0%)] text-left px-2 sm:px-3 transition-all group"
+                className="absolute top-0 bottom-0 border-r-2 last:border-r-0 border-[hsl(0_0%_0%)] text-left px-2 sm:px-3 transition-all group"
                 style={{
                   left: `${(s / span) * 100}%`,
                   width: `${(len / span) * 100}%`,
@@ -92,45 +93,49 @@ const ReleaseHistory = () => {
         </div>
       </div>
 
-      {/* release notes for the selected role */}
-      <div
-        key={current.id}
-        className="mt-8 panel p-6 sm:p-8 grid md:grid-cols-[260px_1fr] gap-6 md:gap-10 animate-fade-in border-t-4"
-        style={{ borderTopColor: `hsl(var(--c-${current.color}))`, ["--c" as string]: `var(--c-${current.color})` }}
-        role="tabpanel"
-      >
-        <div>
-          <div className="flex items-center gap-2 font-mono text-[14px] text-muted-foreground">
-            <span className="tag tint-bg border-transparent font-semibold">{current.version}</span>
-            {current.end ? "released" : <span className="tint">live</span>}
-          </div>
-          <h3 className="mt-3 font-display text-[24px] font-bold leading-tight">{current.title}</h3>
-          <div className="mt-1 text-[15px] font-semibold tint">{current.company}</div>
-          <div className="mt-1 font-mono text-[14px] text-muted-foreground">
-            {current.period} · {current.location}
-          </div>
-          <div className="mt-4 flex flex-wrap gap-1.5">
-            {current.stack.map((s) => (
-              <span key={s} className="tag">
-                {s}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="text-[17px] leading-relaxed font-medium">{current.summary}</p>
-          <ul className="mt-4 space-y-2.5">
-            {current.description.slice(0, 3).map((d) => (
-              <li key={d} className="relative pl-5 text-[15px] leading-relaxed text-muted-foreground">
-                <span className="absolute left-0 top-0 font-mono tint">+</span>
-                {d}
-              </li>
-            ))}
-          </ul>
-          <Link to={`/experience#${current.id}`} className="btn-link mt-5">
-            Full release notes <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
+      {/* release notes for the selected role, printed as a boarding pass */}
+      <div key={current.id} className="mt-8 animate-fade-in" role="tabpanel">
+        <Pass
+          as="div"
+          row="md"
+          stubFirst
+          stubWidth="280px"
+          label={`Release ${current.version} · ${current.end ? "Departed" : "Now boarding"}`}
+          code={current.location}
+          stub={
+            <div className="p-6 grid grid-cols-2 md:grid-cols-1 gap-4 content-start">
+              <div className="col-span-2 md:col-span-1">
+                <h3 className="font-display text-[26px] font-bold uppercase leading-[1.02]">{current.title}</h3>
+                <div className="mt-1 text-[16px] font-semibold text-yousaf">{current.company}</div>
+              </div>
+              <PassField k="From" v={current.period.split(" – ")[0]} />
+              <PassField k="To" v={current.end ? current.period.split(" – ")[1] : "Present"} />
+              <div className="col-span-2 md:col-span-1 flex flex-wrap gap-1.5">
+                {current.stack.map((s) => (
+                  <span key={s} className="tag bg-card">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+          }
+          main={
+            <div className="p-6 sm:p-8">
+              <p className="text-[17px] leading-relaxed font-medium">{current.summary}</p>
+              <ul className="mt-4 space-y-2.5">
+                {current.description.slice(0, 3).map((d) => (
+                  <li key={d} className="relative pl-5 text-[15.5px] leading-relaxed text-foreground/80">
+                    <span className="absolute left-0 top-0 font-bold text-yousaf">→</span>
+                    {d}
+                  </li>
+                ))}
+              </ul>
+              <Link to={`/experience#${current.id}`} className="btn-link mt-5">
+                Full release notes <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          }
+        />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, KeyboardEvent, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, Github, Plane, Volume2, VolumeX } from "lucide-react";
 import { projects } from "@/data/projects";
@@ -6,14 +6,16 @@ import { experiences } from "@/data/experience";
 import { certifications } from "@/data/certifications";
 import { profile } from "@/data/profile";
 import { useOfficeStatus } from "@/hooks/useOfficeStatus";
-import SplitFlap, { setFlapSound } from "@/components/home/SplitFlap";
+import SplitFlap, { armFlapSound, getFlapSound, setFlapSound } from "@/components/home/SplitFlap";
+import Pass, { PassField } from "@/components/Pass";
 import { cn } from "@/lib/utils";
+import { flightCode } from "@/lib/flight";
 
 /**
- * The home page's flight board. Departures = projects (what a hiring manager wants
- * first), Arrivals = career, Connections = certifications. Switching boards makes
- * every cell flip like an old terminal's Solari board. Pick a row to read it in
- * full underneath. Everything comes from src/data, so it stays in sync.
+ * The home page's flight board. Departures = career (where I flew from, newest
+ * first), Arrivals = projects (what landed), Connections = certifications.
+ * Switching boards makes every cell flip like an old terminal's Solari board.
+ * Pick a row and its boarding pass prints underneath. All data from src/data.
  */
 type Tab = "departures" | "arrivals" | "connections";
 
@@ -30,33 +32,16 @@ interface Row {
   label: string;
 }
 
-const TABS: { id: Tab; label: string; what: string; head: [string, string, string] }[] = [
-  { id: "departures", label: "Departures", what: "Projects I have shipped", head: ["Flight", "Project", "Type"] },
-  { id: "arrivals", label: "Arrivals", what: "Where I have worked", head: ["Year", "Company", "Role"] },
-  { id: "connections", label: "Connections", what: "Certifications", head: ["Year", "Certificate", "Issuer"] },
+const TABS: { id: Tab; label: string; short: string; what: string; head: [string, string, string] }[] = [
+  { id: "departures", label: "Departures", short: "Career", what: "Career · newest first", head: ["Year", "Company", "Role"] },
+  { id: "arrivals", label: "Arrivals", short: "Projects", what: "Projects I have shipped", head: ["Flight", "Project", "Type"] },
+  { id: "connections", label: "Connections", short: "Certifications", what: "Certifications", head: ["Year", "Certificate", "Issuer"] },
 ];
 
 const SHOW = 8;
 
-/** two-letter flight code: initials, or the capitals of a one-word name (PipelineGuard → PG) */
-const initials = (s: string) => {
-  const words = s.replace(/[^A-Za-z0-9 -]/g, "").split(/[\s-]+/).filter(Boolean);
-  if (words.length > 1) return words.map((w) => w[0]).join("").slice(0, 2).toUpperCase();
-  const caps = (words[0].match(/[A-Z]/g) || []).join("");
-  return (caps.length >= 2 ? caps : words[0]).slice(0, 2).toUpperCase();
-};
-
 const ROWS: Record<Tab, Row[]> = {
-  departures: projects.map((p, i) => ({
-    id: p.id,
-    code: `${initials(p.title)} ${String(i + 1).padStart(2, "0")}`,
-    name: p.title,
-    detail: p.categories.join(" "),
-    status: p.demo ? "Live demo" : "On GitHub",
-    good: !!p.demo,
-    label: `${p.title}, ${p.categories.join(", ")}, ${p.demo ? "live demo" : "open source"}`,
-  })),
-  arrivals: experiences.map((e) => ({
+  departures: experiences.map((e) => ({
     id: e.id,
     code: e.start.slice(0, 4),
     name: e.company,
@@ -65,6 +50,15 @@ const ROWS: Record<Tab, Row[]> = {
     good: !e.end,
     live: !e.end,
     label: `${e.title} at ${e.company}, ${e.period}${e.end ? "" : ", current role"}`,
+  })),
+  arrivals: projects.map((p, i) => ({
+    id: p.id,
+    code: `${flightCode(p.title)} ${String(i + 1).padStart(2, "0")}`,
+    name: p.title,
+    detail: p.categories.join(" "),
+    status: p.demo ? "Live" : "GitHub",
+    good: !!p.demo,
+    label: `${p.title}, ${p.categories.join(", ")}, ${p.demo ? "live demo" : "open source"}`,
   })),
   connections: certifications.map((c) => ({
     id: c.id,
@@ -77,12 +71,12 @@ const ROWS: Record<Tab, Row[]> = {
   })),
 };
 
-/** how many flap cells each column gets, by screen width */
+/** how many flap cells each column gets, by screen width; cell size is then fitted to fill the row */
 type Size = "sm" | "md" | "lg";
 const LEN: Record<Size, { code: number; name: number; detail: number; status: number }> = {
-  sm: { code: 0, name: 16, detail: 0, status: 9 },
-  md: { code: 5, name: 18, detail: 0, status: 9 },
-  lg: { code: 5, name: 22, detail: 20, status: 9 },
+  sm: { code: 0, name: 16, detail: 0, status: 8 },
+  md: { code: 5, name: 18, detail: 0, status: 8 },
+  lg: { code: 5, name: 22, detail: 20, status: 8 },
 };
 const sizeNow = (): Size =>
   typeof window === "undefined" ? "lg" : window.innerWidth >= 1024 ? "lg" : window.innerWidth >= 640 ? "md" : "sm";
@@ -111,70 +105,112 @@ const useSecondsClock = (timeZone: string) => {
 /** width of n flap cells, so header labels line up with the columns */
 const cellsWidth = (n: number) => `calc(${n} * var(--cell-w) + ${Math.max(n - 1, 0)} * var(--cell-gap))`;
 
-const Details = ({ tab, id }: { tab: Tab; id: string }) => {
-  if (tab === "departures") {
+/** the boarding pass printed for the selected row */
+const Details = ({ tab, id, row }: { tab: Tab; id: string; row: Row }) => {
+  if (tab === "arrivals") {
     const p = projects.find((x) => x.id === id)!;
     return (
-      <>
-        <div className="label">Project · {p.categories.join(" · ")}</div>
-        <h3 className="mt-1 font-display text-[32px] sm:text-[40px] font-bold uppercase leading-none">{p.title}</h3>
-        <p className="mt-3 text-[16.5px] leading-relaxed text-foreground/85 max-w-[75ch]">{p.description}</p>
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {p.tags.slice(0, 8).map((t) => (
-            <span key={t} className="tag">
-              {t}
-            </span>
-          ))}
-        </div>
-        <div className="mt-5 flex flex-wrap gap-3">
-          {p.demo && (
-            <a href={p.demo} target="_blank" rel="noopener noreferrer" className="btn-primary h-11">
-              Open the live demo <ArrowUpRight className="w-4 h-4" />
-            </a>
-          )}
-          {p.github && (
-            <a href={p.github} target="_blank" rel="noopener noreferrer" className="btn-ghost h-11">
-              <Github className="w-4 h-4" /> Code
-            </a>
-          )}
-        </div>
-      </>
+      <Pass
+        as="div"
+        row="lg"
+        stubWidth="300px"
+        label={`Arrivals · ${p.categories.join(" · ")}`}
+        code={`Flight ${row.code}`}
+        main={
+          <div className="p-5 sm:p-7">
+            <h3 className="font-display text-[32px] sm:text-[40px] font-bold uppercase leading-none">{p.title}</h3>
+            <p className="mt-3 text-[16.5px] leading-relaxed text-foreground/85 max-w-[75ch]">{p.description}</p>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {p.tags.slice(0, 8).map((t) => (
+                <span key={t} className="tag">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        }
+        stub={
+          <div className="p-5 sm:p-6 grid grid-cols-2 lg:grid-cols-1 gap-4 content-start">
+            <PassField k="Flight" v={row.code} />
+            <PassField k="Status" v={p.demo ? "Live demo" : "Open source"} />
+            <div className="col-span-2 lg:col-span-1 flex flex-wrap gap-2 pt-1">
+              {p.demo && (
+                <a href={p.demo} target="_blank" rel="noopener noreferrer" className="btn-primary h-11 flex-1">
+                  Live demo <ArrowUpRight className="w-4 h-4" />
+                </a>
+              )}
+              {p.github && (
+                <a href={p.github} target="_blank" rel="noopener noreferrer" className="btn-ghost h-11 flex-1">
+                  <Github className="w-4 h-4" /> Code
+                </a>
+              )}
+            </div>
+          </div>
+        }
+      />
     );
   }
-  if (tab === "arrivals") {
+  if (tab === "departures") {
     const e = experiences.find((x) => x.id === id)!;
     return (
-      <>
-        <div className="label">
-          Career · {e.period} · {e.location}
-        </div>
-        <h3 className="mt-1 font-display text-[32px] sm:text-[40px] font-bold uppercase leading-none">{e.title}</h3>
-        <div className="mt-1 text-[18px] font-semibold">{e.company}</div>
-        <p className="mt-3 text-[17px] leading-relaxed font-medium max-w-[75ch]">{e.summary}</p>
-        <ul className="mt-3 space-y-2 max-w-[80ch]">
-          {e.description.slice(0, 3).map((d) => (
-            <li key={d} className="relative pl-5 text-[15.5px] leading-relaxed text-foreground/80">
-              <span className="absolute left-0 top-0 font-bold text-yousaf">→</span>
-              {d}
-            </li>
-          ))}
-        </ul>
-        <Link to={`/experience#${e.id}`} className="btn-link mt-4">
-          Full release notes <ArrowRight className="w-4 h-4" />
-        </Link>
-      </>
+      <Pass
+        as="div"
+        row="lg"
+        stubWidth="300px"
+        label={`Departures · ${e.version}`}
+        code={e.end ? "Departed" : "Now boarding"}
+        main={
+          <div className="p-5 sm:p-7">
+            <h3 className="font-display text-[32px] sm:text-[40px] font-bold uppercase leading-none">{e.title}</h3>
+            <div className="mt-1 text-[18px] font-semibold">{e.company}</div>
+            <p className="mt-3 text-[17px] leading-relaxed font-medium max-w-[75ch]">{e.summary}</p>
+            <ul className="mt-3 space-y-2 max-w-[80ch]">
+              {e.description.slice(0, 3).map((d) => (
+                <li key={d} className="relative pl-5 text-[15.5px] leading-relaxed text-foreground/80">
+                  <span className="absolute left-0 top-0 font-bold text-yousaf">→</span>
+                  {d}
+                </li>
+              ))}
+            </ul>
+          </div>
+        }
+        stub={
+          <div className="p-5 sm:p-6 grid grid-cols-2 lg:grid-cols-1 gap-4 content-start">
+            <PassField k="From" v={e.period.split(" – ")[0]} />
+            <PassField k="To" v={e.end ? e.period.split(" – ")[1] : "Present"} />
+            <PassField k="Gate" v={e.location} className="col-span-2 lg:col-span-1" />
+            <Link to={`/experience#${e.id}`} className="btn-ghost h-11 col-span-2 lg:col-span-1">
+              Full release notes <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        }
+      />
     );
   }
   const c = certifications.find((x) => x.id === id)!;
   return (
-    <>
-      <div className="label">Certification · {c.date}</div>
-      <h3 className="mt-1 font-display text-[32px] sm:text-[40px] font-bold uppercase leading-none">{c.title}</h3>
-      <div className="mt-2 text-[18px] font-semibold">{c.organization}</div>
-      <Link to="/experience" className="btn-link mt-4">
-        All certifications and education <ArrowRight className="w-4 h-4" />
-      </Link>
-    </>
+    <Pass
+      as="div"
+      row="lg"
+      stubWidth="300px"
+      label="Connections · Certification"
+      code={c.core ? "Core" : "Earned"}
+      main={
+        <div className="p-5 sm:p-7">
+          <h3 className="font-display text-[32px] sm:text-[40px] font-bold uppercase leading-none">{c.title}</h3>
+          <div className="mt-2 text-[18px] font-semibold">{c.organization}</div>
+        </div>
+      }
+      stub={
+        <div className="p-5 sm:p-6 grid grid-cols-2 lg:grid-cols-1 gap-4 content-start">
+          <PassField k="Issued" v={c.date} />
+          <PassField k="Code" v={c.short} />
+          <Link to="/experience" className="btn-ghost h-11 col-span-2 lg:col-span-1">
+            All certifications <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      }
+    />
   );
 };
 
@@ -182,19 +218,46 @@ const DepartureBoard = () => {
   const [tab, setTab] = useState<Tab>("departures");
   const [sel, setSel] = useState<string>(ROWS.departures[0].id);
   const [all, setAll] = useState(false);
-  const [sound, setSound] = useState(false);
+  const [sound, setSound] = useState(getFlapSound);
   const size = useBoardSize();
   const L = LEN[size];
   const clock = useSecondsClock(profile.timezone);
   const { online, back } = useOfficeStatus(profile.timezone);
+  const panelRef = useRef<HTMLDivElement>(null);
   const detailRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [fitVars, setFitVars] = useState<CSSProperties>({});
 
   const meta = TABS.find((t) => t.id === tab)!;
   const rows = ROWS[tab];
   const shown = useMemo(() => (all ? rows : rows.slice(0, SHOW)), [rows, all]);
+  const selRow = rows.find((r) => r.id === sel) ?? rows[0];
 
-  useEffect(() => () => setFlapSound(false), []);
+  useEffect(() => armFlapSound(), []);
+
+  // size the flap cells so every row runs exactly edge to edge of the board
+  useLayoutEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+    const calc = () => {
+      const W = el.clientWidth - 16; // the row's own padding
+      const cols = [L.code, L.name, L.detail, L.status].filter(Boolean);
+      const n = cols.reduce((a, b) => a + b, 0);
+      const cellGap = W >= 900 ? 2 : 1;
+      const colGap = W >= 900 ? 14 : W >= 520 ? 10 : 6;
+      const cw = (W - (n - cols.length) * cellGap - (cols.length - 1) * colGap) / n;
+      setFitVars({
+        fontSize: `${Math.min(cw / 0.74, 26)}px`,
+        ["--cell-w" as string]: `${cw}px`,
+        ["--cell-gap" as string]: `${cellGap}px`,
+        ["--col-gap" as string]: `${colGap}px`,
+      });
+    };
+    calc();
+    const ro = new ResizeObserver(calc);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [L]);
 
   const pickTab = (t: Tab) => {
     setTab(t);
@@ -213,7 +276,7 @@ const DepartureBoard = () => {
 
   const pickRow = (id: string) => {
     setSel(id);
-    // on smaller screens the details sit below a long board: bring them into view
+    // on smaller screens the pass sits below a long board: bring it into view
     if (window.innerWidth < 1024) {
       setTimeout(() => detailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 30);
     }
@@ -224,14 +287,21 @@ const DepartureBoard = () => {
     setSound(!sound);
   };
 
+  const cols: [string, number][] = [
+    ...(L.code ? [[meta.head[0], L.code] as [string, number]] : []),
+    [meta.head[1], L.name],
+    ...(L.detail ? [[meta.head[2], L.detail] as [string, number]] : []),
+    ["Status", L.status],
+  ];
+
   return (
     <div>
-      <div className="board flapboard p-4 sm:p-6">
+      <div className="board p-4 sm:p-6">
         {/* the sign above the board */}
         <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
           <div className="flex items-center gap-4 min-w-0">
             <span className="grid place-items-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-board-fg text-[hsl(0_0%_7%)] shrink-0">
-              <Plane className="w-6 h-6 sm:w-7 sm:h-7 -rotate-45" strokeWidth={2.2} />
+              <Plane className={cn("w-6 h-6 sm:w-7 sm:h-7 transition-transform", tab === "arrivals" ? "rotate-[135deg]" : "-rotate-45")} strokeWidth={2.2} />
             </span>
             <div className="min-w-0">
               <h2 className="font-display text-[40px] sm:text-[64px] font-bold uppercase leading-[0.85] tracking-[0.01em] text-board-fg">
@@ -257,8 +327,11 @@ const DepartureBoard = () => {
               onClick={toggleSound}
               aria-pressed={sound}
               aria-label={sound ? "Turn board sound off" : "Turn board sound on"}
-              title={sound ? "Sound on" : "Hear the board"}
-              className="mb-1 w-11 h-11 grid place-items-center rounded-xl border border-white/15 text-board-dim hover:text-board-fg hover:border-board-fg/60 transition-colors"
+              title={sound ? "Board sound on" : "Board sound off"}
+              className={cn(
+                "mb-1 w-11 h-11 grid place-items-center rounded-xl border transition-colors",
+                sound ? "border-board-fg/60 text-board-fg" : "border-white/15 text-board-dim hover:text-board-fg"
+              )}
             >
               {sound ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
             </button>
@@ -282,20 +355,15 @@ const DepartureBoard = () => {
               )}
             >
               {t.label}
-              <span className="hidden sm:inline font-sans text-[13px] font-medium normal-case tracking-normal opacity-75"> · {t.what.replace(" I have shipped", "").replace("Where I have worked", "Career")}</span>
+              <span className="hidden sm:inline font-sans text-[13px] font-medium normal-case tracking-normal opacity-75"> · {t.short}</span>
             </button>
           ))}
         </div>
 
-        <div id="board-panel" role="tabpanel" aria-labelledby={`board-tab-${tab}`} className="mt-5 overflow-hidden">
-          <div className="flap-size flex gap-[var(--col-gap)] px-2 pb-2">
-            {[
-              ...(L.code ? [[meta.head[0], L.code] as [string, number]] : []),
-              [meta.head[1], L.name],
-              ...(L.detail ? [[meta.head[2], L.detail] as [string, number]] : []),
-              ["Status", L.status],
-            ].map(([h, n]) => (
-              <span key={h as string} style={{ width: cellsWidth(n as number) }} className="shrink-0">
+        <div ref={panelRef} id="board-panel" role="tabpanel" aria-labelledby={`board-tab-${tab}`} className="mt-5">
+          <div className="flap-size flex gap-[var(--col-gap)] px-2 pb-2" style={fitVars}>
+            {cols.map(([h, n]) => (
+              <span key={h} style={{ width: cellsWidth(n) }} className="shrink-0">
                 <span className="block font-display text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.12em] text-board-dim">{h}</span>
               </span>
             ))}
@@ -311,6 +379,7 @@ const DepartureBoard = () => {
                   aria-pressed={on}
                   aria-label={r.label}
                   onClick={() => pickRow(r.id)}
+                  style={fitVars}
                   className={cn(
                     "flap-size flex gap-[var(--col-gap)] items-center w-full text-left px-2 py-1.5 rounded-xl font-display font-semibold transition-colors",
                     on ? "bg-white/[0.08] ring-2 ring-board-fg" : "hover:bg-white/[0.04]"
@@ -332,14 +401,14 @@ const DepartureBoard = () => {
               onClick={() => setAll((v) => !v)}
               className="mt-3 w-full min-h-11 rounded-xl border border-dashed border-board-fg/50 font-display text-[16px] font-bold uppercase tracking-[0.06em] text-board-fg hover:bg-board-fg/10"
             >
-              {all ? "Show fewer" : `Show all ${rows.length} ${meta.label.toLowerCase()}`}
+              {all ? "Show fewer" : `Show all ${rows.length} ${meta.short.toLowerCase()}`}
             </button>
           )}
         </div>
       </div>
 
-      <div ref={detailRef} className="mt-5 panel p-5 sm:p-7 scroll-mt-28" aria-live="polite">
-        <Details tab={tab} id={sel} />
+      <div ref={detailRef} className="mt-5 scroll-mt-28" aria-live="polite">
+        <Details tab={tab} id={selRow.id} row={selRow} />
       </div>
     </div>
   );

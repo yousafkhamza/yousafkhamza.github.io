@@ -5,6 +5,7 @@ import PageHero from "@/components/layout/PageHero";
 import Section from "@/components/layout/Section";
 import { services, yearsOfExperience } from "@/data/profile";
 import Price from "@/components/Price";
+import Pass from "@/components/Pass";
 import { useAedRate } from "@/hooks/useAedRate";
 
 const steps = [
@@ -34,31 +35,45 @@ const ServicesPage = () => {
       <section className="rule-t">
         <div className="wrap py-12 sm:py-16 grid md:grid-cols-2 gap-5">
           {services.map((s, i) => (
-            <article
+            <Pass
               key={s.id}
               id={s.id}
-              className="panel p-6 sm:p-7 flex flex-col border-t-4"
-              style={{ ["--c" as string]: `var(--c-${["green", "cyan", "violet", "amber"][i % 4]})`, borderTopColor: "hsl(var(--c))" }}
-            >
-              <div className="flex items-center justify-between font-mono text-[14px] text-muted-foreground">
-                <span className="font-display text-[22px] font-bold tint">{String(i + 1).padStart(2, "0")}</span>
-                <span>{s.format}</span>
-              </div>
-              <h2 className="mt-3 font-display text-[24px] font-bold tracking-[-0.01em]">{s.title}</h2>
-              <Price usd={s.priceUsd} unit={s.unit} className="mt-3" />
-              <p className="mt-3 text-[15px] text-muted-foreground leading-relaxed">{s.who}</p>
-              <ul className="mt-5 space-y-2">
-                {s.what.map((w) => (
-                  <li key={w} className="relative pl-5 text-[15px]">
-                    <span className="absolute left-0 font-mono tint">+</span>
-                    {w}
-                  </li>
-                ))}
-              </ul>
-              <Link to={`/contact?topic=${s.id}`} className="btn-ghost mt-7 self-start">
-                Ask about this <ArrowRight className="w-4 h-4" />
-              </Link>
-            </article>
+              tone="sign"
+              row="lg"
+              stubWidth="220px"
+              className="scroll-mt-28"
+              label={`Office hours · ${String(i + 1).padStart(2, "0")}`}
+              code={s.format}
+              main={
+                <div className="p-6 sm:p-7">
+                  <h2 className="font-display text-[30px] font-bold uppercase leading-[1.02]">{s.title}</h2>
+                  <p className="mt-3 text-[15.5px] text-muted-foreground leading-relaxed">{s.who}</p>
+                  <ul className="mt-5 space-y-2">
+                    {s.what.map((w) => (
+                      <li key={w} className="relative pl-5 text-[15.5px]">
+                        <span className="absolute left-0 font-bold text-yousaf">→</span>
+                        {w}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              }
+              stub={
+                <div className="p-6 h-full flex lg:flex-col items-end lg:items-start justify-between gap-5">
+                  <div>
+                    <div className="label mb-1">Fare</div>
+                    <Price usd={s.priceUsd} unit={s.unit} />
+                  </div>
+                  <div className="lg:mt-auto w-full sm:w-auto lg:w-full">
+                    <div className="label mb-1 hidden lg:block">Format</div>
+                    <div className="hidden lg:block font-display text-[17px] font-bold uppercase mb-4">{s.format}</div>
+                    <Link to={`/contact?topic=${s.id}`} className="btn-primary h-11 w-full">
+                      Ask about this <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              }
+            />
           ))}
         </div>
       </section>

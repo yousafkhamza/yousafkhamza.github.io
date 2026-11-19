@@ -26,15 +26,23 @@ const fit = (t: string, len: number) => {
   return pad(s, len);
 };
 
-/* ---- optional clack, synthesised (no audio file), off until the visitor turns it on ---- */
+/* ---- the clack: synthesised (no audio file), on by default, remembered per browser ----
+   Browsers only allow audio after the visitor's first click or key press, so the
+   sound "arms" itself on that first gesture and every flip after that clacks. */
 let audio: AudioContext | null = null;
 let noise: AudioBuffer | null = null;
-let soundOn = false;
 let lastClack = 0;
+const KEY = "board-sound";
+const readPref = () => {
+  try {
+    return localStorage.getItem(KEY) !== "off";
+  } catch {
+    return true;
+  }
+};
+let soundOn = typeof window !== "undefined" ? readPref() : false;
 
-export const setFlapSound = (on: boolean) => {
-  soundOn = on;
-  if (!on) return;
+const ensureAudio = () => {
   try {
     if (!audio) {
       const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
@@ -44,14 +52,38 @@ export const setFlapSound = (on: boolean) => {
       const d = noise.getChannelData(0);
       for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
     }
-    void audio.resume();
+    if (audio.state === "suspended") void audio.resume();
   } catch {
-    soundOn = false;
+    /* no Web Audio: stay silent */
   }
 };
 
+export const getFlapSound = () => soundOn;
+
+export const setFlapSound = (on: boolean) => {
+  soundOn = on;
+  try {
+    localStorage.setItem(KEY, on ? "on" : "off");
+  } catch {
+    /* private mode */
+  }
+  if (on) ensureAudio();
+};
+
+let armed = false;
+/** call once: the first click / key / touch anywhere unlocks audio if sound is on */
+export const armFlapSound = () => {
+  if (armed || typeof window === "undefined") return;
+  armed = true;
+  const unlock = () => {
+    if (soundOn) ensureAudio();
+    ["pointerdown", "keydown", "touchstart"].forEach((e) => window.removeEventListener(e, unlock));
+  };
+  ["pointerdown", "keydown", "touchstart"].forEach((e) => window.addEventListener(e, unlock, { passive: true }));
+};
+
 const clack = () => {
-  if (!soundOn || !audio || !noise) return;
+  if (!soundOn || !audio || !noise || audio.state !== "running") return;
   const now = audio.currentTime;
   if (now - lastClack < 0.03) return;
   lastClack = now;

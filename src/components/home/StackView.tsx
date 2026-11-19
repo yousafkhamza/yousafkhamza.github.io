@@ -37,8 +37,8 @@ const List = () => (
     {skillGroups.map((g, i) => (
       <div
         key={g.id}
-        className="panel p-5 border-t-4 flex flex-col h-full"
-        style={{ ["--c" as string]: `var(--c-${GROUP_COLORS[i]})`, borderTopColor: `hsl(var(--c-${GROUP_COLORS[i]}))` }}
+        className="panel p-5 flex flex-col h-full"
+        style={{ ["--c" as string]: `var(--c-${GROUP_COLORS[i]})` }}
       >
         <div className="flex items-center justify-between mb-3">
           <span className="font-mono text-[14px] font-semibold uppercase tracking-[0.08em] tint">{g.label}</span>

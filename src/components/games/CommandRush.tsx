@@ -297,8 +297,8 @@ const CommandRush = () => {
                       key={l.level}
                       onClick={() => start(l.level)}
                       aria-label={`Level ${l.level}: ${l.name}`}
-                      className="text-left rounded-lg border border-term/10 bg-term/[0.03] hover:bg-term/[0.07] p-3 transition-colors border-t-4"
-                      style={{ borderTopColor: `hsl(var(--c-${c}))` }}
+                      className="text-left rounded-lg border border-term/10 bg-term/[0.03] hover:bg-term/[0.07] p-3 transition-colors accent-top"
+                      style={{ ["--c" as string]: `var(--c-${c})` }}
                     >
                       <div className="text-[11px] font-semibold" style={{ color: `hsl(var(--c-${c}))` }}>
                         LEVEL {l.level}

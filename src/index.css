@@ -174,6 +174,49 @@
 
   .dot { @apply inline-block w-2 h-2 rounded-full bg-ok; }
 
+  /* a top accent that follows rounded corners (a border-top cannot) */
+  .accent-top { box-shadow: inset 0 4px 0 hsl(var(--c)), 0 1px 2px hsl(0 0% 0% / 0.04); }
+
+  /* boarding pass: header strip, main, perforated tear with notches, stub */
+  .pass {
+    @apply relative flex flex-col bg-card border border-border rounded-[20px] overflow-hidden;
+    box-shadow: 0 1px 2px hsl(0 0% 0% / 0.04), 0 14px 34px -20px hsl(0 0% 0% / 0.28);
+  }
+  .dark .pass { box-shadow: none; }
+  .pass-head {
+    @apply relative z-[1] flex flex-wrap items-center justify-between gap-x-3 gap-y-0.5 px-5 py-2.5 min-h-11 font-display text-[15px] font-bold uppercase tracking-[0.08em];
+  }
+  .pass-head.tone-board { @apply bg-board text-board-fg; }
+  .pass-head.tone-sign { @apply bg-sign text-[hsl(0_0%_7%)]; }
+  .pass-body { @apply flex flex-col flex-1; }
+  .pass-main { @apply flex-1 min-w-0; }
+  .pass-stub { @apply shrink-0 bg-secondary/60; }
+  .pass-stub-first .pass-stub { order: -2; }
+  .pass-stub-first .pass-tear { order: -1; }
+  .pass-tear { position: relative; flex: none; height: 0; margin: 0 20px; border-top: 2px dashed hsl(var(--border)); }
+  .pass-tear::before, .pass-tear::after {
+    content: ""; position: absolute; top: -12px; width: 22px; height: 22px; border-radius: 9999px;
+    background: hsl(var(--background)); border: 1px solid hsl(var(--border));
+  }
+  .pass-tear::before { left: -32px; }
+  .pass-tear::after { right: -32px; }
+  @media (min-width: 768px) {
+    .pass-row-md .pass-body { flex-direction: row; }
+    .pass-row-md .pass-stub { width: var(--stub-w, 260px); }
+    .pass-row-md .pass-tear { height: auto; width: 0; margin: 20px 0; border-top: 0; border-left: 2px dashed hsl(var(--border)); }
+    .pass-row-md .pass-tear { margin-top: 0; }
+    .pass-row-md .pass-tear::before { display: none; }
+    .pass-row-md .pass-tear::after { top: auto; bottom: -32px; left: -12px; right: auto; }
+  }
+  @media (min-width: 1024px) {
+    .pass-row-lg .pass-body { flex-direction: row; }
+    .pass-row-lg .pass-stub { width: var(--stub-w, 260px); }
+    .pass-row-lg .pass-tear { height: auto; width: 0; margin: 20px 0; border-top: 0; border-left: 2px dashed hsl(var(--border)); }
+    .pass-row-lg .pass-tear { margin-top: 0; }
+    .pass-row-lg .pass-tear::before { display: none; }
+    .pass-row-lg .pass-tear::after { top: auto; bottom: -32px; left: -12px; right: auto; }
+  }
+
   /* the split-flap board */
   .board {
     @apply bg-board text-board-fg rounded-[22px];

@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, Bot, BookOpenText, Github, ShieldAlert } from "lucide-react";
 import { projects } from "@/data/projects";
+import Pass, { PassField } from "@/components/Pass";
+import { flightCode } from "@/lib/flight";
 
 /** The AI projects, each with a live demo. Shown three to a row on wide screens; add new ones here. */
-const META: Record<string, { icon: typeof Bot; color: string; kicker: string; headline: string; body: string }> = {
+const META: Record<string, { icon: typeof Bot; color?: string; kicker: string; headline: string; body: string }> = {
   pipelineguard: {
     icon: ShieldAlert,
     color: "amber",
@@ -35,39 +37,46 @@ const AiSection = () => {
         {items.map((p) => {
           const m = META[p.id];
           const Icon = m.icon;
+          const no = String(projects.indexOf(p) + 1).padStart(2, "0");
           return (
-            <article
+            <Pass
               key={p.id}
-              className="panel overflow-hidden flex flex-col group transition-transform hover:-translate-y-1 md:max-lg:last:odd:col-span-2 md:max-lg:last:odd:flex-row"
-              style={{ ["--c" as string]: `var(--c-${m.color})` }}
-            >
-              <a href={p.demo ?? p.github} target="_blank" rel="noopener noreferrer" className="block aspect-video overflow-hidden border-b border-border md:max-lg:group-last:group-odd:w-1/2 md:max-lg:group-last:group-odd:shrink-0 md:max-lg:group-last:group-odd:self-center md:max-lg:group-last:group-odd:border-b-0 md:max-lg:group-last:group-odd:border-r" tabIndex={-1} aria-hidden>
-                <img src={p.images[0]} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-              </a>
-              <div className="p-6 flex flex-col flex-1">
-                <div className="flex items-center gap-3">
-                  <span className="inline-grid place-items-center w-9 h-9 rounded-lg tint-bg">
-                    <Icon className="w-[18px] h-[18px]" />
-                  </span>
-                  <span className="font-mono text-[13.5px] font-semibold uppercase tracking-[0.08em] tint">{m.kicker}</span>
-                  <span className="ml-auto font-mono text-[13.5px] text-muted-foreground">{p.title}</span>
+              className="group transition-transform hover:-translate-y-1"
+              label={
+                <span className="inline-flex items-center gap-2">
+                  <Icon className="w-4 h-4" /> {m.kicker}
+                </span>
+              }
+              code={`Flight ${flightCode(p.title)} ${no}`}
+              main={
+                <div className="flex flex-col h-full">
+                  <a href={p.demo ?? p.github} target="_blank" rel="noopener noreferrer" className="block aspect-video overflow-hidden" tabIndex={-1} aria-hidden>
+                    <img src={p.images[0]} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                  </a>
+                  <div className="p-5 sm:p-6">
+                    <h3 className="font-display text-[26px] font-bold uppercase leading-[1.02]">{m.headline}</h3>
+                    <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{m.body}</p>
+                  </div>
                 </div>
-                <h3 className="mt-4 font-display text-[22px] font-bold leading-tight">{m.headline}</h3>
-                <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">{m.body}</p>
-                <div className="mt-auto pt-5 flex items-center gap-5 text-[14px] font-semibold">
-                  {p.demo && (
-                    <a href={p.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 tint">
-                      See it live <ArrowUpRight className="w-4 h-4" />
-                    </a>
-                  )}
-                  {p.github && (
-                    <a href={p.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground">
-                      <Github className="w-4 h-4" /> Code
-                    </a>
-                  )}
+              }
+              stub={
+                <div className="px-5 sm:px-6 py-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-3">
+                  <PassField k="Project" v={p.title} className="min-w-[120px]" />
+                  <div className="flex items-center gap-2 shrink-0">
+                    {p.demo && (
+                      <a href={p.demo} target="_blank" rel="noopener noreferrer" className="btn-primary h-10 px-4 text-[15px]">
+                        See it live <ArrowUpRight className="w-4 h-4" />
+                      </a>
+                    )}
+                    {p.github && (
+                      <a href={p.github} target="_blank" rel="noopener noreferrer" className="btn-ghost h-10 px-3 text-[15px]">
+                        <Github className="w-4 h-4" /> Code
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </article>
+              }
+            />
           );
         })}
       </div>

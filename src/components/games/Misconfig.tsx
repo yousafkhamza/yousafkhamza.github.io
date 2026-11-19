@@ -105,7 +105,7 @@ const Misconfig = () => {
               key={l.level}
               onClick={() => start(l.level)}
               style={{ ["--c" as string]: `var(--c-${LEVEL_COLORS[i]})` }}
-              className="panel p-4 text-left border-t-4 hover:-translate-y-0.5 transition-transform"
+              className="panel accent-top p-4 text-left hover:-translate-y-0.5 transition-transform"
               aria-label={`Level ${l.level}: ${l.name}`}
             >
               <div className="font-code text-[11px] tint font-semibold">LEVEL {l.level}</div>
@@ -129,7 +129,7 @@ const Misconfig = () => {
     const total = rounds.length;
     const perfect = score === total;
     return (
-      <div className="max-w-[640px] mx-auto panel p-8 text-center border-t-4" style={{ ["--c" as string]: `var(--c-${color})`, borderTopColor: "hsl(var(--c))" }}>
+      <div className="max-w-[640px] mx-auto panel accent-top p-8 text-center" style={{ ["--c" as string]: `var(--c-${color})` }}>
         <div className="font-code text-[12px] tint font-semibold">
           LEVEL {level} · {LEVELS[level - 1].name.toUpperCase()} · REVIEW FINISHED
         </div>

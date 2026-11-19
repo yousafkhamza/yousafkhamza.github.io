@@ -7,6 +7,7 @@ import { experiences } from "@/data/experience";
 import { education } from "@/data/education";
 import { certifications } from "@/data/certifications";
 import { profile, yearsOfExperience } from "@/data/profile";
+import Pass, { PassField } from "@/components/Pass";
 
 const ExperiencePage = () => {
   const { hash } = useLocation();
@@ -36,53 +37,56 @@ const ExperiencePage = () => {
       </PageHero>
 
       <section className="rule-t">
-        <div className="wrap">
+        <div className="wrap py-12 sm:py-16 flex flex-col gap-6">
           {experiences.map((e) => (
-            <article
+            <Pass
               key={e.id}
               id={e.id}
-              className="scroll-mt-28 grid md:grid-cols-[280px_1fr] gap-6 md:gap-12 py-12 border-b border-border last:border-b-0"
-              style={{ ["--c" as string]: `var(--c-${e.color})` }}
-            >
-              <header className="md:sticky md:top-32 self-start">
-                <div className="flex items-center gap-2">
-                  <span className="tag tint-bg border-transparent font-semibold">{e.version}</span>
-                  {!e.end && (
-                    <span className="font-mono text-[13.5px] text-ok flex items-center gap-1.5">
-                      <span className="dot" /> current
-                    </span>
-                  )}
+              row="md"
+              stubFirst
+              stubWidth="300px"
+              className="scroll-mt-28"
+              label={`Release ${e.version} · ${e.end ? "Departed" : "Now boarding"}`}
+              code={e.location}
+              stub={
+                <div className="p-6 grid grid-cols-2 md:grid-cols-1 gap-4 content-start">
+                  <div className="col-span-2 md:col-span-1">
+                    <div className="flex items-center gap-2.5">
+                      <img src={e.logo} alt="" className="w-8 h-8 rounded-lg object-contain bg-white border border-border" />
+                      <span className="text-[16px] font-bold text-yousaf">{e.company}</span>
+                      {!e.end && (
+                        <span className="text-[13.5px] font-display font-semibold uppercase text-ok flex items-center gap-1.5">
+                          <span className="dot" /> current
+                        </span>
+                      )}
+                    </div>
+                    <h2 className="mt-3 font-display text-[28px] font-bold uppercase leading-[1.02]">{e.title}</h2>
+                  </div>
+                  <PassField k="From" v={e.period.split(" – ")[0]} />
+                  <PassField k="To" v={e.end ? e.period.split(" – ")[1] : "Present"} />
                 </div>
-                <h2 className="mt-3 font-display text-[24px] font-bold leading-tight">{e.title}</h2>
-                <div className="mt-1.5 flex items-center gap-2.5">
-                  <img src={e.logo} alt="" className="w-6 h-6 rounded-[4px] object-contain bg-white border border-border" />
-                  <span className="text-[15px] font-bold tint">{e.company}</span>
+              }
+              main={
+                <div className="p-6 sm:p-8">
+                  <p className="text-[18px] leading-relaxed font-medium">{e.summary}</p>
+                  <ul className="mt-5 space-y-3">
+                    {e.description.map((d) => (
+                      <li key={d} className="relative pl-5 text-[15.5px] leading-relaxed text-foreground/80">
+                        <span className="absolute left-0 top-0 font-bold text-yousaf">→</span>
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-6 flex flex-wrap gap-1.5">
+                    {e.stack.map((s) => (
+                      <span key={s} className="tag">
+                        {s}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <div className="mt-2 font-mono text-[14px] text-muted-foreground leading-relaxed">
-                  {e.period}
-                  <br />
-                  {e.location}
-                </div>
-              </header>
-              <div>
-                <p className="text-[18px] leading-relaxed font-medium">{e.summary}</p>
-                <ul className="mt-5 space-y-3">
-                  {e.description.map((d) => (
-                    <li key={d} className="relative pl-5 text-[15.5px] leading-relaxed text-foreground/80">
-                      <span className="absolute left-0 top-0 font-mono tint">+</span>
-                      {d}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-6 flex flex-wrap gap-1.5">
-                  {e.stack.map((s) => (
-                    <span key={s} className="tag">
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </article>
+              }
+            />
           ))}
         </div>
       </section>

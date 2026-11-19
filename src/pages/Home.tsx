@@ -15,6 +15,8 @@ import { certifications } from "@/data/certifications";
 import { education } from "@/data/education";
 import { profile, services } from "@/data/profile";
 import Price from "@/components/Price";
+import Pass from "@/components/Pass";
+import RunwayGame from "@/components/home/RunwayGame";
 
 const CopyEmail = () => {
   const [copied, setCopied] = useState(false);
@@ -29,7 +31,7 @@ const CopyEmail = () => {
           window.location.href = `mailto:${profile.email}`;
         }
       }}
-      className="btn-ghost border-board-fg text-board-fg hover:bg-board-fg hover:text-[hsl(0_0%_7%)] text-[15px]"
+      className="btn-ghost text-[15px]"
     >
       {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
       {copied ? "copied" : profile.email}
@@ -115,22 +117,34 @@ const Home = () => {
           </Link>
         }
       >
-        <div className="border-t border-border">
+        <div className="grid md:grid-cols-2 gap-5">
           {services.map((s, i) => (
-            <Link
+            <Pass
               key={s.id}
-              to={`/contact?topic=${s.id}`}
-              style={{ ["--c" as string]: `var(--c-${["green", "cyan", "violet", "amber"][i % 4]})` }}
-              className="grid grid-cols-[40px_1fr_auto] sm:grid-cols-[56px_1fr_1.2fr_auto_auto] gap-4 items-center py-5 border-b border-border group"
-            >
-              <span className="font-display text-[22px] font-bold" style={{ color: `hsl(var(--c-${["green", "cyan", "violet", "amber"][i % 4]}))` }}>{String(i + 1).padStart(2, "0")}</span>
-              <span className="text-[18px] font-semibold group-hover:text-yousaf transition-colors">{s.title}</span>
-              <span className="hidden sm:block text-[14px] text-muted-foreground">{s.who}</span>
-              <Price usd={s.priceUsd} unit={s.unit} compact className="hidden md:inline-flex" />
-              <span className="font-mono text-[14.5px] inline-flex items-center gap-1 text-foreground/70 group-hover:text-yousaf">
-                ask <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-              </span>
-            </Link>
+              tone="sign"
+              row="lg"
+              stubWidth="210px"
+              className="transition-transform hover:-translate-y-1"
+              label={`Office hours · ${String(i + 1).padStart(2, "0")}`}
+              code={s.format}
+              main={
+                <div className="p-5 sm:p-6">
+                  <h3 className="font-display text-[26px] font-bold uppercase leading-[1.02]">{s.title}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{s.who}</p>
+                </div>
+              }
+              stub={
+                <div className="p-5 sm:p-6 h-full flex lg:flex-col items-end lg:items-start justify-between gap-4">
+                  <div>
+                    <div className="label mb-1">Fare</div>
+                    <Price usd={s.priceUsd} unit={s.unit} />
+                  </div>
+                  <Link to={`/contact?topic=${s.id}`} className="btn-ghost h-10 px-4 text-[15px]">
+                    Ask <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              }
+            />
           ))}
         </div>
       </Section>
@@ -166,25 +180,35 @@ const Home = () => {
 
       <section className="rule-t">
         <div className="wrap py-16 sm:py-24">
-          <div className="board relative overflow-hidden px-6 sm:px-14 py-14 sm:py-20">
-          <div className="inline-flex items-center gap-2 mb-5 px-2.5 py-1 bg-board-fg text-[hsl(0_0%_7%)] font-display text-[15px] font-bold uppercase tracking-[0.06em]">Now boarding · Hiring?</div>
-          <h2 className="font-display text-[44px] sm:text-[72px] font-bold uppercase leading-[0.92] max-w-[20ch] text-white">
-            Looking for someone to own your platform?
-          </h2>
-          <p className="mt-5 text-[18px] leading-relaxed text-board-dim max-w-[60ch]">
-            Open to senior DevOps, platform engineering and SRE roles. The fastest way to reach me is
-            email or LinkedIn.
-          </p>
-          <div className="mt-9 flex flex-wrap gap-3">
-            <Link to="/contact?topic=hiring" className="btn-primary">
-              Start a conversation <ArrowRight className="w-4 h-4" />
-            </Link>
-            <CopyEmail />
-            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn-ghost border-board-fg text-board-fg hover:bg-board-fg hover:text-[hsl(0_0%_7%)]">
-              LinkedIn
-            </a>
-          </div>
-          </div>
+          <Pass
+            as="div"
+            tone="sign"
+            row="lg"
+            stubWidth="min(46%, 520px)"
+            label="Now boarding · Hiring?"
+            code="Gate A1 · Dubai"
+            main={
+              <div className="px-6 sm:px-12 py-10 sm:py-14">
+                <h2 className="font-display text-[44px] sm:text-[68px] font-bold uppercase leading-[0.92] max-w-[16ch]">
+                  Looking for someone to own your platform?
+                </h2>
+                <p className="lede mt-5">
+                  Open to senior DevOps, platform engineering and SRE roles. The fastest way to reach me is
+                  email or LinkedIn.
+                </p>
+                <div className="mt-9 flex flex-wrap gap-3">
+                  <Link to="/contact?topic=hiring" className="btn-primary">
+                    Start a conversation <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <CopyEmail />
+                  <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+                    LinkedIn
+                  </a>
+                </div>
+              </div>
+            }
+            stub={<RunwayGame />}
+          />
         </div>
       </section>
     </div>

@@ -44,10 +44,10 @@ const QuickRead = () => {
   };
 
   return (
-    <aside className="panel overflow-hidden" aria-label="Profile summary">
-      <div className="flex items-center justify-between gap-3 px-5 h-12 bg-board text-board-fg">
-        <span className="font-display text-[17px] font-bold uppercase tracking-[0.08em]">Boarding pass</span>
-        <span className="flex items-center gap-1.5 font-display text-[15px] font-bold uppercase tracking-[0.06em] text-board-ok">
+    <aside className="pass" aria-label="Profile summary">
+      <div className="pass-head tone-board">
+        <span>Boarding pass</span>
+        <span className="flex items-center gap-1.5 text-board-ok">
           <span className="w-2 h-2 rounded-full bg-board-ok" /> Available
         </span>
       </div>
@@ -63,18 +63,19 @@ const QuickRead = () => {
           </div>
         ))}
       </dl>
-      <div className="flex border-t border-border">
+      <div className="pass-tear" aria-hidden />
+      <div className="flex pass-stub">
         <a
           href={profile.resume}
           target="_blank"
           rel="noopener"
-          className="flex-1 inline-flex items-center justify-center gap-2 h-12 text-[15px] font-semibold bg-primary text-primary-foreground hover:bg-[hsl(var(--primary-strong))] transition-colors"
+          className="btn-primary flex-1 m-3 mr-1.5 h-11"
         >
           <FileDown className="w-4 h-4" /> Resume PDF
         </a>
         <button
           onClick={copy}
-          className="flex-1 inline-flex items-center justify-center gap-2 h-12 text-[15px] font-semibold border-l border-border hover:bg-secondary transition-colors"
+          className="btn-ghost flex-1 m-3 ml-1.5 h-11"
         >
           {copied ? <Check className="w-4 h-4 text-ok" /> : <Copy className="w-4 h-4" />}
           {copied ? "Copied" : "Copy summary"}
