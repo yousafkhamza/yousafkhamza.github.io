@@ -13,7 +13,7 @@ const NotFound = () => {
       <div className="min-h-screen bg-background text-foreground flex items-center">
         <div className="wrap max-w-[640px]">
           <div className="eyebrow">Flight not found</div>
-          <h1 className="font-display text-[52px] sm:text-[72px] font-bold uppercase leading-[0.9] mb-6">This gate is closed.</h1>
+          <h1 className="font-display text-[48px] sm:text-[68px] font-bold tracking-[-0.02em] leading-[0.95] mb-6">This gate is closed.</h1>
           <pre className="panel p-6 font-code text-[13.5px] leading-[1.8] overflow-x-auto">
             <span className="text-muted-foreground">$ curl -I https://yousafkhamza.github.io{pathname}</span>
             {"\n"}HTTP/2 <span className="text-bad">404</span>

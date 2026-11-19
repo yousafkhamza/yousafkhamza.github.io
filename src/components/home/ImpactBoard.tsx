@@ -99,11 +99,7 @@ const ImpactBoard = () => {
   const [tab, setTab] = useState<Tab>("work");
   const { ref, inView } = useInView<HTMLDivElement>(0.25);
   return (
-    <div ref={ref} className="pass">
-      <div className="pass-head tone-board">
-        <span>Flight log · {tab === "work" ? "production platforms" : "github.com/yousafkhamza"}</span>
-        <span className="hidden sm:inline">{tab === "work" ? "Measured at work" : "Counted from the project list"}</span>
-      </div>
+    <div ref={ref} className="panel overflow-hidden">
       <div className="flex items-center justify-between gap-4 px-3 sm:px-4 py-3 border-b border-border">
         <div className="seg" role="tablist" aria-label="Impact view">
           {(
@@ -123,7 +119,9 @@ const ImpactBoard = () => {
             </button>
           ))}
         </div>
-        <span className="hidden sm:inline label">{tab === "work" ? "Before → after" : "Live counts"}</span>
+        <span className="hidden sm:inline text-[14px] text-muted-foreground">
+          {tab === "work" ? "production platforms" : "github.com/yousafkhamza"}
+        </span>
       </div>
       {tab === "work" ? <WorkBoard inView={inView} /> : <OssBoard inView={inView} />}
     </div>

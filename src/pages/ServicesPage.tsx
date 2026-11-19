@@ -46,7 +46,7 @@ const ServicesPage = () => {
               code={s.format}
               main={
                 <div className="p-6 sm:p-7">
-                  <h2 className="font-display text-[30px] font-bold uppercase leading-[1.02]">{s.title}</h2>
+                  <h2 className="font-display text-[30px] font-bold leading-[1.05]">{s.title}</h2>
                   <p className="mt-3 text-[15.5px] text-muted-foreground leading-relaxed">{s.who}</p>
                   <ul className="mt-5 space-y-2">
                     {s.what.map((w) => (
@@ -85,19 +85,13 @@ const ServicesPage = () => {
       <Section label="Process" title="How it works">
         <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {steps.map(([t, d], i) => (
-            <li key={t}>
-              <Pass
-                as="div"
-                tone={i === 0 ? "sign" : "plain"}
-                className="h-full"
-                label={`Step ${i + 1} · ${["Check-in", "Security", "Boarding", "Arrival"][i]}`}
-                main={
-                  <div className="p-5">
-                    <div className="font-display text-[22px] font-bold uppercase leading-[1.05]">{t}</div>
-                    <p className="mt-2 text-[15px] text-muted-foreground leading-relaxed">{d}</p>
-                  </div>
-                }
-              />
+            <li key={t} className="panel p-5 sm:p-6">
+              <div className="flex items-center gap-2.5">
+                <span className="inline-grid place-items-center w-9 h-9 rounded-full bg-sign text-ink font-display text-[17px] font-bold">{i + 1}</span>
+                <span className="label">Step {i + 1}</span>
+              </div>
+              <div className="mt-4 font-display text-[22px] font-bold leading-[1.1]">{t}</div>
+              <p className="mt-2 text-[15px] text-muted-foreground leading-relaxed">{d}</p>
             </li>
           ))}
         </ol>

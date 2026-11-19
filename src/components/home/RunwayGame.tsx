@@ -125,7 +125,7 @@ const RunwayGame = () => {
             phase === "airborne" ? "duration-[1100ms] opacity-0" : "duration-500 opacity-100"
           )}
           style={{
-            left: `calc(16px + (100% - 32px) * ${pos / 100})`,
+            left: `calc(30px + (100% - 60px) * ${pos / 100})`,
             transform: `translate(-50%, -50%) ${phase === "airborne" ? "translate(60px, -70px) scale(1.4)" : ""}`,
           }}
         >

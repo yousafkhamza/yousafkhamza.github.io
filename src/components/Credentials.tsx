@@ -1,103 +1,55 @@
 import { certifications } from "@/data/certifications";
 import { education } from "@/data/education";
-import Pass from "@/components/Pass";
 
 const certs = certifications.filter((c) => c.kind !== "recognition");
 // newest recognition first
 const recognitions = certifications.filter((c) => c.kind === "recognition").sort((a, b) => Number(b.date) - Number(a.date));
 
-/** certifications as connection passes: the core ones a recruiter filters on get the yellow header */
+const Logo = ({ src, size = "w-11 h-11" }: { src: string; size?: string }) => (
+  <img src={src} alt="" loading="lazy" className={`${size} shrink-0 rounded-lg object-contain bg-white border border-border p-1`} />
+);
+
+/** certifications: the core ones a recruiter filters on are marked, everything else is listed plainly */
 export const CertPasses = () => (
   <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
     {certs.map((c) => (
-      <Pass
-        key={c.id}
-        as="div"
-        tone={c.core ? "sign" : "plain"}
-        label={c.core ? "Core · connection" : "Connection"}
-        code={c.date}
-        main={
-          <div className="p-4 sm:p-5 flex items-start gap-3">
-            <img src={c.logo} alt="" loading="lazy" className="w-10 h-10 shrink-0 rounded-lg object-contain bg-white border border-border p-1" />
-            <div className="min-w-0">
-              <div className={c.core ? "text-[16px] font-bold leading-snug" : "text-[15px] font-semibold leading-snug"}>{c.title}</div>
-              <div className="text-[14px] text-muted-foreground mt-1">{c.organization}</div>
-            </div>
+      <div key={c.id} className="panel p-5 flex flex-col">
+        <div className="flex items-center justify-between gap-3">
+          <Logo src={c.logo} size="w-10 h-10" />
+          <div className="flex items-center gap-2">
+            {c.core && <span className="tag bg-sign/30 border-sign/60 text-foreground dark:bg-sign/15 dark:text-[hsl(48_100%_70%)]">Core</span>}
+            <span className="text-[14px] font-semibold text-muted-foreground tabular-nums">{c.date}</span>
           </div>
-        }
-      />
-    ))}
-  </div>
-);
-
-const Stub = ({ rows }: { rows: [string, string][] }) => (
-  <div className="p-5 sm:p-6 h-full flex md:flex-col justify-between md:justify-start gap-4">
-    {rows.map(([k, v]) => (
-      <div key={k}>
-        <div className="label">{k}</div>
-        <div className="font-display text-[20px] font-bold uppercase leading-tight">{v}</div>
+        </div>
+        <div className={c.core ? "mt-4 text-[16px] font-bold leading-snug" : "mt-4 text-[15.5px] font-semibold leading-snug"}>{c.title}</div>
+        <div className="text-[14px] text-muted-foreground mt-1">{c.organization}</div>
       </div>
     ))}
   </div>
 );
 
-/** degrees and the bodies that recognise them, side by side in one grid so the rows line up */
+const QualCard = ({ logo, kicker, title, sub, right }: { logo: string; kicker: string; title: string; sub: string; right: string }) => (
+  <div className="panel p-5 sm:p-6 flex items-start gap-4">
+    <Logo src={logo} size="w-12 h-12" />
+    <div className="min-w-0 flex-1">
+      <div className="flex items-center justify-between gap-3">
+        <span className="label">{kicker}</span>
+        <span className="text-[14px] font-semibold text-muted-foreground tabular-nums">{right}</span>
+      </div>
+      <div className="mt-1 font-display text-[22px] font-bold leading-tight">{title}</div>
+      <div className="text-[15px] text-muted-foreground mt-1">{sub}</div>
+    </div>
+  </div>
+);
+
+/** degrees and the bodies that recognise them, one 2x2 grid so the rows line up */
 export const QualificationPasses = () => (
-  <div className="grid md:grid-cols-2 gap-5">
+  <div className="grid md:grid-cols-2 gap-4">
     {education.map((e) => (
-      <Pass
-        key={e.degree}
-        as="div"
-        row="md"
-        stubWidth="150px"
-        label="Education"
-        code={e.period}
-        main={
-          <div className="p-5 sm:p-6 flex items-start gap-4">
-            <img src={e.logo} alt="" loading="lazy" className="w-12 h-12 shrink-0 rounded-lg object-contain bg-white border border-border p-1" />
-            <div>
-              <div className="font-display text-[22px] font-bold uppercase leading-tight">{e.degree}</div>
-              <div className="text-[15px] text-muted-foreground mt-1">{e.school}</div>
-            </div>
-          </div>
-        }
-        stub={
-          <Stub
-            rows={[
-              ["From", e.period.split(" - ")[0]],
-              ["To", e.period.split(" - ")[1]],
-            ]}
-          />
-        }
-      />
+      <QualCard key={e.degree} logo={e.logo} kicker="Education" title={e.degree} sub={e.school} right={e.period.replace(" - ", "–")} />
     ))}
     {recognitions.map((c) => (
-      <Pass
-        key={c.id}
-        as="div"
-        row="md"
-        stubWidth="150px"
-        tone="sign"
-        label="Degree recognition"
-        code={c.date}
-        main={
-          <div className="p-5 sm:p-6 flex items-start gap-4">
-            <img src={c.logo} alt="" loading="lazy" className="w-12 h-12 shrink-0 rounded-lg object-contain bg-white border border-border p-1" />
-            <div>
-              <div className="font-display text-[22px] font-bold uppercase leading-tight">{c.title}</div>
-              <div className="text-[15px] text-muted-foreground mt-1">{c.organization}</div>
-            </div>
-          </div>
-        }
-        stub={
-          <Stub
-            rows={[
-              ["Issued", c.date],
-              ["Status", "Verified"],
-            ]}
-          />
-        }
-      />
+      <QualCard key={c.id} logo={c.logo} kicker="Degree recognition · verified" title={c.title} sub={c.organization} right={c.date} />
     ))}
   </div>
 );

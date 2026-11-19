@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { skillGroups } from "@/data/skills";
 import { cn } from "@/lib/utils";
-import Pass from "@/components/Pass";
 
 type View = "list" | "yaml";
 
@@ -31,43 +30,35 @@ const Yaml = () => (
   </pre>
 );
 
-/** each skill group is a terminal: what I run today above the tear, what I have shipped with on the stub */
+/** each skill group: what I run today in solid chips, what I have shipped with before in outline */
 const List = () => (
   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-    {skillGroups.map((g, i) => (
-      <Pass
-        key={g.id}
-        tone={i === 0 ? "sign" : "board"}
-        label={`Terminal ${i + 1}`}
-        code={`${g.daily.length + g.also.length} tools`}
-        main={
-          <div className="p-5">
-            <h3 className="font-display text-[24px] font-bold uppercase leading-none">{g.label}</h3>
-            <div className="label mt-3 mb-2.5">In production today</div>
+    {skillGroups.map((g) => (
+      <div key={g.id} className="panel p-5 sm:p-6 flex flex-col">
+        <div className="flex items-baseline justify-between gap-3">
+          <h3 className="font-display text-[23px] font-bold leading-none">{g.label}</h3>
+          <span className="text-[14px] text-muted-foreground">{g.daily.length + g.also.length} tools</span>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {g.daily.map((s) => (
+            <span key={s} className="tool-on">
+              {s}
+            </span>
+          ))}
+        </div>
+        {g.also.length > 0 && (
+          <div className="mt-auto pt-5">
+            <div className="label mb-2">Also shipped with</div>
             <div className="flex flex-wrap gap-1.5">
-              {g.daily.map((s) => (
-                <span key={s} className="tool-on">
+              {g.also.map((s) => (
+                <span key={s} className="tool">
                   {s}
                 </span>
               ))}
             </div>
           </div>
-        }
-        stub={
-          g.also.length > 0 ? (
-            <div className="px-5 py-4">
-              <div className="label mb-2">Also shipped with</div>
-              <div className="flex flex-wrap gap-1.5">
-                {g.also.map((s) => (
-                  <span key={s} className="tool">
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ) : undefined
-        }
-      />
+        )}
+      </div>
     ))}
   </div>
 );

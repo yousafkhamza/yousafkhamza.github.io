@@ -53,7 +53,7 @@ const QuickRead = () => {
       </div>
       <div className="px-5 pt-4 pb-1 border-b-2 border-dashed border-border">
         <div className="label">Passenger</div>
-        <div className="font-display text-[26px] font-bold uppercase leading-tight">{profile.name}</div>
+        <div className="font-display text-[26px] font-bold leading-tight">{profile.name}</div>
       </div>
       <dl className="px-5 py-4 grid grid-cols-[96px_1fr] gap-x-4 gap-y-2.5 text-[15px]">
         {rows.map(([k, v]) => (
@@ -87,16 +87,36 @@ const QuickRead = () => {
 
 const Hero = () => (
   <div className="relative">
-    <div className="wrap relative pt-6 sm:pt-10 pb-14 sm:pb-20">
-      {/* the board is the first thing a visitor sees; the introduction follows */}
+    <div className="wrap relative pt-7 sm:pt-10 pb-14 sm:pb-20">
+      {/* one plain line first, so a recruiter has the answer before the board starts flipping */}
+      <div className="mb-5 sm:mb-6 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+        <div className="min-w-0">
+          <h1 className="font-display text-[30px] sm:text-[38px] font-bold leading-[1.05] tracking-[-0.01em]">
+            {profile.name}
+            <span className="text-muted-foreground font-semibold"> · Senior DevOps &amp; Platform Engineer</span>
+          </h1>
+          <p className="mt-2 flex items-start gap-2 text-[16px] text-muted-foreground">
+            <span className="mt-[7px] w-2 h-2 shrink-0 rounded-full bg-ok" aria-hidden />
+            <span>
+              Open to {profile.openTo.join(", ")} roles · Based in Dubai · {profile.residency}
+            </span>
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2.5">
+          <a href={profile.resume} target="_blank" rel="noopener" className="btn-primary h-11">
+            <FileDown className="w-4 h-4" /> Resume
+          </a>
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn-ghost h-11">
+            LinkedIn
+          </a>
+        </div>
+      </div>
+
       <DepartureBoard />
 
       <div className="mt-14 sm:mt-20 grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-start">
         <div>
-          <h1 className="font-display text-[17px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
-            {profile.name} <span className="text-foreground">/</span> Senior DevOps &amp; Platform Engineer
-          </h1>
-          <p className="mt-3 font-display text-[60px] sm:text-[84px] lg:text-[96px] font-bold uppercase tracking-[-0.01em] leading-[0.86] text-foreground">
+          <p className="font-display text-[56px] sm:text-[80px] lg:text-[92px] font-bold tracking-[-0.02em] leading-[0.92] text-foreground">
             I keep production{" "}
             <span className="relative inline-block px-3 -mx-1 rounded-2xl bg-sign text-[hsl(0_0%_7%)]">boring</span>.
           </p>
@@ -120,7 +140,7 @@ const Hero = () => (
               {experiences.map((e) => (
                 <span
                   key={e.id}
-                  className="inline-flex items-center gap-2 border border-border bg-card px-3 py-1 font-display text-[17px] font-bold uppercase tracking-[0.03em] rounded-lg"
+                  className="inline-flex items-center gap-2 border border-border bg-card px-3 h-9 text-[15.5px] font-semibold rounded-lg"
                 >
                   {!e.end && <span className="w-2 h-2 rounded-full bg-ok" aria-label="current" />}
                   {e.company.replace(" UAE", "").replace(" IS", "")}

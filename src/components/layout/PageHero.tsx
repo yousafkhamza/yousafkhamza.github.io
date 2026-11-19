@@ -20,7 +20,7 @@ const PageHero = ({ path, title, description, children }: PageHeroProps) => (
           → {path}
         </span>
       </nav>
-      <h1 className="font-display text-[52px] sm:text-[84px] font-bold uppercase tracking-[-0.005em] leading-[0.9] max-w-[18ch]">{title}</h1>
+      <h1 className="font-display text-[48px] sm:text-[76px] font-bold tracking-[-0.02em] leading-[0.95] max-w-[18ch]">{title}</h1>
       {description && <p className="lede mt-5">{description}</p>}
       {children}
     </div>

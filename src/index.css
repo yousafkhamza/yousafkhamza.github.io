@@ -164,7 +164,7 @@
   .eyebrow { @apply inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-lg font-display text-[15px] font-bold uppercase tracking-[0.06em] bg-sign text-[hsl(0_0%_7%)]; }
   .eyebrow::before { content: "→"; @apply font-bold; }
 
-  .h-section { @apply font-display text-[38px] sm:text-[54px] font-bold uppercase tracking-[-0.005em] leading-[0.95]; }
+  .h-section { @apply font-display text-[38px] sm:text-[52px] font-bold tracking-[-0.01em] leading-[1]; }
   .lede { @apply text-[18px] leading-relaxed text-muted-foreground max-w-[60ch]; }
 
   .panel {

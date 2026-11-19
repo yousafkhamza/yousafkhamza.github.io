@@ -30,7 +30,7 @@ const CopyEmail = () => {
           window.location.href = `mailto:${profile.email}`;
         }
       }}
-      className="btn-ghost text-[15px]"
+      className="btn-ghost px-4 text-[15px]"
     >
       {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
       {copied ? "copied" : profile.email}
@@ -128,7 +128,7 @@ const Home = () => {
               code={s.format}
               main={
                 <div className="p-5 sm:p-6">
-                  <h3 className="font-display text-[26px] font-bold uppercase leading-[1.02]">{s.title}</h3>
+                  <h3 className="font-display text-[26px] font-bold leading-[1.05]">{s.title}</h3>
                   <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{s.who}</p>
                 </div>
               }
@@ -165,24 +165,24 @@ const Home = () => {
             as="div"
             tone="sign"
             row="lg"
-            stubWidth="min(46%, 520px)"
+            stubWidth="min(42%, 480px)"
             label="Now boarding · Hiring?"
             code="Gate A1 · Dubai"
             main={
-              <div className="px-6 sm:px-12 py-10 sm:py-14">
-                <h2 className="font-display text-[44px] sm:text-[68px] font-bold uppercase leading-[0.92] max-w-[16ch]">
+              <div className="px-6 sm:px-10 py-10 sm:py-14">
+                <h2 className="font-display text-[42px] sm:text-[64px] font-bold tracking-[-0.02em] leading-[0.95] max-w-[16ch]">
                   Looking for someone to own your platform?
                 </h2>
                 <p className="lede mt-5">
                   Open to senior DevOps, platform engineering and SRE roles. The fastest way to reach me is
                   email or LinkedIn.
                 </p>
-                <div className="mt-9 flex flex-wrap gap-3">
-                  <Link to="/contact?topic=hiring" className="btn-primary">
+                <div className="mt-9 grid grid-cols-1 sm:grid-cols-[1fr_auto] xl:flex xl:flex-wrap gap-3">
+                  <Link to="/contact?topic=hiring" className="btn-primary px-4 sm:col-span-2">
                     Start a conversation <ArrowRight className="w-4 h-4" />
                   </Link>
                   <CopyEmail />
-                  <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+                  <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn-ghost px-4">
                     LinkedIn
                   </a>
                 </div>

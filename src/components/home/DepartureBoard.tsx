@@ -118,7 +118,7 @@ const Details = ({ tab, id, row }: { tab: Tab; id: string; row: Row }) => {
         code={`Flight ${row.code}`}
         main={
           <div className="p-5 sm:p-7">
-            <h3 className="font-display text-[32px] sm:text-[40px] font-bold uppercase leading-none">{p.title}</h3>
+            <h3 className="font-display text-[32px] sm:text-[38px] font-bold leading-[1.02]">{p.title}</h3>
             <p className="mt-3 text-[16.5px] leading-relaxed text-foreground/85 max-w-[75ch]">{p.description}</p>
             <div className="mt-4 flex flex-wrap gap-1.5">
               {p.tags.slice(0, 8).map((t) => (
@@ -161,7 +161,7 @@ const Details = ({ tab, id, row }: { tab: Tab; id: string; row: Row }) => {
         code={e.end ? "Departed" : "Now boarding"}
         main={
           <div className="p-5 sm:p-7">
-            <h3 className="font-display text-[32px] sm:text-[40px] font-bold uppercase leading-none">{e.title}</h3>
+            <h3 className="font-display text-[32px] sm:text-[38px] font-bold leading-[1.02]">{e.title}</h3>
             <div className="mt-1 text-[18px] font-semibold">{e.company}</div>
             <p className="mt-3 text-[17px] leading-relaxed font-medium max-w-[75ch]">{e.summary}</p>
             <ul className="mt-3 space-y-2 max-w-[80ch]">
@@ -197,7 +197,7 @@ const Details = ({ tab, id, row }: { tab: Tab; id: string; row: Row }) => {
       code={c.core ? "Core" : "Earned"}
       main={
         <div className="p-5 sm:p-7">
-          <h3 className="font-display text-[32px] sm:text-[40px] font-bold uppercase leading-none">{c.title}</h3>
+          <h3 className="font-display text-[32px] sm:text-[38px] font-bold leading-[1.02]">{c.title}</h3>
           <div className="mt-2 text-[18px] font-semibold">{c.organization}</div>
         </div>
       }

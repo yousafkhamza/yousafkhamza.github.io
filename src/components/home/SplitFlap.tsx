@@ -26,18 +26,17 @@ const fit = (t: string, len: number) => {
   return pad(s, len);
 };
 
-/* ---- the clack: synthesised (no audio file), on by default, remembered per browser ----
-   Browsers only allow audio after the visitor's first click or key press, so the
-   sound "arms" itself on that first gesture and every flip after that clacks. */
+/* ---- the clack: synthesised (no audio file), off until the visitor turns it on,
+   and remembered per browser after that. */
 let audio: AudioContext | null = null;
 let noise: AudioBuffer | null = null;
 let lastClack = 0;
 const KEY = "board-sound";
 const readPref = () => {
   try {
-    return localStorage.getItem(KEY) !== "off";
+    return localStorage.getItem(KEY) === "on";
   } catch {
-    return true;
+    return false;
   }
 };
 let soundOn = typeof window !== "undefined" ? readPref() : false;

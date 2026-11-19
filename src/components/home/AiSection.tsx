@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, Bot, BookOpenText, Github, ShieldAlert } from "lucide-react";
 import { projects } from "@/data/projects";
-import Pass, { PassField } from "@/components/Pass";
-import { flightCode } from "@/lib/flight";
 
 /** The AI projects, each with a live demo. Shown three to a row on wide screens; add new ones here. */
 const META: Record<string, { icon: typeof Bot; color?: string; kicker: string; headline: string; body: string }> = {
@@ -37,46 +35,35 @@ const AiSection = () => {
         {items.map((p) => {
           const m = META[p.id];
           const Icon = m.icon;
-          const no = String(projects.indexOf(p) + 1).padStart(2, "0");
           return (
-            <Pass
-              key={p.id}
-              className="group transition-transform hover:-translate-y-1"
-              label={
-                <span className="inline-flex items-center gap-2">
-                  <Icon className="w-4 h-4" /> {m.kicker}
-                </span>
-              }
-              code={`Flight ${flightCode(p.title)} ${no}`}
-              main={
-                <div className="flex flex-col h-full">
-                  <a href={p.demo ?? p.github} target="_blank" rel="noopener noreferrer" className="block aspect-video overflow-hidden" tabIndex={-1} aria-hidden>
-                    <img src={p.images[0]} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-                  </a>
-                  <div className="p-5 sm:p-6">
-                    <h3 className="font-display text-[26px] font-bold uppercase leading-[1.02]">{m.headline}</h3>
-                    <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{m.body}</p>
-                  </div>
+            <article key={p.id} className="panel overflow-hidden flex flex-col group transition-transform duration-300 hover:-translate-y-1">
+              <a href={p.demo ?? p.github} target="_blank" rel="noopener noreferrer" className="block aspect-video overflow-hidden border-b border-border" tabIndex={-1} aria-hidden>
+                <img src={p.images[0]} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+              </a>
+              <div className="p-5 sm:p-6 flex flex-col flex-1">
+                <div className="flex items-center gap-2.5">
+                  <span className="inline-grid place-items-center w-8 h-8 rounded-lg bg-sign/25 text-foreground dark:bg-sign/10 dark:text-[hsl(48_100%_70%)]">
+                    <Icon className="w-4 h-4" />
+                  </span>
+                  <span className="label text-foreground/80">{m.kicker}</span>
+                  <span className="ml-auto text-[14px] text-muted-foreground">{p.title}</span>
                 </div>
-              }
-              stub={
-                <div className="px-5 sm:px-6 py-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-3">
-                  <PassField k="Project" v={p.title} className="min-w-[120px]" />
-                  <div className="flex items-center gap-2 shrink-0">
-                    {p.demo && (
-                      <a href={p.demo} target="_blank" rel="noopener noreferrer" className="btn-primary h-10 px-4 text-[15px]">
-                        See it live <ArrowUpRight className="w-4 h-4" />
-                      </a>
-                    )}
-                    {p.github && (
-                      <a href={p.github} target="_blank" rel="noopener noreferrer" className="btn-ghost h-10 px-3 text-[15px]">
-                        <Github className="w-4 h-4" /> Code
-                      </a>
-                    )}
-                  </div>
+                <h3 className="mt-4 font-display text-[26px] font-bold leading-[1.05]">{m.headline}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{m.body}</p>
+                <div className="mt-auto pt-5 flex items-center gap-2">
+                  {p.demo && (
+                    <a href={p.demo} target="_blank" rel="noopener noreferrer" className="btn-primary h-10 px-4 text-[15px]">
+                      See it live <ArrowUpRight className="w-4 h-4" />
+                    </a>
+                  )}
+                  {p.github && (
+                    <a href={p.github} target="_blank" rel="noopener noreferrer" className="btn-ghost h-10 px-4 text-[15px]">
+                      <Github className="w-4 h-4" /> Code
+                    </a>
+                  )}
                 </div>
-              }
-            />
+              </div>
+            </article>
           );
         })}
       </div>
