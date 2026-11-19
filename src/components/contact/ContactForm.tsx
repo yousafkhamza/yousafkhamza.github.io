@@ -24,6 +24,7 @@ const ContactForm = () => {
   const initialTopic = topics.some((t) => t.id === params.get("topic")) ? params.get("topic")! : "hiring";
   const [form, setForm] = useState({ name: "", email: "", company: "", topic: initialTopic, message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [slow, setSlow] = useState(false);
   const fx = useAedRate();
 
   /**
@@ -36,11 +37,25 @@ const ContactForm = () => {
     const cur = displayCurrency(tz);
     const svc = services.find((s) => s.id === form.topic);
     const seen = priceFor(svc?.priceUsd ?? 1, cur, fx.rate, fx.rates, fx.live);
+    const location = `${placeName(tz)} (${tz})${region ? ` · browser region ${region}` : ""}`;
+    const localTime = visitorLocalTime(tz);
+    const price = svc ? `${seen.text} ${svc.unit}${seen.cur === "USD" ? "" : ` (set at $${svc.priceUsd})`}` : "";
+    // where they are, short, for the subject line: "India · INR"
+    const where = region || placeName(tz);
     return {
-      "Visitor location": `${placeName(tz)} (${tz})${region ? ` · browser region ${region}` : ""}`,
-      "Visitor local time": visitorLocalTime(tz),
-      "Currency shown on site": seen.cur,
-      ...(svc ? { "Price they saw": `${seen.text} ${svc.unit}${seen.cur === "USD" ? "" : ` (set at $${svc.priceUsd})`}` } : {}),
+      // simple field names (no spaces), which FormSubmit passes through reliably
+      fields: { location, local_time: localTime, currency: seen.cur, ...(price ? { price_seen: price } : {}) },
+      // the same facts at the end of the message itself, so they show in every email client
+      block: [
+        "",
+        "",
+        "----",
+        `Sent from: ${location}`,
+        `Their local time: ${localTime}`,
+        `Currency shown on site: ${seen.cur}`,
+        ...(price ? [`Price they saw: ${price}`] : []),
+      ].join("\n"),
+      subjectTag: `${where} · ${seen.cur}`,
     };
   };
 
@@ -55,28 +70,41 @@ const ContactForm = () => {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
+    setSlow(false);
     const topicLabel = topics.find((t) => t.id === form.topic)?.label ?? form.topic;
+    const ctx = context();
+    // FormSubmit can take a while; say so after a few seconds, give up after 30
+    const slowTimer = setTimeout(() => setSlow(true), 5000);
+    const ctrl = new AbortController();
+    const abortTimer = setTimeout(() => ctrl.abort(), 30_000);
     try {
       const res = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
         method: "POST",
+        signal: ctrl.signal,
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
           name: form.name,
           email: form.email,
           company: form.company,
           topic: topicLabel,
-          message: form.message,
-          ...context(),
-          _subject: `[${topicLabel}] ${form.name} via portfolio`,
+          message: form.message + ctx.block,
+          ...ctx.fields,
+          _subject: `[${topicLabel}] ${form.name} · ${ctx.subjectTag}`,
+          _replyto: form.email,
           _template: "table",
           _captcha: "false",
         }),
       });
-      if (!res.ok) throw new Error("submit failed");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || String(data?.success) === "false") throw new Error("submit failed");
       setStatus("sent");
       setForm({ name: "", email: "", company: "", topic: form.topic, message: "" });
     } catch {
       setStatus("error");
+    } finally {
+      clearTimeout(slowTimer);
+      clearTimeout(abortTimer);
+      setSlow(false);
     }
   };
 
@@ -99,7 +127,14 @@ const ContactForm = () => {
     <form onSubmit={submit} className="space-y-5">
       {status === "error" && (
         <div className="flex items-center gap-2.5 text-[14px] text-bad border border-bad/30 bg-bad/5 rounded-[var(--radius)] px-4 py-3">
-          <AlertCircle className="w-4 h-4" /> Could not send. Please try again, or email {CONTACT_EMAIL}.
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          <span>
+            Could not send. Please try again, or email{" "}
+            <a className="underline font-semibold" href={`mailto:${CONTACT_EMAIL}`}>
+              {CONTACT_EMAIL}
+            </a>
+            .
+          </span>
         </div>
       )}
       <div>
@@ -145,10 +180,17 @@ const ContactForm = () => {
           required
         />
       </div>
-      <button type="submit" disabled={status === "sending"} className="btn-primary w-full sm:w-auto disabled:opacity-60">
-        <Send className="w-4 h-4" />
-        {status === "sending" ? "Sending…" : "Send message"}
-      </button>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <button type="submit" disabled={status === "sending"} className="btn-primary w-full sm:w-auto disabled:opacity-60">
+          <Send className="w-4 h-4" />
+          {status === "sending" ? "Sending…" : "Send message"}
+        </button>
+        {status === "sending" && slow && (
+          <span className="text-[14px] text-muted-foreground" aria-live="polite">
+            Still sending, the mail service can take up to half a minute. Please keep this page open.
+          </span>
+        )}
+      </div>
     </form>
   );
 };
