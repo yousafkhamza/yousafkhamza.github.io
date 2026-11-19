@@ -1,28 +1,35 @@
 import { useMemo } from "react";
-import { useAedRate, toAed } from "@/hooks/useAedRate";
-import { formatMoney, visitorCurrency } from "@/lib/visitor";
+import { useAedRate } from "@/hooks/useAedRate";
+import { displayCurrency, formatMoney } from "@/lib/visitor";
 import { cn } from "@/lib/utils";
 
-/** "$35 / hour ≈ AED 129", plus the visitor's own currency (₹, £, €…) when we know it and have a live rate */
+/**
+ * One price, in the visitor's own currency: AED in the UAE, ₹ in India, PKR in
+ * Pakistan, € in the euro area, £ in the UK, $ in the US. Prices are set in USD;
+ * AED uses the fixed peg until the live rate arrives, other currencies show $
+ * until then rather than guess.
+ */
+export const usePrice = (usd: number) => {
+  const { rate, rates, live } = useAedRate();
+  const cur = useMemo(() => displayCurrency(), []);
+  if (cur === "USD") return { text: formatMoney(usd, "USD"), cur: "USD", converted: false, live };
+  if (cur === "AED") return { text: `AED ${Math.round(usd * rate)}`, cur, converted: true, live };
+  const r = rates?.[cur];
+  if (!r) return { text: formatMoney(usd, "USD"), cur: "USD", converted: false, live };
+  return { text: formatMoney(usd * r, cur), cur, converted: true, live };
+};
+
 const Price = ({ usd, unit, className, compact = false }: { usd: number; unit: string; className?: string; compact?: boolean }) => {
-  const { rate, live, rates } = useAedRate();
-  const cur = useMemo(() => visitorCurrency(), []);
-  const local = cur && rates?.[cur] ? usd * rates[cur] : null;
+  const p = usePrice(usd);
   return (
-    <span className={cn("inline-flex items-baseline gap-x-1.5 gap-y-0.5 flex-wrap", className)}>
-      <span className={cn("font-display font-bold tint", compact ? "text-[18px]" : "text-[30px] leading-none")}>${usd}</span>
-      <span className="text-[13px] text-muted-foreground">{unit}</span>
-      <span
-        className="font-mono text-[14px] text-muted-foreground"
-        title={live ? `Converted at 1 USD = ${rate.toFixed(4)} AED (live rate)` : "Converted at the fixed peg, 1 USD = 3.6725 AED"}
-      >
-        ≈ AED {toAed(usd, rate)}
+    <span
+      className={cn("inline-flex items-baseline gap-x-1.5 gap-y-0.5 flex-wrap", className)}
+      title={p.converted ? `Set at $${usd}; shown in ${p.cur} at ${p.live ? "today's rate" : "the fixed USD peg"}` : undefined}
+    >
+      <span className={cn("font-display font-bold tint tabular-nums", compact ? "text-[18px]" : "text-[30px] leading-none")} data-testid="price">
+        {p.text}
       </span>
-      {local !== null && cur && (
-        <span className="font-mono text-[14px] text-muted-foreground" title={`Your currency, at 1 USD = ${rates![cur].toFixed(2)} ${cur} (live rate)`}>
-          · ≈ {formatMoney(local, cur)}
-        </span>
-      )}
+      <span className="text-[13px] text-muted-foreground">{unit}</span>
     </span>
   );
 };

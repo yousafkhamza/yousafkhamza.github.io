@@ -61,17 +61,34 @@ const BY_ZONE: Record<string, string> = {
   "Asia/Tokyo": "JPY", "Asia/Shanghai": "CNY", "Asia/Hong_Kong": "HKD", "Asia/Seoul": "KRW",
   "Europe/London": "GBP", "Europe/Zurich": "CHF", "Europe/Stockholm": "SEK", "Europe/Oslo": "NOK",
   "Europe/Copenhagen": "DKK", "Europe/Warsaw": "PLN", "Europe/Istanbul": "TRY", "Europe/Prague": "CZK",
+  "Asia/Dubai": "AED",
   "Africa/Cairo": "EGP", "Africa/Lagos": "NGN", "Africa/Nairobi": "KES", "Africa/Johannesburg": "ZAR",
   "America/Toronto": "CAD", "America/Vancouver": "CAD", "America/Sao_Paulo": "BRL", "America/Mexico_City": "MXN",
   "Pacific/Auckland": "NZD",
 };
-/** the visitor's currency, or null when it is USD or AED (already shown) or unknown */
+/** US time zones: prices stay in plain dollars there */
+const isUsZone = (tz: string) =>
+  /^America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage|Detroit|Boise|Indiana|Kentucky|North_Dakota|Juneau|Sitka|Nome|Adak|Menominee)/.test(tz) ||
+  tz === "Pacific/Honolulu";
+
+/**
+ * The one currency a visitor sees prices in: AED in the UAE, INR in India, PKR in
+ * Pakistan, EUR in the euro area, GBP in the UK, USD in the US, and USD anywhere
+ * we do not map.
+ */
+export const displayCurrency = (tz = visitorTz()): string => {
+  if (tz === HOME_TZ) return "AED";
+  if (isUsZone(tz)) return "USD";
+  if (BY_ZONE[tz]) return BY_ZONE[tz];
+  if (tz.startsWith("Europe/") && EUR_ZONES.includes(tz.split("/")[1])) return "EUR";
+  if (tz.startsWith("Australia/")) return "AUD";
+  return "USD";
+};
+
+/** kept for older callers: the visitor's currency when it is not USD */
 export const visitorCurrency = (tz = visitorTz()): string | null => {
-  let cur = BY_ZONE[tz];
-  if (!cur && tz.startsWith("Europe/") && EUR_ZONES.includes(tz.split("/")[1])) cur = "EUR";
-  if (!cur && tz.startsWith("Australia/")) cur = "AUD";
-  if (!cur || cur === "USD" || cur === "AED") return null;
-  return cur;
+  const c = displayCurrency(tz);
+  return c === "USD" ? null : c;
 };
 
 export const formatMoney = (amount: number, currency: string) => {

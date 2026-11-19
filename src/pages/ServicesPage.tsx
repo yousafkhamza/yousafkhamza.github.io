@@ -7,7 +7,7 @@ import { services, yearsOfExperience } from "@/data/profile";
 import Price from "@/components/Price";
 import Pass from "@/components/Pass";
 import { useAedRate } from "@/hooks/useAedRate";
-import { visitorCurrency } from "@/lib/visitor";
+import { displayCurrency } from "@/lib/visitor";
 
 const steps = [
   ["Send a request", "Use the contact form and pick the service. Add a line about where you are and what you want out of it."],
@@ -18,7 +18,9 @@ const steps = [
 
 const ServicesPage = () => {
   const { live, rates } = useAedRate();
-  const localCur = visitorCurrency();
+  const cur = displayCurrency();
+  // what Price actually shows: a non-AED currency falls back to USD until its live rate arrives
+  const shownIn = cur === "USD" || cur === "AED" || rates?.[cur] ? cur : "USD";
 
   return (
     <div>
@@ -81,8 +83,10 @@ const ServicesPage = () => {
       </section>
 
       <div className="wrap -mt-6 mb-4 text-[14px] text-muted-foreground">
-        Prices in USD. AED shown {live ? "at today's live rate" : "at the fixed USD peg (3.6725)"}
-        {localCur && rates?.[localCur] ? `, and ${localCur} for where you are` : ""}. Payment details are shared by email when we confirm the session.
+        {shownIn === "USD"
+          ? "Prices in US dollars."
+          : `Prices are set in US dollars and shown in ${shownIn} ${shownIn === "AED" && !live ? "at the fixed peg (3.6725)" : "at today's rate"}.`}{" "}
+        I'm based in Dubai, UAE, and sessions run on Dubai time (GMT+4). Payment details are shared by email when we confirm the session.
       </div>
 
       <Section label="Process" title="How it works">

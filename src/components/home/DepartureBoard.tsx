@@ -10,7 +10,7 @@ import SplitFlap, { armFlapSound, getFlapSound, setFlapSound } from "@/component
 import Pass, { PassField } from "@/components/Pass";
 import { cn } from "@/lib/utils";
 import { flightCode } from "@/lib/flight";
-import { diffFromHome, placeName, sameClockAsHome, visitorTz } from "@/lib/visitor";
+import { placeName, sameClockAsHome, visitorTz } from "@/lib/visitor";
 
 /**
  * The home page's flight board. Departures = career (where I flew from, newest
@@ -227,7 +227,6 @@ const DepartureBoard = () => {
   // the visitor's own clock, only when it reads differently from Dubai
   const [vtz] = useState(() => (sameClockAsHome() ? null : visitorTz()));
   const localClockFull = useSecondsClock(vtz ?? profile.timezone);
-  const localClock = vtz ? localClockFull.slice(0, 5) : null;
   const panelRef = useRef<HTMLDivElement>(null);
   const detailRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -325,16 +324,23 @@ const DepartureBoard = () => {
               >
                 <span className={cn("w-2 h-2 shrink-0 rounded-full", office.online ? "bg-board-ok blink" : "bg-board-dim")} />
                 <span>
+                  {/* hours in the visitor's own clock; in the UAE that is simply Dubai time */}
                   {office.online
-                    ? `Online now · until ${office.until}${office.untilLocal ? ` Dubai (${office.untilLocal} your time)` : ""}`
-                    : `Offline · back ${office.back}${office.backLocal ? ` Dubai (${office.backLocal} your time)` : ""}`}
+                    ? `Online now · until ${office.untilLocal ?? office.until}${vtz ? " your time" : ""}`
+                    : `Offline · back ${office.backLocal ?? office.back}${vtz ? " your time" : ""}`}
                 </span>
               </div>
-              <div className="mt-1 text-[32px] sm:text-[40px] font-bold text-board-text tabular-nums" aria-label={`Dubai time ${clock}`}>
-                {clock}
+              <div
+                className="mt-1 text-[32px] sm:text-[40px] font-bold text-board-text tabular-nums"
+                aria-label={vtz ? `Your time ${localClockFull}` : `Dubai time ${clock}`}
+                data-testid="board-clock"
+              >
+                {vtz ? localClockFull : clock}
               </div>
               <div className="mt-1.5 text-[12.5px] sm:text-[13px] font-semibold tracking-[0.08em] text-board-dim" data-testid="your-time">
-                {localClock ? `Dubai · your time ${localClock} (${placeName()}, ${diffFromHome()})` : "Dubai time"}
+                {vtz
+                  ? `Your time, ${placeName()} · I'm in Dubai, UAE: ${clock.slice(0, 5)} there`
+                  : "Dubai, UAE · GMT+4"}
               </div>
             </div>
             <button
