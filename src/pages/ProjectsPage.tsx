@@ -45,13 +45,14 @@ const ProjectsPage = () => {
                 style={{ ["--c" as string]: f === "All" ? "var(--primary)" : `var(--c-${CATEGORY_COLOR[f]})` }}
                 className={cn(
                   "h-9 px-4 rounded-full border font-mono text-[14.5px] font-semibold transition-colors",
-                  filter === f ? "bg-[hsl(var(--c))] text-background border-transparent" : "border-border bg-card tint"
+                  filter === f ? "bg-sign text-ink border-transparent" : "border-border bg-card text-foreground hover:border-foreground/40"
                 )}
               >
-                {f === "All" ? "all" : f.toLowerCase()} <span className="opacity-60">{counts[f]}</span>
+                {f === "All" ? "all" : f.toLowerCase()} <span className="opacity-70">{counts[f]}</span>
               </button>
             ))}
           </div>
+          <h2 className="sr-only">{filter === "All" ? "All projects" : `${filter} projects`}</h2>
           <div className="grid md:grid-cols-2 gap-5">
             {shown.map((p) => (
               <ProjectCard key={p.id} project={p} index={projects.indexOf(p)} />

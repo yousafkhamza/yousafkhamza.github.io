@@ -28,7 +28,7 @@ const ContactPage = () => {
           <div className="panel p-5 sm:p-7 self-start">
             <ContactForm />
           </div>
-          <aside className="self-start">
+          <div className="self-start">
             <dl className="panel divide-y divide-border overflow-hidden">
               {rows.map(([k, v]) => (
                 <div key={k} className="grid grid-cols-[100px_1fr] gap-4 px-5 py-3.5 text-[15px]">
@@ -40,7 +40,7 @@ const ContactPage = () => {
             <a href={profile.resume} target="_blank" rel="noopener" className="btn-primary mt-4 w-full">
               <FileDown className="w-4 h-4" /> Download resume (PDF)
             </a>
-          </aside>
+          </div>
         </div>
       </section>
     </div>

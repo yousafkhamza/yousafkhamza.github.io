@@ -168,6 +168,7 @@ const IncidentResponse = () => {
                 key={i}
                 onClick={() => handleTileClick(i)}
                 disabled={!started}
+                aria-label={isIncident ? `Server ${i + 1}: incident, click to resolve` : `Server ${i + 1}: healthy`}
                 className={`relative aspect-square rounded-xl border flex items-center justify-center transition-colors ${
                   isBreached
                     ? "border-red-500 bg-red-500/10"

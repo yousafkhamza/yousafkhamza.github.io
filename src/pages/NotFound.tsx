@@ -10,7 +10,7 @@ const NotFound = () => {
 
   return (
     <ThemeProvider defaultTheme="light">
-      <div className="min-h-screen bg-background text-foreground flex items-center">
+      <main className="min-h-screen bg-background text-foreground flex items-center">
         <div className="wrap max-w-[640px]">
           <div className="eyebrow">Flight not found</div>
           <h1 className="font-display text-[48px] sm:text-[68px] font-bold tracking-[-0.02em] leading-[0.95] mb-6">This gate is closed.</h1>
@@ -24,7 +24,7 @@ const NotFound = () => {
             Back to the home page
           </Link>
         </div>
-      </div>
+      </main>
     </ThemeProvider>
   );
 };

@@ -126,7 +126,12 @@ const Hero = () => (
                   key={e.id}
                   className="inline-flex items-center gap-2 border border-border bg-card px-3 h-9 text-[15.5px] font-semibold rounded-lg"
                 >
-                  {!e.end && <span className="w-2 h-2 rounded-full bg-ok" aria-label="current" />}
+                  {!e.end && (
+                    <>
+                      <span className="w-2 h-2 rounded-full bg-ok" aria-hidden />
+                      <span className="sr-only">current:</span>
+                    </>
+                  )}
                   {e.company.replace(" UAE", "").replace(" IS", "")}
                 </span>
               ))}

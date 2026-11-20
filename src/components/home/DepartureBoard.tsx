@@ -376,7 +376,7 @@ const DepartureBoard = () => {
               )}
             >
               {t.label}
-              <span className="hidden sm:inline font-sans text-[13px] font-medium normal-case tracking-normal opacity-75"> · {t.short}</span>
+              <span className="hidden sm:inline font-sans text-[13px] font-medium normal-case tracking-normal"> · {t.short}</span>
             </button>
           ))}
         </div>
