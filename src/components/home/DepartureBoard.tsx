@@ -332,17 +332,34 @@ const DepartureBoard = () => {
                     : `Offline · back ${office.backLocal ?? office.back}${vtz ? " your time" : ""}`}
                 </span>
               </div>
-              <div
-                className="mt-1 text-[32px] sm:text-[40px] font-bold text-board-text tabular-nums"
-                aria-label={vtz ? `Your time ${localClockFull}` : `Dubai time ${clock}`}
-                data-testid="board-clock"
-              >
-                {vtz ? localClockFull : clock}
-              </div>
-              <div className="mt-1.5 text-[12.5px] sm:text-[13px] font-semibold tracking-[0.08em] text-board-dim" data-testid="your-time">
-                {vtz
-                  ? `Your time, ${visitor.source === "ip" && visitor.city ? visitor.city : placeName(vtz)} · I'm in Dubai, UAE: ${clock.slice(0, 5)} there`
-                  : "Dubai, UAE · GMT+4"}
+              {/* airport world clocks: the visitor's city (big) next to Dubai, where I am; one clock in the UAE */}
+              <div className="mt-1.5 flex items-end gap-5 sm:gap-6 sm:justify-end" data-testid="world-clocks">
+                {vtz && (
+                  <div className="text-left sm:text-right">
+                    <div
+                      className="text-[32px] sm:text-[40px] font-bold text-board-text tabular-nums"
+                      aria-label={`Your time ${localClockFull}`}
+                      data-testid="board-clock"
+                    >
+                      {localClockFull}
+                    </div>
+                    <div className="mt-1 text-[12.5px] sm:text-[13px] font-semibold tracking-[0.1em] text-board-dim" data-testid="your-time">
+                      {visitor.source === "ip" && visitor.city ? visitor.city : placeName(vtz)} · your time
+                    </div>
+                  </div>
+                )}
+                <div className={cn("text-left sm:text-right", vtz && "pl-5 sm:pl-6 border-l border-board-text/15")}>
+                  <div
+                    className={cn("font-bold tabular-nums", vtz ? "text-[22px] sm:text-[26px] text-board-fg" : "text-[32px] sm:text-[40px] text-board-text")}
+                    aria-label={`Dubai time ${clock}`}
+                    data-testid={vtz ? "dubai-clock" : "board-clock"}
+                  >
+                    {vtz ? clock.slice(0, 5) : clock}
+                  </div>
+                  <div className="mt-1 text-[12.5px] sm:text-[13px] font-semibold tracking-[0.1em] text-board-dim" data-testid={vtz ? "dubai-label" : "your-time"}>
+                    {vtz ? "Dubai · I'm here" : "Dubai, UAE · GMT+4"}
+                  </div>
+                </div>
               </div>
             </div>
             <button
