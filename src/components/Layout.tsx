@@ -24,14 +24,14 @@ const Layout = () => {
 
   useEffect(() => {
     // Let visitors know the games exist: on every page load (not on in-app
-    // navigation), shortly after landing, gone after 15 seconds at most.
+    // navigation), shortly after landing, gone after 10 seconds.
     // Skipped on the Play page itself and for automated browsers (tests, bots).
     if (pathname === "/play" || navigator.webdriver) return;
     const hintTimer = setTimeout(() => {
       toast("Four on-call games are hidden on this site", {
         id: "game-hint",
         description: "Type “sudo play” anywhere, or click Play.",
-        duration: 15000,
+        duration: 10000,
         action: {
           label: "Play",
           onClick: () => navigate("/play"),
