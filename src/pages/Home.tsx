@@ -4,7 +4,7 @@ import { ArrowRight, Check, Copy } from "lucide-react";
 import Hero from "@/components/home/Hero";
 import GateStrip from "@/components/home/GateStrip";
 import ReleaseHistory from "@/components/home/ReleaseHistory";
-import ImpactBoard from "@/components/home/ImpactBoard";
+import StatusBoard from "@/components/home/StatusBoard";
 import StackView from "@/components/home/StackView";
 import WhyStrip from "@/components/home/WhyStrip";
 import AiSection from "@/components/home/AiSection";
@@ -98,11 +98,11 @@ const Home = () => {
         id="impact"
         color="pink"
         label="Impact"
-        title="Impact, in numbers"
-        intro="What changed on the platforms I run at work, and what I build in my own time. Switch tabs to see both."
+        title="Platform status"
+        intro="Every area I work in, the year it started and what it delivered. Open a row to see where each result came from."
       >
         <Reveal>
-          <ImpactBoard />
+          <StatusBoard />
         </Reveal>
       </Section>
 

@@ -53,7 +53,7 @@ export const certifications: Certification[] = [
     title: "LFS169: Introduction to GitOps",
     short: "GitOps",
     organization: "The Linux Foundation",
-    logo: "https://www.svgrepo.com/show/341998/linux-foundation.svg",
+    logo: "/logos/linuxfoundation.svg",
     date: "2024",
   },
   {
@@ -69,7 +69,7 @@ export const certifications: Certification[] = [
     title: "OCI Foundations Associate",
     short: "OCI Foundations",
     organization: "Oracle",
-    logo: "https://www.svgrepo.com/show/354152/oracle.svg",
+    logo: "/logos/oracle.svg",
     date: "2022",
   },
   {
@@ -77,7 +77,7 @@ export const certifications: Certification[] = [
     title: "Python (Basic) Skills Certificate",
     short: "Python (Basic)",
     organization: "HackerRank",
-    logo: "https://www.svgrepo.com/show/330599/hackerrank.svg",
+    logo: "/logos/hackerrank.svg",
     date: "2021",
   },
   {
