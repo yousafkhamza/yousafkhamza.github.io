@@ -42,14 +42,17 @@ const StatusBoard = () => {
 
   return (
     <div className="panel overflow-hidden">
-      {/* the banner every status page opens with */}
-      <div className="flex items-start sm:items-center gap-3.5 px-5 sm:px-6 py-4 bg-[hsl(145_63%_28%)] text-white" data-testid="status-banner">
-        <span className="grid place-items-center w-9 h-9 shrink-0 rounded-full bg-white/20">
+      {/* the banner every status page opens with, in the site's own signage: dark strip, yellow and white type */}
+      <div className="flex items-start sm:items-center gap-3.5 px-5 sm:px-6 py-4 bg-strip text-white" data-testid="status-banner">
+        <span className="grid place-items-center w-9 h-9 shrink-0 rounded-full bg-strip-ok/15 text-strip-ok">
           <Check className="w-5 h-5" strokeWidth={3} />
         </span>
-        <div>
-          <div className="font-display text-[22px] sm:text-[24px] font-bold leading-tight">All systems operational</div>
-          <div className="text-[15px] opacity-95">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 font-display text-[21px] sm:text-[23px] font-bold uppercase tracking-[0.05em] leading-tight text-strip-fg">
+            <span className="w-2.5 h-2.5 rounded-full bg-strip-ok blink" aria-hidden />
+            All systems operational
+          </div>
+          <div className="mt-0.5 text-[15px] text-strip-dim">
             {now - first}+ years in production, {experiences.length} roles. Open to Senior DevOps, Platform and SRE roles.
           </div>
         </div>
@@ -60,12 +63,18 @@ const StatusBoard = () => {
           <h3 className="font-display text-[19px] font-bold">Components</h3>
           <span className="text-[14px] text-muted-foreground">Hover a bar for the year, open a row for where each result came from.</span>
         </div>
-        {/* the year scale, once, lined up with the bars below */}
-        <div className="mt-2.5 flex gap-[3px] sm:gap-1 text-[12px] text-muted-foreground tabular-nums" aria-hidden>
+        {/* the year scale, once, lined up with the bars; the current year reads "now" in yellow, like the board */}
+        <div className="mt-2.5 flex gap-[3px] sm:gap-1 font-display text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.1em] text-muted-foreground tabular-nums" aria-hidden>
           {years.map((y) => (
-            <span key={y} className="flex-1 text-center">
-              <span className="hidden sm:inline">{y}</span>
-              <span className="sm:hidden">'{String(y).slice(2)}</span>
+            <span key={y} className={cn("flex-1 text-center", y === now && "text-yousaf")}>
+              {y === now ? (
+                "Now"
+              ) : (
+                <>
+                  <span className="hidden sm:inline">{y}</span>
+                  <span className="sm:hidden">'{String(y).slice(2)}</span>
+                </>
+              )}
             </span>
           ))}
         </div>
@@ -88,7 +97,9 @@ const StatusBoard = () => {
                   <ChevronRight className={cn("w-4 h-4 shrink-0 text-muted-foreground transition-transform", isOpen && "rotate-90")} />
                   {c.name}
                 </span>
-                <span className="text-[14px] font-semibold text-ok whitespace-nowrap">Operational · {active} yrs</span>
+                <span className="font-display text-[14px] font-bold uppercase tracking-[0.08em] text-ok whitespace-nowrap">
+                  Operational · {active} yrs
+                </span>
                 {/* the results, always visible: a recruiter should not have to click for the numbers */}
                 <span className="col-span-2 -mt-1 pl-6 text-[14.5px] leading-snug text-muted-foreground" data-testid="status-summary">
                   {c.evidence.map((e, i) => (
@@ -98,7 +109,7 @@ const StatusBoard = () => {
                     </span>
                   ))}
                 </span>
-                <span className="col-span-2 flex items-end gap-[3px] sm:gap-1 h-6" aria-hidden>
+                <span className="col-span-2 flex items-end gap-[3px] sm:gap-1 h-4" aria-hidden>
                   {years.map((y) => {
                     const on = y >= c.from;
                     const label = `${c.name} · ${y} · ${on ? `in use at ${whereIn(y)}` : "not yet"}`;
@@ -108,8 +119,9 @@ const StatusBoard = () => {
                         title={label}
                         onMouseEnter={() => setTip(label)}
                         className={cn(
-                          "flex-1 h-full rounded-[3px] transition-transform hover:scale-y-110 origin-bottom",
-                          on ? "bg-ok" : "bg-border"
+                          "flex-1 h-full rounded-[3px] transition-transform hover:scale-y-125 origin-bottom",
+                          // softer green so seven rows do not shout; this year in signage yellow, like BOARDING on the board
+                          !on ? "bg-border/80" : y === now ? "bg-sign" : "bg-ok/70"
                         )}
                       />
                     );
@@ -142,7 +154,7 @@ const StatusBoard = () => {
       </div>
 
       <div className="px-5 sm:px-6 py-2.5 min-h-[40px] text-[14px] text-muted-foreground" aria-live="polite" data-testid="status-tip">
-        {tip || "Bars are green from the year an area first shows up in my roles."}
+        {tip || "Green from the year an area first shows up in my roles. Yellow is this year."}
       </div>
 
       {/* open-source, counted from the project list */}
