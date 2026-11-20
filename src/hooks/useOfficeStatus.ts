@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { HOME_TZ, offsetMinutes, sameClockAsHome, visitorTz } from "@/lib/visitor";
+import { useVisitor } from "@/hooks/useVisitor";
 
 /**
  * Online during Dubai office hours (Mon–Fri, 9:00–18:00 Dubai time), otherwise
@@ -60,10 +61,12 @@ export function officeStatus(homeTz = HOME_TZ, now = new Date(), tz = visitorTz(
 }
 
 export function useOfficeStatus(timeZone: string = HOME_TZ) {
-  const [status, setStatus] = useState(() => officeStatus(timeZone));
+  const { tz } = useVisitor();
+  const [status, setStatus] = useState(() => officeStatus(timeZone, new Date(), tz));
   useEffect(() => {
-    const id = setInterval(() => setStatus(officeStatus(timeZone)), 60_000);
+    setStatus(officeStatus(timeZone, new Date(), tz));
+    const id = setInterval(() => setStatus(officeStatus(timeZone, new Date(), tz)), 60_000);
     return () => clearInterval(id);
-  }, [timeZone]);
+  }, [timeZone, tz]);
   return status;
 }

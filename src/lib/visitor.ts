@@ -1,17 +1,92 @@
 /**
- * Where the visitor is, from their browser's time zone only (no IP lookup, no
- * permission prompt). Used to show "your time" next to Dubai time and to add
- * the visitor's own currency next to USD and AED.
+ * Where the visitor is. First choice is their IP location (so a VPN changes it):
+ * one request to a free, key-less geo service, cached for the browser session.
+ * If that fails or is slow, the browser's own time zone is used, as before.
+ * Drives "your time" on the board, office hours and the price currency.
  */
 export const HOME_TZ = "Asia/Dubai";
 
-export const visitorTz = (): string => {
+export interface VisitorGeo {
+  tz: string;
+  countryCode?: string;
+  country?: string;
+  city?: string;
+  source: "ip" | "browser";
+}
+
+const browserTz = (): string => {
   try {
     return Intl.DateTimeFormat().resolvedOptions().timeZone || HOME_TZ;
   } catch {
     return HOME_TZ;
   }
 };
+
+const validTz = (tz: unknown): tz is string => {
+  if (typeof tz !== "string" || !tz) return false;
+  try {
+    new Intl.DateTimeFormat("en", { timeZone: tz });
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const GEO_KEY = "visitor-geo-v2";
+let geo: VisitorGeo | null = null;
+try {
+  const cached = typeof sessionStorage !== "undefined" ? sessionStorage.getItem(GEO_KEY) : null;
+  if (cached) geo = JSON.parse(cached) as VisitorGeo;
+} catch {
+  /* private mode */
+}
+const listeners = new Set<() => void>();
+export const onGeoChange = (fn: () => void) => {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
+};
+export const getGeo = (): VisitorGeo => geo ?? { tz: browserTz(), source: "browser" };
+
+let loading: Promise<void> | null = null;
+/**
+ * Look the visitor up by IP once per page load (so switching a VPN and refreshing
+ * takes effect); the session cache only paints the first instant. Quietly keeps
+ * the browser time zone if no service answers.
+ */
+export const loadGeo = () => {
+  if (loading || typeof fetch === "undefined") return loading ?? Promise.resolve();
+  const sources: [string, (d: any) => Omit<VisitorGeo, "source"> | null][] = [
+    ["https://get.geojs.io/v1/ip/geo.json", (d) => (validTz(d?.timezone) ? { tz: d.timezone, countryCode: d.country_code, country: d.country, city: d.city } : null)],
+    ["https://ipwho.is/", (d) => (d?.success !== false && validTz(d?.timezone?.id) ? { tz: d.timezone.id, countryCode: d.country_code, country: d.country, city: d.city } : null)],
+  ];
+  loading = (async () => {
+    for (const [url, pick] of sources) {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 4000);
+      try {
+        const res = await fetch(url, { signal: ctrl.signal });
+        if (!res.ok) continue;
+        const found = pick(await res.json());
+        if (!found) continue;
+        geo = { ...found, countryCode: found.countryCode?.toUpperCase(), source: "ip" };
+        try {
+          sessionStorage.setItem(GEO_KEY, JSON.stringify(geo));
+        } catch {
+          /* private mode */
+        }
+        listeners.forEach((fn) => fn());
+        return;
+      } catch {
+        /* try the next one */
+      } finally {
+        clearTimeout(t);
+      }
+    }
+  })();
+  return loading;
+};
+
+export const visitorTz = (): string => getGeo().tz;
 
 /** minutes east of UTC for a time zone at a given moment, e.g. Asia/Kolkata → 330 */
 export const offsetMinutes = (tz: string, at = new Date()): number => {
@@ -110,12 +185,29 @@ const isUsZone = (tz: string) =>
   /^America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage|Detroit|Boise|Indiana|Kentucky|North_Dakota|Juneau|Sitka|Nome|Adak|Menominee)/.test(tz) ||
   tz === "Pacific/Honolulu";
 
+/** currency by ISO country code, used when the IP lookup gives us the country */
+const BY_COUNTRY: Record<string, string> = {
+  AE: "AED", US: "USD", PR: "USD", IN: "INR", PK: "PKR", BD: "BDT", LK: "LKR", NP: "NPR",
+  GB: "GBP", JE: "GBP", GG: "GBP", IM: "GBP", GI: "GBP",
+  SA: "SAR", QA: "QAR", KW: "KWD", BH: "BHD", OM: "OMR", JO: "JOD", IL: "ILS", GE: "GEL", TR: "TRY",
+  CH: "CHF", LI: "CHF", SE: "SEK", NO: "NOK", DK: "DKK", FO: "DKK", IS: "ISK", PL: "PLN", CZ: "CZK",
+  HU: "HUF", RO: "RON", RS: "RSD", BA: "BAM", MK: "MKD", AL: "ALL", MD: "MDL", UA: "UAH",
+  SG: "SGD", MY: "MYR", PH: "PHP", ID: "IDR", TH: "THB", VN: "VND", JP: "JPY", CN: "CNY", HK: "HKD", TW: "TWD", KR: "KRW",
+  EG: "EGP", MA: "MAD", NG: "NGN", GH: "GHS", KE: "KES", ZA: "ZAR",
+  CA: "CAD", BR: "BRL", MX: "MXN", CO: "COP", CL: "CLP", PE: "PEN", AU: "AUD", NZ: "NZD",
+};
+// the euro: all 21 EU members using it (Bulgaria since 2026), plus the countries and territories that use it too
+for (const cc of ["AT", "BE", "BG", "HR", "CY", "EE", "FI", "FR", "DE", "GR", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PT", "SK", "SI", "ES",
+  "MC", "SM", "VA", "AD", "ME", "XK", "AX", "RE", "YT", "GP", "MQ", "GF", "BL", "MF", "PM"]) BY_COUNTRY[cc] = "EUR";
+
 /**
  * The one currency a visitor sees prices in: AED in the UAE, INR in India, PKR in
  * Pakistan, EUR in every euro country, GBP in the UK, USD in the US, and USD
- * anywhere we do not map.
+ * anywhere we do not map. The IP country wins when we have it (so a VPN changes
+ * it); otherwise the time zone decides.
  */
-export const displayCurrency = (tz = visitorTz()): string => {
+export const displayCurrency = (tz = visitorTz(), countryCode: string | undefined = tz === visitorTz() ? getGeo().countryCode : undefined): string => {
+  if (countryCode) return BY_COUNTRY[countryCode.toUpperCase()] ?? "USD";
   if (tz === HOME_TZ) return "AED";
   if (isUsZone(tz)) return "USD";
   if (BY_ZONE[tz]) return BY_ZONE[tz];

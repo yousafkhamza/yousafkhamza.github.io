@@ -1,6 +1,6 @@
-import { useMemo } from "react";
 import { useAedRate } from "@/hooks/useAedRate";
-import { displayCurrency, formatMoney } from "@/lib/visitor";
+import { formatMoney } from "@/lib/visitor";
+import { useVisitor } from "@/hooks/useVisitor";
 import { cn } from "@/lib/utils";
 
 /** converted prices read as round numbers: AED 129 → 130, ₹2,940 → 2,950, £28 → 30 */
@@ -26,7 +26,7 @@ export const priceFor = (usd: number, cur: string, aedRate: number, rates: Recor
 
 export const usePrice = (usd: number) => {
   const { rate, rates, live } = useAedRate();
-  const cur = useMemo(() => displayCurrency(), []);
+  const cur = useVisitor().currency;
   return priceFor(usd, cur, rate, rates, live);
 };
 

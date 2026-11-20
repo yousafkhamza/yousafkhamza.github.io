@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useSeo } from "@/hooks/useSeo";
 import CommandMenu from "@/components/CommandMenu";
+import { loadGeo } from "@/lib/visitor";
 
 const EASTER_EGG_PHRASE = "sudoplay";
 
@@ -15,25 +16,30 @@ const Layout = () => {
   const bufferRef = useRef("");
   useSeo();
 
+  // look the visitor up by IP once, on any page, so prices, times and the
+  // contact form all know where they are (a VPN changes it)
   useEffect(() => {
-    // Let visitors actually know the game exists — once per browser session,
-    // shortly after they land, so it doesn't interrupt the first paint.
-    const alreadyHinted = sessionStorage.getItem("game-hint-shown");
-    if (!alreadyHinted && pathname !== "/play" && window.innerWidth >= 768) {
-      const hintTimer = setTimeout(() => {
-        toast("Four on-call games are hidden on this site", {
-          description: "Type “sudo play” anywhere, or click Play.",
-          duration: 9000,
-          action: {
-            label: "Play",
-            onClick: () => navigate("/play"),
-          },
-        });
-        sessionStorage.setItem("game-hint-shown", "true");
-      }, 2500);
-      return () => clearTimeout(hintTimer);
-    }
-    // Only ever fire this once per session, regardless of later navigation.
+    void loadGeo();
+  }, []);
+
+  useEffect(() => {
+    // Let visitors know the games exist: on every page load (not on in-app
+    // navigation), shortly after landing, gone after 15 seconds at most.
+    // Skipped on the Play page itself and for automated browsers (tests, bots).
+    if (pathname === "/play" || navigator.webdriver) return;
+    const hintTimer = setTimeout(() => {
+      toast("Four on-call games are hidden on this site", {
+        id: "game-hint",
+        description: "Type “sudo play” anywhere, or click Play.",
+        duration: 15000,
+        action: {
+          label: "Play",
+          onClick: () => navigate("/play"),
+        },
+      });
+    }, 2500);
+    return () => clearTimeout(hintTimer);
+    // once per page load, regardless of later navigation
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

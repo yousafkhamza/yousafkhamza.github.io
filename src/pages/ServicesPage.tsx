@@ -7,7 +7,7 @@ import { services, yearsOfExperience } from "@/data/profile";
 import Price from "@/components/Price";
 import Pass from "@/components/Pass";
 import { useAedRate } from "@/hooks/useAedRate";
-import { displayCurrency } from "@/lib/visitor";
+import { useVisitor } from "@/hooks/useVisitor";
 
 const steps = [
   ["Send a request", "Use the contact form and pick the service. Add a line about where you are and what you want out of it."],
@@ -18,7 +18,7 @@ const steps = [
 
 const ServicesPage = () => {
   const { live, rates } = useAedRate();
-  const cur = displayCurrency();
+  const cur = useVisitor().currency;
   // what Price actually shows: a non-AED currency falls back to USD until its live rate arrives
   const shownIn = cur === "USD" || cur === "AED" || rates?.[cur] ? cur : "USD";
 

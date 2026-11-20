@@ -10,7 +10,8 @@ import SplitFlap, { armFlapSound, getFlapSound, setFlapSound } from "@/component
 import Pass, { PassField } from "@/components/Pass";
 import { cn } from "@/lib/utils";
 import { flightCode } from "@/lib/flight";
-import { placeName, sameClockAsHome, visitorTz } from "@/lib/visitor";
+import { placeName, sameClockAsHome } from "@/lib/visitor";
+import { useVisitor } from "@/hooks/useVisitor";
 
 /**
  * The home page's flight board. Departures = career (where I flew from, newest
@@ -225,7 +226,8 @@ const DepartureBoard = () => {
   const clock = useSecondsClock(profile.timezone);
   const office = useOfficeStatus(profile.timezone);
   // the visitor's own clock, only when it reads differently from Dubai
-  const [vtz] = useState(() => (sameClockAsHome() ? null : visitorTz()));
+  const visitor = useVisitor();
+  const vtz = sameClockAsHome(visitor.tz) ? null : visitor.tz;
   const localClockFull = useSecondsClock(vtz ?? profile.timezone);
   const panelRef = useRef<HTMLDivElement>(null);
   const detailRef = useRef<HTMLDivElement>(null);
@@ -339,7 +341,7 @@ const DepartureBoard = () => {
               </div>
               <div className="mt-1.5 text-[12.5px] sm:text-[13px] font-semibold tracking-[0.08em] text-board-dim" data-testid="your-time">
                 {vtz
-                  ? `Your time, ${placeName()} · I'm in Dubai, UAE: ${clock.slice(0, 5)} there`
+                  ? `Your time, ${visitor.source === "ip" && visitor.city ? visitor.city : placeName(vtz)} · I'm in Dubai, UAE: ${clock.slice(0, 5)} there`
                   : "Dubai, UAE · GMT+4"}
               </div>
             </div>

@@ -4,7 +4,7 @@ import { Check, Send, AlertCircle } from "lucide-react";
 import { profile, services } from "@/data/profile";
 import { useAedRate } from "@/hooks/useAedRate";
 import { priceFor } from "@/components/Price";
-import { browserRegion, displayCurrency, placeName, visitorLocalTime, visitorTz } from "@/lib/visitor";
+import { browserRegion, displayCurrency, getGeo, placeName, visitorLocalTime } from "@/lib/visitor";
 
 // FormSubmit.co forwards submissions straight to this inbox: free, no API key,
 // no signup. The very first message triggers a one-time "Activate Form" email.
@@ -32,16 +32,20 @@ const ContactForm = () => {
    * from and the price the site showed them, so the reply can quote the right amount.
    */
   const context = () => {
-    const tz = visitorTz();
+    const g = getGeo();
+    const tz = g.tz;
     const region = browserRegion();
-    const cur = displayCurrency(tz);
+    const cur = displayCurrency(tz, g.countryCode);
     const svc = services.find((s) => s.id === form.topic);
     const seen = priceFor(svc?.priceUsd ?? 1, cur, fx.rate, fx.rates, fx.live);
-    const location = `${placeName(tz)} (${tz})${region ? ` · browser region ${region}` : ""}`;
+    const location =
+      g.source === "ip"
+        ? `${[g.city, g.country].filter(Boolean).join(", ")} (${tz}, from IP)${region ? ` · browser region ${region}` : ""}`
+        : `${placeName(tz)} (${tz}, from browser)${region ? ` · browser region ${region}` : ""}`;
     const localTime = visitorLocalTime(tz);
     const price = svc ? `${seen.text} ${svc.unit}${seen.cur === "USD" ? "" : ` (set at $${svc.priceUsd})`}` : "";
     // where they are, short, for the subject line: "India · INR"
-    const where = region || placeName(tz);
+    const where = (g.source === "ip" && g.country) || region || placeName(tz);
     return {
       // simple field names (no spaces), which FormSubmit passes through reliably
       fields: { location, local_time: localTime, currency: seen.cur, ...(price ? { price_seen: price } : {}) },
