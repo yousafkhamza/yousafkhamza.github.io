@@ -16,6 +16,29 @@ export interface Project {
 
 export const projects: Project[] = [
 {
+  id: "planlens",
+  title: "planlens",
+  description:
+    "Know what terraform apply will really do. planlens reviews the Terraform plan, not the code, and catches destroyed databases, forced replacements, renames that recreate resources, opened security groups, widened IAM and plaintext secrets before they reach production. 42 rules across AWS, Azure, GCP and Kubernetes give each plan a 0-100 risk score, explain which attribute forced a replacement and suggest a moved block for renames. It posts one sticky comment on the pull request and gates the merge, with SARIF and JSON evidence mapped to ISO 27001, PCI DSS and SOC 2, an Infracost cost budget and YAML org rules. Ships as a GitHub Action, an npx CLI and a Docker image for GitLab, Azure DevOps, Jenkins and Atlantis, works with OpenTofu and Terragrunt, and has zero runtime dependencies. An optional Claude, OpenAI or Ollama summary only ever sees addresses and findings.",
+  tags: [
+    "TypeScript",
+    "Node.js",
+    "Terraform",
+    "OpenTofu",
+    "DevSecOps",
+    "IaC",
+    "GitHub Actions",
+    "SARIF",
+    "Docker",
+    "CLI",
+    "Open-Source",
+  ],
+  images: ["/project-planlens.png"],
+  categories: ["Security"],
+  github: "https://github.com/yousafkhamza/planlens",
+  demo: "https://yousafkhamza.github.io/planlens/",
+},
+{
   id: "pipelineguard",
   title: "PipelineGuard",
   description:
