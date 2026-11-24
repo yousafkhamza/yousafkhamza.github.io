@@ -16,6 +16,29 @@ export interface Project {
 
 export const projects: Project[] = [
 {
+  id: "changefeed",
+  title: "changefeed",
+  description:
+    "What changed before it broke? changefeed puts every production change on one timeline: GitHub Actions deploys, Argo CD syncs, Kubernetes rollouts and ConfigMap edits, Helm releases, Terraform applies, AWS CloudTrail write calls and feature flag flips. When an Alertmanager alert fires, it ranks the changes most likely to have caused it and shows why each one scored, then posts the top causes to Slack. Change freezes enforced in CI, DORA metrics, Grafana annotations, a CLI and a read-only MCP server for AI assistants come built in. A single Go binary installed with Helm: the cluster collector is read-only, Secret values are never stored, tokens and keys are redacted before storage, and CI authenticates with GitHub OIDC instead of static secrets.",
+  tags: [
+    "Go",
+    "Kubernetes",
+    "Helm",
+    "Argo CD",
+    "Terraform",
+    "AWS CloudTrail",
+    "SRE",
+    "Incident Response",
+    "DORA",
+    "MCP",
+    "Open-Source",
+  ],
+  images: ["/project-changefeed.png"],
+  categories: ["Kubernetes"],
+  github: "https://github.com/yousafkhamza/changefeed",
+  demo: "https://yousafkhamza.github.io/changefeed/",
+},
+{
   id: "planlens",
   title: "planlens",
   description:
