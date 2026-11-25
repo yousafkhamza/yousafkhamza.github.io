@@ -42,7 +42,7 @@ const ProjectsPage = () => {
                 role="tab"
                 aria-selected={filter === f}
                 onClick={() => setFilter(f)}
-                style={{ ["--c" as string]: f === "All" ? "var(--primary)" : `var(--c-${CATEGORY_COLOR[f]})` }}
+                style={{ ["--c" as string]: f === "All" ? "var(--primary)" : CATEGORY_COLOR[f] ? `var(--c-${CATEGORY_COLOR[f]})` : "var(--muted-foreground)" }}
                 className={cn(
                   "h-9 px-4 rounded-full border font-mono text-[14.5px] font-semibold transition-colors",
                   filter === f ? "bg-sign text-ink border-transparent" : "border-border bg-card text-foreground hover:border-foreground/40"

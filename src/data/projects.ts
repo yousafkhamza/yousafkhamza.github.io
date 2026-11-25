@@ -1,6 +1,6 @@
-export type ProjectCategory = "AI" | "Kubernetes" | "Security" | "AWS" | "Tools";
+export type ProjectCategory = "AI" | "Kubernetes" | "Security" | "AWS" | "Tools" | "Side Projects";
 
-export const projectCategories: ProjectCategory[] = ["AI", "Kubernetes", "Security", "AWS", "Tools"];
+export const projectCategories: ProjectCategory[] = ["AI", "Kubernetes", "Security", "AWS", "Tools", "Side Projects"];
 
 export interface Project {
   id: string;
@@ -357,6 +357,27 @@ export const projects: Project[] = [
   demo: "https://yousafkhamza.github.io/the-manifest/",
 },
 {
+  id: "gulfcalc",
+  title: "gulfcalc",
+  description:
+    "Free salary and end-of-service calculators for the UAE and the GCC, in English and Arabic. Covers UAE private-sector gratuity under Decree-Law 33/2021, free zones like JAFZA and DMCC, DIFC DEWS, federal government gratuity, final settlement, leave salary, overtime, notice period, VAT, loan EMI and mortgage costs, plus end-of-service rules for Saudi Arabia, Qatar, Oman, Bahrain and Kuwait. Every result shows the formula, the numbers used and the law it follows. Static pages with no backend, no sign-up and shareable result links; works offline and nothing typed ever leaves the device.",
+  tags: [
+    "JavaScript",
+    "Node.js",
+    "Static Site",
+    "i18n",
+    "Arabic (RTL)",
+    "PWA",
+    "SEO",
+    "GitHub Actions",
+    "Open-Source",
+  ],
+  images: ["/project-gulfcalc.png"],
+  categories: ["Side Projects"],
+  github: "https://github.com/yousafkhamza/gulfcalc",
+  demo: "https://yousafkhamza.github.io/gulfcalc/",
+},
+{
   id: "pxtrim",
   title: "pxtrim",
   description:
@@ -370,7 +391,7 @@ export const projects: Project[] = [
     "GitHub Actions",
   ],
   images: ["/project-pxtrim.jpg"],
-  categories: ["Tools"],
+  categories: ["Side Projects"],
   github: "https://github.com/yousafkhamza/pxtrim",
   demo: "https://yousafkhamza.github.io/pxtrim/",
 },
