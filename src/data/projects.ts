@@ -357,6 +357,28 @@ export const projects: Project[] = [
   demo: "https://yousafkhamza.github.io/the-manifest/",
 },
 {
+  id: "pdfburrow",
+  title: "pdfburrow",
+  description:
+    "Free PDF tools that run entirely in the browser, so files are never uploaded. Merge, split, organise, crop, compress to a target size like 200 KB, convert images (including iPhone HEIC) to PDF and back, OCR scans into searchable text, sign, fill forms, add page numbers and watermarks, password-protect with AES-256, unlock, truly redact and strip hidden metadata, plus an ID and passport to one-page PDF tool. Built on pdf.js, pdf-lib in a Web Worker, and qpdf and Tesseract compiled to WebAssembly, all self-hosted and version-pinned with a strict Content-Security-Policy. No sign-up, no limits, no watermark, and it works offline.",
+  tags: [
+    "JavaScript",
+    "Node.js",
+    "pdf.js",
+    "pdf-lib",
+    "WebAssembly",
+    "OCR",
+    "PWA",
+    "Playwright",
+    "Privacy",
+    "Open-Source",
+  ],
+  images: ["/project-pdfburrow.png"],
+  categories: ["Side Projects"],
+  github: "https://github.com/yousafkhamza/pdfburrow",
+  demo: "https://yousafkhamza.github.io/pdfburrow/",
+},
+{
   id: "gulfcalc",
   title: "gulfcalc",
   description:
