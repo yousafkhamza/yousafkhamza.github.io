@@ -138,7 +138,7 @@ const Details = ({ tab, id, row }: { tab: Tab; id: string; row: Row }) => {
             <div className="col-span-2 lg:col-span-1 flex flex-wrap gap-2 pt-1">
               {p.demo && (
                 <a href={p.demo} target="_blank" rel="noopener noreferrer" className="btn-primary h-11 flex-1">
-                  Live demo <ArrowUpRight className="w-4 h-4" />
+                  Live <ArrowUpRight className="w-4 h-4" />
                 </a>
               )}
               {p.github && (
