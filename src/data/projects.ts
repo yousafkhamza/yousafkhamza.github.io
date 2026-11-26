@@ -16,6 +16,28 @@ export interface Project {
 
 export const projects: Project[] = [
 {
+  id: "apivane",
+  title: "ApiVane",
+  description:
+    "A free API client that runs in your browser, checks every response for security issues and runs the same collection in CI. Send requests with any method, body and auth, add tests without code (status, JSON values, headers, response time) and capture values like a login token for later requests. Every response is checked for missing security headers, risky CORS, secrets or stack traces in the body, unsafe cookies, plain http:// and secrets in URLs. Collections are plain YAML in your repo, Postman and cURL import are built in, and npx apivane run or the GitHub Action fails the build on a failed test or a finding at or above a chosen severity, with a JUnit report. Works as a web app, a browser extension or a local agent with zero runtime dependencies; no account, no cloud sync, and data stays in your browser.",
+  tags: [
+    "JavaScript",
+    "Node.js",
+    "API Testing",
+    "DevSecOps",
+    "AppSec",
+    "GitHub Actions",
+    "CLI",
+    "Docker",
+    "Browser Extension",
+    "Open-Source",
+  ],
+  images: ["/project-apivane.png"],
+  categories: ["Security", "Tools"],
+  github: "https://github.com/yousafkhamza/apivane",
+  demo: "https://yousafkhamza.github.io/apivane/",
+},
+{
   id: "changefeed",
   title: "changefeed",
   description:
