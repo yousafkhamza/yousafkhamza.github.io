@@ -439,4 +439,26 @@ export const projects: Project[] = [
   github: "https://github.com/yousafkhamza/pxtrim",
   demo: "https://yousafkhamza.github.io/pxtrim/",
 },
+{
+  id: "shellpin",
+  title: "shellpin",
+  description:
+    "Paste a script, get one command, run it anywhere. shellpin packs a Bash, sh, PowerShell or Python script into a single copy-paste command that runs on the machine you paste it into, inside a Kubernetes pod or Docker container, or across servers over SSH, with no file left on disk and no network access needed on the server. It turns the script's arguments into form fields, asks for secrets on the server so they never land in shell history, can lock a command to matching hostnames, shows a SHA-256 fingerprint and warns about dangerous commands before you copy. Every command stops working after an expiry you pick, up to a year. The page blocks all network requests, so the script never leaves your browser.",
+  tags: [
+    "JavaScript",
+    "Bash",
+    "PowerShell",
+    "Python",
+    "Kubernetes",
+    "SSH",
+    "ShellCheck",
+    "GitHub Actions",
+    "Static Site",
+    "Open-Source",
+  ],
+  images: ["/project-shellpin.png"],
+  categories: ["Tools"],
+  github: "https://github.com/yousafkhamza/shellpin",
+  demo: "https://yousafkhamza.github.io/shellpin/",
+},
 ];
