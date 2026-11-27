@@ -6,6 +6,7 @@ import { useTheme } from "@/components/ui/ThemeProvider";
 import { cn } from "@/lib/utils";
 import { profile } from "@/data/profile";
 import { useClock } from "@/hooks/useClock";
+import { OPEN_TO_WORK } from "@/data/availability";
 
 const navLinks = [
   { label: "Experience", to: "/experience" },
@@ -20,13 +21,17 @@ const StatusStrip = () => {
   return (
     <div className="bg-strip text-strip-dim">
       <div className="wrap h-9 flex items-center justify-between gap-4 font-display text-[14px] font-semibold uppercase tracking-[0.06em]">
-        <span className="flex items-center gap-2 min-w-0">
-          <span className="w-2 h-2 rounded-full bg-strip-ok shrink-0" />
-          <span className="truncate">
-            <span className="text-strip-ok">Open to new roles</span>
-            <span className="hidden sm:inline"> · Senior DevOps, DevSecOps, Platform, SRE</span>
+        {OPEN_TO_WORK ? (
+          <span className="flex items-center gap-2 min-w-0">
+            <span className="w-2 h-2 rounded-full bg-strip-ok shrink-0" />
+            <span className="truncate">
+              <span className="text-strip-ok">Open to new roles</span>
+              <span className="hidden sm:inline"> · Senior DevOps, DevSecOps, Platform, SRE</span>
+            </span>
           </span>
-        </span>
+        ) : (
+          <span className="truncate min-w-0">Senior DevOps, DevSecOps, Platform, SRE</span>
+        )}
         <span className="flex items-center gap-3 shrink-0">
           <span className="hidden md:inline">{profile.residency}</span>
           <span className="hidden md:inline opacity-40">|</span>

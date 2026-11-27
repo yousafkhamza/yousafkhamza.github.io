@@ -1,0 +1,81 @@
+name: Job status
+
+# Manual switch for the "Open to new roles" messages on the site.
+# Actions → Job status → Run workflow → pick open or closed.
+# It rewrites the one line in src/data/availability.ts, commits it to main and
+# starts the normal "Deploy to GitHub Pages" workflow. Auto-deploy on push is untouched.
+
+on:
+  workflow_dispatch:
+    inputs:
+      status:
+        description: "Job search status shown on the site"
+        type: choice
+        options:
+          - closed
+          - open
+        default: closed
+
+permissions:
+  contents: write # commit the switch
+  actions: write  # start the deploy workflow
+
+concurrency:
+  group: job-status
+  cancel-in-progress: false
+
+jobs:
+  switch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set OPEN_TO_WORK
+        id: set
+        env:
+          STATUS: ${{ inputs.status }}
+        run: |
+          set -euo pipefail
+          file=src/data/availability.ts
+          if [ "$STATUS" = "open" ]; then value=true; else value=false; fi
+          sed -i -E "s/^export const OPEN_TO_WORK = (true|false);$/export const OPEN_TO_WORK = ${value};/" "$file"
+          grep -qx "export const OPEN_TO_WORK = ${value};" "$file" \
+            || { echo "::error::could not find the OPEN_TO_WORK line in $file"; exit 1; }
+          if git diff --quiet; then
+            echo "Already $STATUS, nothing to change."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push
+        if: steps.set.outputs.changed == 'true'
+        env:
+          STATUS: ${{ inputs.status }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Job status: ${STATUS}"
+          git push origin HEAD:main
+
+      # A push made with GITHUB_TOKEN does not start other workflows, so start the deploy explicitly.
+      - name: Deploy the site
+        if: steps.set.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main --repo "${{ github.repository }}"
+
+      - name: Summary
+        env:
+          STATUS: ${{ inputs.status }}
+          CHANGED: ${{ steps.set.outputs.changed }}
+        run: |
+          if [ "$CHANGED" = "true" ]; then
+            echo "Job status set to **${STATUS}**. The site redeploys in a few minutes." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Job status was already **${STATUS}**. Nothing changed, no deploy." >> "$GITHUB_STEP_SUMMARY"
+          fi

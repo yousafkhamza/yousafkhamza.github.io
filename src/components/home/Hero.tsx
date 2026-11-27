@@ -5,6 +5,7 @@ import { profile, yearsOfExperience } from "@/data/profile";
 import { experiences } from "@/data/experience";
 import { certifications } from "@/data/certifications";
 import DepartureBoard from "@/components/home/DepartureBoard";
+import { OPEN_TO_WORK } from "@/data/availability";
 
 const coreCerts = certifications.filter((c) => c.core && c.id !== "genai").map((c) => c.short);
 
@@ -47,9 +48,11 @@ const QuickRead = () => {
     <aside className="pass" aria-label="Profile summary">
       <div className="pass-head tone-board">
         <span>Boarding pass</span>
-        <span className="flex items-center gap-1.5 text-strip-ok">
-          <span className="w-2 h-2 rounded-full bg-strip-ok" /> Available
-        </span>
+        {OPEN_TO_WORK && (
+          <span className="flex items-center gap-1.5 text-strip-ok">
+            <span className="w-2 h-2 rounded-full bg-strip-ok" /> Available
+          </span>
+        )}
       </div>
       <div className="px-5 pt-4 pb-1 border-b-2 border-dashed border-border">
         <div className="label">Passenger</div>

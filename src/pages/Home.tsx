@@ -12,6 +12,7 @@ import Section from "@/components/layout/Section";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
 import { projects } from "@/data/projects";
+import { OPEN_TO_WORK } from "@/data/availability";
 import { profile, services } from "@/data/profile";
 import Price from "@/components/Price";
 import Pass from "@/components/Pass";
@@ -168,19 +169,20 @@ const Home = () => {
             tone="sign"
             row="lg"
             stubWidth="min(42%, 480px)"
-            label="Now boarding · Hiring?"
+            label={OPEN_TO_WORK ? "Now boarding · Hiring?" : "Now boarding · Say hello"}
             code="Gate A1 · Dubai"
             main={
               <div className="px-6 sm:px-10 py-10 sm:py-14">
                 <h2 className="font-display text-[42px] sm:text-[64px] font-bold tracking-[-0.02em] leading-[0.95] max-w-[16ch]">
-                  Looking for someone to own your platform?
+                  {OPEN_TO_WORK ? "Looking for someone to own your platform?" : "Want to talk platforms?"}
                 </h2>
                 <p className="lede mt-5">
-                  Open to senior DevOps, platform engineering and SRE roles. The fastest way to reach me is
-                  email or LinkedIn.
+                  {OPEN_TO_WORK
+                    ? "Open to senior DevOps, platform engineering and SRE roles. The fastest way to reach me is email or LinkedIn."
+                    : "Not looking for a new role right now, but always happy to talk DevOps, platform engineering or a project. Email or LinkedIn is fastest."}
                 </p>
                 <div className="mt-9 grid grid-cols-1 sm:grid-cols-[1fr_auto] xl:flex xl:flex-wrap gap-3">
-                  <Link to="/contact?topic=hiring" className="btn-primary px-4 sm:col-span-2">
+                  <Link to={OPEN_TO_WORK ? "/contact?topic=hiring" : "/contact?topic=other"} className="btn-primary px-4 sm:col-span-2">
                     Start a conversation <ArrowRight className="w-4 h-4" />
                   </Link>
                   <CopyEmail />

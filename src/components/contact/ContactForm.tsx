@@ -5,6 +5,7 @@ import { profile, services } from "@/data/profile";
 import { useAedRate } from "@/hooks/useAedRate";
 import { priceFor } from "@/components/Price";
 import { browserRegion, displayCurrency, getGeo, placeName, visitorLocalTime } from "@/lib/visitor";
+import { OPEN_TO_WORK } from "@/data/availability";
 
 // FormSubmit.co forwards submissions straight to this inbox: free, no API key,
 // no signup. The very first message triggers a one-time "Activate Form" email.
@@ -21,7 +22,7 @@ const field =
 
 const ContactForm = () => {
   const [params] = useSearchParams();
-  const initialTopic = topics.some((t) => t.id === params.get("topic")) ? params.get("topic")! : "hiring";
+  const initialTopic = topics.some((t) => t.id === params.get("topic")) ? params.get("topic")! : OPEN_TO_WORK ? "hiring" : "other";
   const [form, setForm] = useState({ name: "", email: "", company: "", topic: initialTopic, message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [slow, setSlow] = useState(false);
