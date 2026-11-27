@@ -4,4 +4,4 @@
  * Flip it with Actions → "Job status" → Run workflow (it commits this line and
  * redeploys), or edit the line by hand. Keep it on one line: the workflow rewrites it.
  */
-export const OPEN_TO_WORK = false;
+export const OPEN_TO_WORK = true;
